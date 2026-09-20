@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#eff0e5">
+<title>Becoming — from seed to tree</title>
+<style>
+  :root { font-family: 'Helvetica Neue', Arial, sans-serif; color: #2e4234; background: #eff0e5; }
+  * { box-sizing: border-box; }
+  body { margin: 0; overflow: hidden; }
+  canvas { position: fixed; inset: 0; width: 100%; height: 100%; }
+  main { position: fixed; inset: 0; padding: 32px 42px; pointer-events: none; display: flex; flex-direction: column; justify-content: space-between; }
+  header { display: flex; justify-content: space-between; align-items: center; }
+  .brand { font-size: 11px; font-weight: 600; letter-spacing: .23em; }
+  .brand::before { content: ''; display: inline-block; width: 9px; height: 14px; background: #638455; border-radius: 90% 0 90% 0; margin-right: 10px; transform: rotate(-20deg); }
+  .edition, .eyebrow { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: #778372; }
+  .intro { position: absolute; top: 19%; left: 12vw; }
+  h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(48px, 6.8vw, 90px); letter-spacing: -.055em; line-height: 1; margin: 18px 0; }
+  .intro p { font-size: 12px; line-height: 1.9; color: #7b8575; }
+  footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; }
+  .controls { pointer-events: auto; display: flex; gap: 8px; align-items: center; }
+  button { font: inherit; font-size: 11px; padding: 11px 17px; border-radius: 30px; border: 1px solid #4c674332; background: #f6f6edb8; color: #40593d; cursor: pointer; }
+  button:hover { background: #e0e7d5; border-color: #67805c; }
+  button:focus-visible, input:focus-visible { outline: 2px solid #587845; outline-offset: 4px; }
+  .timeline { width: min(290px, 32vw); pointer-events: auto; }
+  .timeline-label { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: .13em; text-transform: uppercase; color: #617057; margin-bottom: 12px; }
+  input { display: block; width: 100%; height: 3px; accent-color: #638454; cursor: pointer; }
+  @media(max-width: 650px) { main { padding: 24px; } .intro { top: 12%; left: 24px; } h1 { font-size: 49px; } .intro p { font-size: 11px; } .edition { font-size: 8px; letter-spacing: .1em; } footer { flex-wrap: wrap; gap: 20px; } .timeline { width: 100%; order: -1; } button { padding: 10px 15px; } }
+</style>
+</head>
+<body>
+<canvas id="scene" role="img" aria-label="Seen close up, a seed swells and splits, sends roots into the earth and pushes a hooked sprout through the soil. The view pulls back as it opens two seed leaves and grows into a branching tree with a sunlit green canopy, hazy hills behind, grass in front, a butterfly, and birds settling in the crown."></canvas>
+<main>
+  <header><span class="brand">BECOMING</span><span class="edition">A little study of life / 001</span></header>
+  <section class="intro"><div class="eyebrow">From the smallest beginnings</div><h1>Give it<br>time.</h1><p>A seed. A little light.<br>Something extraordinary.</p></section>
+  <footer>
+    <div class="controls"><button id="replay">↻ &nbsp; Grow again</button><button id="pause" aria-pressed="false">Pause</button><button id="speed" aria-label="Playback speed: 1 times">1× speed</button></div>
+    <div class="timeline"><div class="timeline-label"><span id="stage">01 / The seed</span><span id="percent">0%</span></div><input id="progress" type="range" min="0" max="1000" value="0" aria-label="Tree growth progress"></div>
+  </footer>
+</main>
+<script>
+'use strict';
+const canvas = document.querySelector('canvas'), ctx = canvas.getContext('2d');
+const progress = document.querySelector('#progress'), pauseButton = document.querySelector('#pause');
+const stageLabel = document.querySelector('#stage'), percentLabel = document.querySelector('#percent');
+const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+const duration = 26, TAU = Math.PI * 2;
+// Open index.html?t=0.18 to land, paused, on a particular moment of the growth (0 to 1).
+const startAt = Number(new URLSearchParams(location.search).get('t')) || 0;
+let w = 0, h = 0, dpr = 1, breeze = 0, last = 0, speed = 1, pointerX = 0;
+let cx = 0, unit = 1, view = { left: 0, right: 0, top: 0, bottom: 0 };
+let elapsed = startAt > 0 ? Math.min(1, startAt) * duration : motionPreference.matches ? duration : 0;
+let paused = startAt > 0 || motionPreference.matches;
+let seed = 47;
+function random() { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; }
+const clamp = v => Math.max(0, Math.min(1, v));
+const ease = v => { v = clamp(v); return v * v * (3 - 2 * v); };
+const mix = (a, b, v) => a + (b - a) * v;
+const SEED_Y = 9; // The seed rests just below the soil line; the shoot and roots both leave from it.
+const SUN = { x: .233, y: -.973, angle: .235 }; // Light comes from the upper right.
+
+// ---- The tree is generated once. Every branch grows from its parent's endpoint. ----
+const branches = [], leaves = [], roots = [];
+function branch(x, y, angle, length, thickness, depth, start) {
+  const bend = (random() - .5) * length * .38;
+  const endX = x + Math.cos(angle) * length, endY = y + Math.sin(angle) * length;
+  const node = { x, y, cx: (x + endX) / 2 + bend, cy: (y + endY) / 2, ex: endX, ey: endY, thickness, depth, start, span: depth === 0 ? .21 : .105 + random() * .035, phase: random() * TAU };
+  branches.push(node);
+  if (depth < 6) {
+    const children = depth < 2 ? 3 : 2;
+    for (let i = 0; i < children; i++) {
+      const offset = children === 3 ? (i - 1) * .55 : (i === 0 ? -.43 : .43);
+      let direction = angle + offset + (random() - .5) * .3;
+      direction = direction * .84 + (-Math.PI / 2) * .16;
+      branch(endX, endY, direction, length * (.63 + random() * .12), thickness * .63, depth + 1, start + node.span * .82);
+    }
+  }
+  // Young stems carry a few juvenile leaves that are shed once the canopy fills in.
+  // The outer branches carry the lasting canopy. Each leaf appears just after the growing tip passes it.
+  const juvenile = depth < 3, count = juvenile ? (depth === 2 ? 3 : 2) : depth === 6 ? 9 : 4;
+  for (let i = 0; i < count; i++) {
+    const t = juvenile ? .5 + random() * .45 : .3 + random() * .7, side = random() < .5 ? -1 : 1;
+    leaves.push({
+      branch: node, t, phase: random() * TAU, drift: random(), tilt: (random() - .5) * 1.6, rim: random() < .25,
+      ox: juvenile ? side * (4 + random() * 9) : (random() - .5) * 32, oy: juvenile ? -random() * 8 : (random() - .5) * 25,
+      size: juvenile ? 8 + random() * 4 : 6 + random() * 7, angle: juvenile ? side * (.7 + random() * .6) : random() * TAU,
+      hue: 77 + random() * 34, light: 28 + random() * 23,
+      start: node.start + node.span * (.25 + .75 * t) + random() * .03,
+      drop: juvenile ? .5 + depth * .08 + random() * (.1 + depth * .04) : Infinity,
+    });
+  }
+}
+branch(0, SEED_Y, -Math.PI / 2 + .035, 112, 12, 0, .09);
+const trunk = branches[0];
+function root(x, y, angle, length, depth, start) {
+  const ex = x + Math.cos(angle) * length, ey = y + Math.sin(angle) * length;
+  roots.push({ x, y, ex, ey, cx: (x + ex) / 2 + (random() - .5) * 20, cy: (y + ey) / 2, depth, start });
+  if (depth < 3) for (let i = 0; i < 2; i++) root(ex, ey, angle + (i ? .5 : -.5), length * .57, depth + 1, start + .065);
+}
+for (let i = 0; i < 5; i++) root(0, SEED_Y + 7, .22 + i * .65, 36 + random() * 25, 0, .04 + i * .012);
+function point(b, t) { return { x: (1-t)*(1-t)*b.x + 2*(1-t)*t*b.cx + t*t*b.ex, y: (1-t)*(1-t)*b.y + 2*(1-t)*t*b.cy + t*t*b.ey }; }
+
+// ---- The setting: soil, hills, grass, light on the ground, and the creatures' perches. ----
+const motes = Array.from({length: 34}, () => ({ x: random(), y: random(), size: .6 + random() * 1.5, phase: random() * TAU }));
+const soil = Array.from({length: 330}, () => ({ x: (random() - .5) * 740, y: random() * 150, size: .5 + random() * 1.4 }));
+const grains = Array.from({length: 140}, () => ({ x: (random() - .5) * 140, y: 1 + random() * 70, size: .3 + random() * .9, shade: random() }));
+const pebbles = Array.from({length: 7}, () => ({ x: (random() - .5) * 110, y: 5 + random() * 45, rx: 1.2 + random() * 1.8, ry: .8 + random() * 1.1, rot: random() * TAU }));
+// Crumbs of soil pushed aside when the shoot breaks the surface.
+const crumbs = Array.from({length: 8}, (_, i) => ({ dir: (i - 3.5) * 1.6 + (random() - .5) * 1.5, lift: 4 + random() * 7, size: .8 + random() * 1.3, delay: random() * .035 }));
+function ridge(base, amp, k1, k2) {
+  const p1 = random() * TAU, p2 = random() * TAU, pts = [];
+  for (let x = -1300; x <= 1300; x += 40) pts.push({ x, y: base - amp * (.6 * Math.sin(x * k1 + p1) + .4 * Math.sin(x * k2 + p2)) });
+  return pts;
+}
+const hills = [{ pts: ridge(-52, 22, .0035, .009), fill: '#dfe3d3', tint: '#d3d9c8', parallax: .5 }, { pts: ridge(-30, 12, .005, .013), fill: '#d3dac5', tint: '#c4ccb6', parallax: 1 }];
+const ridgeY = (pts, x) => { const f = clamp((x + 1300) / 2600) * (pts.length - 1), i = Math.min(pts.length - 2, Math.floor(f)); return mix(pts[i].y, pts[i + 1].y, f - i); };
+const silhouettes = Array.from({length: 20}, () => ({ x: (random() - .5) * 1900, far: random() < .4, lobes: Array.from({length: 3}, () => ({ dx: (random() - .5) * 8, dy: -random() * 4, rx: 2.5 + random() * 3, ry: 3.5 + random() * 4.5 })) }));
+const grass = Array.from({length: 90}, () => {
+  const x = (random() - .5) * 800;
+  return { x: Math.abs(x) < 10 ? x + Math.sign(x || 1) * 12 : x, height: 5 + random() * 17, lean: (random() - .5) * 10, phase: random() * TAU, hue: 78 + random() * 18, light: 34 + random() * 14, alpha: .55 + random() * .3, width: .8 + random() * .8 };
+});
+const dapples = Array.from({length: 40}, () => { const a = random() * TAU, r = Math.sqrt(random()); return { x: Math.cos(a) * r * 85, y: 2 + Math.sin(a) * r * 11, size: 4 + random() * 6, phase: random() * TAU }; });
+const dappleSprite = document.createElement('canvas'); dappleSprite.width = dappleSprite.height = 64;
+{ const g = dappleSprite.getContext('2d'), grad = g.createRadialGradient(32, 32, 0, 32, 32, 32); grad.addColorStop(0, '#fffbe0'); grad.addColorStop(1, 'rgba(255,251,224,0)'); g.fillStyle = grad; g.fillRect(0, 0, 64, 64); }
+// Birds perch on the ends of upper branches; the butterfly rests on a leaf at the crown's sunlit edge.
+const perches = branches.filter(b => b.depth === 4 && b.ey < -190).sort((a, b) => a.ex - b.ex);
+const birds = [.12, .5, .9].map((f, i) => { const p = perches[Math.floor(f * (perches.length - 1))]; return { arrive: .86 + i * .04, x: p.ex, y: p.ey, from: { x: -700 + i * 60, y: -360 - i * 40 }, facing: i === 2 ? -1 : 1, phase: random() * TAU }; });
+{ const b = birds[1]; let best = null, bd = Infinity; for (const c of perches) { const d = Math.hypot(c.ex - b.x, c.ey - b.y); if (d > 25 && d < bd) { bd = d; best = c; } } b.hop = best ? { x: best.ex, y: best.ey } : { x: b.x, y: b.y }; }
+const butterflyPerch = leaves.reduce((best, l) => { if (l.branch.depth < 5) return best; const p = point(l.branch, l.t), x = p.x + l.ox, y = p.y + l.oy; return !best || x > best.x ? { x, y } : best; }, null);
+
+// ---- Camera: tight on the seed, pulling back as the tree grows, then settling close on the crown. Keys: [t, zoom, lookX, lookY, anchorY]. ----
+const cameraKeys = [[0, 4.5, 0, 6, .58], [.13, 4, 0, 0, .62], [.3, 2.2, 0, -45, .70], [.55, 1.5, 0, -95, .74], [.85, 1.25, 50, -150, .62], [1, 1.32, 55, -155, .61]];
+function camera(t) {
+  let i = 0; while (i < cameraKeys.length - 2 && t > cameraKeys[i + 1][0]) i++;
+  const a = cameraKeys[i], b = cameraKeys[i + 1], k = ease((t - a[0]) / (b[0] - a[0]));
+  return { zoom: Math.exp(mix(Math.log(a[1]), Math.log(b[1]), k)) * (w > 650 ? 1 : .72), lookX: mix(a[2], b[2], k), lookY: mix(a[3], b[3], k), anchorY: mix(a[4], b[4], k) };
+}
+function sway(x, y) {
+  const altitude = Math.max(0, -y / 330);
+  return x + altitude * altitude * (Math.sin(breeze * .75) * 3 + Math.sin(breeze * 1.13 + y * .008) * 2 + pointerX * 5);
+}
+// A seedling pushes up through the soil bent double, protecting its tip, then straightens in the light.
+// The trunk is sampled along its grown length; the last stretch is bent into an arc of constant curvature.
+const TRUNK_SAMPLES = 28;
+function trunkPath(amount, hook) {
+  const path = [], curl = hook * 2 * clamp((amount - .04) / .08), reach = Math.min(.14, Math.max(0, amount - .05)), from = amount - reach;
+  let x = 0, y = 0;
+  for (let i = 0; i <= TRUNK_SAMPLES; i++) {
+    const s = amount * i / TRUNK_SAMPLES, p = point(trunk, s);
+    if (curl <= 0 || s <= from) { path.push(p); x = p.x; y = p.y; continue; }
+    const q = point(trunk, amount * (i - 1) / TRUNK_SAMPLES), dx = p.x - q.x, dy = p.y - q.y;
+    const turn = curl * (Math.max(from, s - amount / TRUNK_SAMPLES / 2) - from) / reach, heading = Math.atan2(dy, dx) + turn;
+    x += Math.hypot(dx, dy) * Math.cos(heading); y += Math.hypot(dx, dy) * Math.sin(heading);
+    path.push({ x, y });
+  }
+  return path;
+}
+function trunkAt(path, amount, s) {
+  if (!(amount > 0)) return point(trunk, 0);
+  const f = clamp(s / amount) * TRUNK_SAMPLES, i = Math.min(TRUNK_SAMPLES - 1, Math.floor(f)), k = f - i, a = path[i], b = path[i + 1];
+  return { x: mix(a.x, b.x, k), y: mix(a.y, b.y, k) };
+}
+function drawLeaf(x, y, angle, size, fill, width = 1, alpha = 1, rim = 0) {
+  ctx.save(); ctx.globalAlpha = alpha; ctx.translate(sway(x, y), y); ctx.rotate(angle); ctx.scale(size * width, size);
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.bezierCurveTo(-.55, -.45, -.45, -1.1, 0, -1.7); ctx.bezierCurveTo(.65, -.95, .55, -.4, 0, 0); ctx.fillStyle = fill; ctx.fill();
+  ctx.beginPath(); ctx.moveTo(0, -.12); ctx.quadraticCurveTo(.08, -.7, 0, -1.42); ctx.lineWidth = .035; ctx.strokeStyle = '#e1eab647'; ctx.stroke();
+  if (rim > 0) { ctx.beginPath(); ctx.moveTo(0, -1.7); ctx.bezierCurveTo(.65, -.95, .55, -.4, 0, 0); ctx.lineWidth = .07; ctx.strokeStyle = `rgba(244,248,207,${rim})`; ctx.stroke(); }
+  ctx.restore();
+}
+
+// ---- Scene pieces ----
+function drawBackground(t, cam, groundY) {
+  const alpha = ease((t - .1) / .25); if (!alpha) return;
+  const zoomBg = cam.zoom ** .25;
+  for (const hill of hills) {
+    ctx.save(); ctx.globalAlpha = alpha; ctx.translate(cx - pointerX * 14 * hill.parallax - cam.lookX * unit * cam.zoom * .3, groundY); ctx.scale(unit * zoomBg, unit * zoomBg);
+    ctx.beginPath(); ctx.moveTo(-1300, 60); for (const p of hill.pts) ctx.lineTo(p.x, p.y); ctx.lineTo(1300, 60); ctx.closePath(); ctx.fillStyle = hill.fill; ctx.fill();
+    ctx.fillStyle = hill.tint; ctx.strokeStyle = hill.tint; ctx.lineWidth = 1; ctx.globalAlpha = alpha * .7;
+    for (const s of silhouettes) { // small clumps of distant trees along the ridge
+      if (s.far !== (hill.parallax < 1) || Math.abs(s.x) > 1000) continue;
+      const y = ridgeY(hill.pts, s.x) + 1;
+      ctx.beginPath(); ctx.moveTo(s.x, y); ctx.lineTo(s.x, y - 6); ctx.stroke();
+      for (const l of s.lobes) { ctx.beginPath(); ctx.ellipse(s.x + l.dx, y - 6.5 + l.dy, l.rx, l.ry, 0, 0, TAU); ctx.fill(); }
+    }
+    ctx.restore();
+  }
+}
+function drawGround(t, canopy) {
+  const glow = .7 + .3 * canopy;
+  // A soft pool of sunlight behind the crown.
+  const sun = ctx.createRadialGradient(55, -230, 0, 0, -180, 320);
+  sun.addColorStop(0, `rgba(255,253,229,${.69 * glow})`); sun.addColorStop(.5, `rgba(249,247,215,${.27 * glow})`); sun.addColorStop(1, 'rgba(249,247,215,0)');
+  ctx.fillStyle = sun; ctx.fillRect(view.left, view.top, view.right - view.left, view.bottom - view.top);
+  const earth = ctx.createLinearGradient(0, 0, 0, 140); earth.addColorStop(0, '#c1b69e55'); earth.addColorStop(1, '#c1b69e00'); ctx.fillStyle = earth; ctx.fillRect(view.left, 0, view.right - view.left, view.bottom);
+  ctx.strokeStyle = '#9a98704a'; ctx.lineWidth = .7; ctx.beginPath(); ctx.moveTo(view.left, 0); ctx.bezierCurveTo(-190, 1, -90, -3, 0, 0); ctx.bezierCurveTo(90, 2, 240, -1, view.right, 0); ctx.stroke();
+  ctx.fillStyle = '#8b7c5e15'; for (const s of soil) ctx.fillRect(s.x, s.y, s.size, s.size);
+  for (const g of grains) { ctx.fillStyle = `rgba(110,95,70,${.1 + .14 * g.shade})`; ctx.fillRect(g.x, g.y, g.size, g.size); }
+  ctx.fillStyle = '#a89b8380'; for (const p of pebbles) { ctx.beginPath(); ctx.ellipse(p.x, p.y, p.rx, p.ry, p.rot, 0, TAU); ctx.fill(); }
+  // The shadow spreads and deepens with the crown; dappled light flickers through it.
+  const crown = .25 + .75 * ease((t - .15) / .6);
+  const shadow = ctx.createRadialGradient(0, 2, 1, 0, 2, 90); shadow.addColorStop(0, '#5f66432a'); shadow.addColorStop(1, '#5f664300');
+  ctx.save(); ctx.scale(crown, .14 * crown); ctx.globalAlpha = crown * (.45 + .55 * canopy); ctx.fillStyle = shadow; ctx.fillRect(-90, -90, 180, 180); ctx.restore();
+  if (canopy > 0) {
+    for (const d of dapples) { ctx.globalAlpha = .16 * canopy * (.6 + .4 * Math.sin(breeze * 1.1 + d.phase)); ctx.drawImage(dappleSprite, d.x - d.size, d.y - d.size * .35, d.size * 2, d.size * .7); }
+    ctx.globalAlpha = 1;
+  }
+}
+function drawRoots(t) {
+  for (const r of roots) {
+    const amount = ease((t - r.start) / .13); if (!amount) continue;
+    const p = point(r, amount); ctx.beginPath(); ctx.moveTo(r.x, r.y); ctx.quadraticCurveTo(r.x + (r.cx-r.x)*amount, r.y + (r.cy-r.y)*amount, p.x, p.y); ctx.strokeStyle = '#86765780'; ctx.lineWidth = 2.6 / (r.depth + 1); ctx.lineCap = 'round'; ctx.stroke();
+  }
+}
+// The seed swells as it takes up water, cracks along its seam, and is pushed open by the shoot.
+function drawSeed(t) {
+  const alpha = 1 - ease((t - .5) / .3); if (alpha <= 0) return;
+  const swell = 1 + .14 * ease(t / .06) - .08 * ease((t - .25) / .3), crack = ease((t - .03) / .03), split = ease((t - .085) / .05);
+  ctx.save(); ctx.globalAlpha = alpha; ctx.translate(0, SEED_Y); ctx.rotate(-.25); ctx.scale(swell, swell);
+  for (const side of [-1, 1]) {
+    ctx.save(); ctx.translate(0, 8); ctx.rotate(side * split * .3); ctx.translate(0, -8);
+    ctx.beginPath(); ctx.ellipse(0, 0, 5.5, 8, 0, side < 0 ? Math.PI / 2 : -Math.PI / 2, side < 0 ? Math.PI * 1.5 : Math.PI / 2); ctx.closePath();
+    const coat = ctx.createLinearGradient(-5, -8, 5, 8); coat.addColorStop(0, '#a08358'); coat.addColorStop(1, '#6b5238'); ctx.fillStyle = coat; ctx.fill();
+    ctx.restore();
+  }
+  ctx.strokeStyle = `rgba(58, 40, 24, ${(.25 + .55 * crack) * (1 - split)})`; ctx.lineWidth = .6 + crack * .6;
+  ctx.beginPath(); ctx.moveTo(0, -7.6); ctx.quadraticCurveTo(1.6, 0, 0, 7.6); ctx.stroke();
+  ctx.strokeStyle = '#d6bb8a66'; ctx.lineWidth = .8; ctx.beginPath(); ctx.ellipse(-1.2, -2, 2.4, 4.4, -.15, Math.PI * 1.05, Math.PI * 1.75); ctx.stroke();
+  ctx.restore();
+}
+function drawCrumbs(t) {
+  for (const c of crumbs) {
+    const p = (t - .125 - c.delay) / .1; if (p <= 0 || p >= 1) continue;
+    ctx.globalAlpha = 1 - p * p; ctx.fillStyle = '#7d6a4b'; ctx.beginPath();
+    ctx.arc(c.dir * (.5 + 1.8 * p), -c.lift * 4 * p * (1 - p) + p * 1.2, c.size, 0, TAU); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+function drawTree(t, path, grown, hook) {
+  const flare = .8 * ease((t - .4) / .45);
+  for (const b of branches) {
+    const amount = ease((t - b.start) / b.span); if (!amount) continue;
+    const thickening = .16 + .84 * ease((t - b.start) / .65);
+    const at = b.depth === 0 ? s => trunkAt(path, amount, s) : s => point(b, s);
+    // Short tapered segments keep the growing tip fine and organic.
+    const steps = 14;
+    for (let i = 0; i < steps; i++) {
+      const a = at(amount * i / steps), z = at(amount * (i + 1) / steps);
+      let width = Math.max(.35, b.thickness * thickening * (1 - .4 * i / steps));
+      if (b.depth === 0) width *= 1 + flare * Math.max(0, 1 - i / 3); // the base flares as the tree matures
+      const ax = sway(a.x, a.y), zx = sway(z.x, z.y);
+      ctx.beginPath(); ctx.moveTo(ax, a.y); ctx.lineTo(zx, z.y);
+      ctx.lineWidth = width; ctx.lineCap = 'round';
+      ctx.strokeStyle = b.depth > 3 ? '#738044' : '#726443'; ctx.stroke();
+      if (b.depth < 3) { // lit edge toward the sun, shaded edge away from it
+        ctx.lineWidth = width * .17;
+        ctx.beginPath(); ctx.moveTo(ax + width * .19, a.y); ctx.lineTo(zx + width * .19, z.y); ctx.strokeStyle = '#c9b18373'; ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ax - width * .22, a.y); ctx.lineTo(zx - width * .22, z.y); ctx.strokeStyle = '#4a3d2a40'; ctx.stroke();
+      }
+    }
+  }
+}
+// Two seed leaves ride up folded on the hook, open once the stem stands, then yellow and drop
+// as the first true leaves take over. They stay at their node while the stem grows on above them.
+function drawCotyledons(t, path, grown) {
+  const size = 15 * ease((t - .12) / .09), fall = (t - .42) / .09;
+  if (size <= 0 || fall >= 1) return;
+  const open = ease((t - .19) / .09), wither = ease((t - .32) / .08);
+  const node = Math.min(grown, .45), a = trunkAt(path, grown, node), b = trunkAt(path, grown, Math.max(0, node - .02));
+  const up = Math.atan2(a.y - b.y, a.x - b.x) + Math.PI / 2, spread = .1 + open * .95 + wither * .45;
+  for (const side of [-1, 1]) {
+    let x = a.x, y = a.y, angle = up + side * spread, alpha = 1;
+    if (fall > 0) { x += side * 6 * fall + Math.sin(fall * 8 + side) * 6 * fall; y += ease(fall) * (3 - y); angle += side * fall * 2; alpha = 1 - fall * fall; }
+    const lit = .5 + .5 * Math.cos(angle - SUN.angle);
+    const fill = `hsl(${mix(84, 52, wither)} ${mix(34, 42, wither)}% ${mix(40, 56, wither) + (lit - .5) * 10}%)`;
+    drawLeaf(x, y, angle, size * (side < 0 ? .92 : 1.05) * (1 - .1 * wither), fill, 1.15, alpha, .4 * clamp((lit - .7) / .3));
+  }
+}
+function drawLeaves(t) {
+  for (const l of leaves) {
+    const size = ease((t - l.start) / .115), fall = (t - l.drop) / .09; if (!size || fall >= 1) continue;
+    // Leaves unfurl from a tight roll, deepen from pale new growth to full green, and the juvenile ones yellow and drop.
+    const unfurl = ease((t - l.start) / .2), mature = ease((t - l.start - .06) / .22), wither = ease((t - l.drop + .08) / .08);
+    const p = point(l.branch, l.t);
+    let x = p.x + l.ox * size, y = p.y + l.oy * size, alpha = 1, side = l.ox < 0 ? -1 : 1;
+    let angle = l.angle + (1 - unfurl) * .6 * side + Math.sin(breeze * 1.4 + l.phase) * .07 + wither * .45 * side;
+    // Leaves that face the sun, and the side of the crown toward it, catch more light.
+    const lit = .5 + .5 * Math.cos(angle - SUN.angle + l.tilt);
+    const facing = l.drop === Infinity ? clamp(.5 + (p.x * SUN.x + (p.y + 190) * SUN.y) / 240) : .5;
+    const hue = mix(mix(l.hue + 16, l.hue, mature), 46, wither);
+    const light = mix(mix(l.light + 16, l.light, mature), 50, wither) + (lit - .5) * 10 + (facing - .5) * 16;
+    const sat = mix(32, 42, wither) + (facing - .5) * 8;
+    if (fall > 0) {
+      x += Math.sin(fall * 9 + l.phase) * 7 * fall + fall * 10; y += ease(fall) * (2 + l.drift * 6 - y); angle += fall * 2.5 * side; alpha = 1 - fall * fall;
+    } else {
+      ctx.beginPath(); ctx.moveTo(sway(p.x, p.y), p.y); ctx.lineTo(sway(x, y), y); ctx.strokeStyle = '#7d8b4d77'; ctx.lineWidth = .45; ctx.stroke();
+    }
+    drawLeaf(x, y, angle, l.size * size * (1 - .12 * wither), `hsl(${hue} ${sat}% ${light}%)`, .3 + .7 * unfurl, alpha, l.rim ? .45 * clamp((lit - .75) / .25) : 0);
+  }
+}
+// Shafts of light through the canopy, angled with the sun.
+function drawRays(canopy) {
+  if (!canopy) return;
+  for (let i = 0; i < 5; i++) {
+    const x0 = -80 + i * 42, a = .09 * canopy * (.7 + .3 * Math.sin(breeze * .4 + i * 1.7));
+    const g = ctx.createLinearGradient(x0 + 60, -260, x0, 0); g.addColorStop(0, `rgba(255,250,208,${a})`); g.addColorStop(1, 'rgba(255,250,208,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(x0 + 95, -420); ctx.lineTo(x0 + 105, -420); ctx.lineTo(x0 + 16, 0); ctx.lineTo(x0 - 16, 0); ctx.closePath(); ctx.fill();
+  }
+}
+function drawGrass(t) {
+  const growth = .15 + .85 * ease((t - .05) / .5);
+  ctx.save(); ctx.translate(-pointerX * 5, 0); ctx.lineCap = 'round';
+  for (const g of grass) {
+    if (g.x < view.left - 20 || g.x > view.right + 20) continue;
+    const hgt = g.height * growth, lean = g.lean * growth + Math.sin(breeze * 1.6 + g.phase) * hgt * .18 + pointerX * hgt * .25;
+    ctx.beginPath(); ctx.moveTo(g.x, 1); ctx.quadraticCurveTo(g.x + lean * .3, -hgt * .55, g.x + lean, -hgt);
+    ctx.strokeStyle = `hsla(${g.hue}, 30%, ${g.light}%, ${g.alpha})`; ctx.lineWidth = g.width; ctx.stroke();
+  }
+  ctx.restore();
+}
+// A butterfly wanders over the crown once the leaves are in, resting now and then on a sunlit leaf.
+function drawButterfly(t) {
+  const presence = ease((t - .6) / .06); if (!presence || !butterflyPerch) return;
+  const b = breeze, cycle = b % 12, perching = ease((cycle - 7.2) / .8) * (1 - ease((cycle - 11) / .8));
+  const fx = 10 + 95 * Math.sin(b * .37) + 6 * Math.sin(b * 4.1), fy = -215 + 50 * Math.sin(b * .53 + 1) + 5 * Math.sin(b * 3.3);
+  const vx = 95 * .37 * Math.cos(b * .37) + 6 * 4.1 * Math.cos(b * 4.1), vy = 50 * .53 * Math.cos(b * .53 + 1) + 5 * 3.3 * Math.cos(b * 3.3);
+  const hf = Math.atan2(vy, vx), hx = mix(Math.cos(hf), 0, perching), hy = mix(Math.sin(hf), -1, perching);
+  const x = mix(fx, butterflyPerch.x, perching), y = mix(fy, butterflyPerch.y - 1, perching);
+  const flap = mix(.25 + .75 * Math.abs(Math.sin(b * 17)), .2 + .3 * (.5 + .5 * Math.sin(b * 2)), perching);
+  ctx.save(); ctx.globalAlpha = presence; ctx.translate(sway(x, y), y); ctx.rotate(Math.atan2(hy, hx)); ctx.scale(2.2, 2.2);
+  ctx.lineWidth = .22; ctx.strokeStyle = '#6b5238';
+  for (const s of [-1, 1]) {
+    ctx.fillStyle = '#f2c96a';
+    ctx.beginPath(); ctx.ellipse(.5, s * 2.1 * flap, 2.5, 1.9 * flap, s * .35, 0, TAU); ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(-1.4, s * 1.7 * flap, 1.9, 1.4 * flap, -s * .3, 0, TAU); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#6b5238'; ctx.beginPath(); ctx.ellipse(1.4, s * 2.7 * flap, .5, .4 * flap, 0, 0, TAU); ctx.fill();
+  }
+  ctx.strokeStyle = '#4a3a2a'; ctx.lineWidth = .8; ctx.beginPath(); ctx.moveTo(-2, 0); ctx.lineTo(2, 0); ctx.stroke();
+  ctx.lineWidth = .2; ctx.beginPath(); ctx.moveTo(2, 0); ctx.lineTo(3.3, -.9); ctx.moveTo(2, 0); ctx.lineTo(3.3, .9); ctx.stroke();
+  ctx.restore();
+}
+function drawBird(x, y, s, flying, flap, headTurn, tailFlick) {
+  ctx.save(); ctx.translate(sway(x, y), y); ctx.scale(s * 1.4, 1.4); ctx.lineCap = 'round';
+  if (flying) {
+    ctx.fillStyle = '#3f4a3c'; ctx.beginPath(); ctx.ellipse(0, 0, 4, 1.9, 0, 0, TAU); ctx.fill();
+    ctx.strokeStyle = '#3f4a3c'; ctx.lineWidth = 1.3;
+    ctx.beginPath(); ctx.moveTo(.5, -.5); ctx.quadraticCurveTo(-1, -1 - 3 * flap, -3.5, -.5 - 6.5 * flap); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(.5, -.5); ctx.quadraticCurveTo(2.5, -1 - 2.5 * flap, 4.5, -.5 - 5 * flap); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-3.5, 0); ctx.lineTo(-6, .8); ctx.stroke();
+  } else {
+    ctx.strokeStyle = '#4a3d2a'; ctx.lineWidth = .6; ctx.beginPath(); ctx.moveTo(-.8, 2.6); ctx.lineTo(-.8, 4); ctx.moveTo(.8, 2.6); ctx.lineTo(.8, 4); ctx.stroke();
+    ctx.strokeStyle = '#3f4a3c'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(-3.6, .6); ctx.lineTo(-7.2, 2.2 - tailFlick * 2.5); ctx.stroke();
+    ctx.fillStyle = '#3f4a3c'; ctx.beginPath(); ctx.ellipse(0, 0, 4.4, 2.9, -.3, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#c98a5a'; ctx.beginPath(); ctx.ellipse(1.2, .9, 2.6, 1.9, -.2, 0, TAU); ctx.fill();
+    const hx = 3.4 + headTurn * .6;
+    ctx.fillStyle = '#3f4a3c'; ctx.beginPath(); ctx.arc(hx, -2.6, 2.2, 0, TAU); ctx.fill();
+    ctx.fillStyle = '#d9a441'; ctx.beginPath(); ctx.moveTo(hx + 1.8, -2.9); ctx.lineTo(hx + 3.8 + headTurn * .8, -2.2); ctx.lineTo(hx + 1.8, -1.7); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#f1f1e6'; ctx.beginPath(); ctx.arc(hx + .6, -3, .5, 0, TAU); ctx.fill();
+  }
+  ctx.restore();
+}
+// Three birds fly in from the left as the canopy completes and settle on the upper branches.
+function drawBirds(t) {
+  for (const bird of birds) {
+    const f = (t - bird.arrive) / .05; if (f <= 0) continue;
+    const flap = .5 + .5 * Math.sin(breeze * 14 + bird.phase);
+    if (f < 1) {
+      const k = ease(f), mx = mix(bird.from.x, bird.x, .5), my = Math.min(bird.from.y, bird.y) - 60;
+      drawBird((1-k)*(1-k)*bird.from.x + 2*(1-k)*k*mx + k*k*bird.x, (1-k)*(1-k)*bird.from.y + 2*(1-k)*k*my + k*k*bird.y, 1, true, flap, 0, 0);
+      continue;
+    }
+    let x = bird.x, y = bird.y, flying = false, s = bird.facing;
+    if (bird.hop) { // this one hops between two branch ends every few seconds
+      const cycle = Math.floor(breeze / 9), p = ease((breeze % 9) / .7), from = cycle % 2 ? bird.hop : bird, to = cycle % 2 ? bird : bird.hop;
+      x = mix(from.x, to.x, p); y = mix(from.y, to.y, p) - Math.sin(p * Math.PI) * 12; flying = p > 0 && p < 1; s = Math.sign(to.x - from.x) || 1;
+    }
+    const headTurn = clamp((Math.sin(breeze * .9 + bird.phase) - .5) * 4), tailFlick = Math.max(0, Math.sin(breeze * 2.3 + bird.phase * 2)) ** 8;
+    drawBird(x, y - (flying ? 0 : 5.6), s, flying, flap, headTurn, tailFlick);
+  }
+}
+
+function draw() {
+  const t = elapsed / duration, canopy = ease((t - .5) / .4);
+  ctx.clearRect(0, 0, w, h);
+  const bg = ctx.createLinearGradient(0, 0, 0, h); bg.addColorStop(0, '#f6f5ea'); bg.addColorStop(.64, '#e9eddf'); bg.addColorStop(1, '#e2e5d4'); ctx.fillStyle = bg; ctx.fillRect(0, 0, w, h);
+  cx = w * (w > 650 ? .61 : .45); // the crown leans right, so phones centre the tree further left
+  unit = Math.min(w / (w > 650 ? 800 : 470), h / (w > 650 ? 650 : 820));
+  const cam = camera(t), scale = unit * cam.zoom, groundY = cam.anchorY * h - cam.lookY * scale;
+  view = { left: cam.lookX - cx / scale, right: cam.lookX + (w - cx) / scale, top: -groundY / scale, bottom: (h - groundY) / scale };
+  drawBackground(t, cam, groundY);
+  ctx.save(); ctx.translate(cx - cam.lookX * scale, groundY); ctx.scale(scale, scale);
+  drawGround(t, canopy);
+  drawRoots(t);
+  drawSeed(t);
+  const grown = ease((t - trunk.start) / trunk.span), hook = 1 - ease((t - .165) / .08), path = trunkPath(grown, hook);
+  drawTree(t, path, grown, hook);
+  drawCotyledons(t, path, grown);
+  drawCrumbs(t);
+  drawLeaves(t);
+  drawRays(canopy);
+  drawBirds(t);
+  drawButterfly(t);
+  drawGrass(t);
+  ctx.restore();
+  for (const m of motes) {
+    const x = (m.x * w + Math.sin(breeze * .16 + m.phase) * 25 + w) % w, y = (m.y * h - breeze * (2 + m.size) % h + h) % h;
+    ctx.beginPath(); ctx.arc(x, y, m.size, 0, TAU); ctx.fillStyle = '#fffff3a0'; ctx.fill();
+  }
+  progress.value = String(Math.round(t * 1000));
+  percentLabel.textContent = Math.round(t * 100) + '%';
+  const stage = t < .04 ? '01 / The seed' : t < .125 ? '02 / Taking root' : t < .3 ? '03 / Breaking ground' : t < .55 ? '04 / Reaching up' : t < .86 ? '05 / Unfolding' : '06 / A tree, at last';
+  if (stageLabel.textContent !== stage) stageLabel.textContent = stage;
+}
+function resize() { w = innerWidth; h = innerHeight; dpr = Math.min(devicePixelRatio || 1, 2); canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); draw(); }
+function updatePause() { pauseButton.textContent = paused ? 'Play' : 'Pause'; pauseButton.setAttribute('aria-pressed', String(paused)); }
+function frame(now) { const dt = Math.min((now - last) / 1000, .05); last = now; if (!paused && !document.hidden) { elapsed = Math.min(duration, elapsed + dt * speed); breeze += dt; draw(); } requestAnimationFrame(frame); }
+document.querySelector('#replay').addEventListener('click', () => { elapsed = 0; paused = false; updatePause(); draw(); });
+pauseButton.addEventListener('click', () => { paused = !paused; updatePause(); });
+document.querySelector('#speed').addEventListener('click', event => { speed = speed === 1 ? 2 : speed === 2 ? .5 : 1; event.currentTarget.textContent = speed + '× speed'; event.currentTarget.setAttribute('aria-label', 'Playback speed: ' + speed + ' times'); });
+progress.addEventListener('input', () => { elapsed = Number(progress.value) / 1000 * duration; draw(); });
+addEventListener('pointermove', event => { pointerX = event.clientX / w - .5; });
+addEventListener('resize', resize);
+motionPreference.addEventListener('change', event => { paused = event.matches; if (paused) elapsed = duration; updatePause(); draw(); });
+updatePause(); resize(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>

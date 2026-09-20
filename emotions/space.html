@@ -1,0 +1,445 @@
+<title>Feeling Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#07060B; --ink:#EDE6DA; --ink-2:#C9C2B8; --muted:#8F899C; --line:rgba(237,230,218,.10);
+    --accent:#9070F5;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;overflow:hidden;-webkit-font-smoothing:antialiased}
+  #scene{position:fixed;inset:0;z-index:0}
+  #scene canvas{display:block;width:100%;height:100%}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(90% 80% at 50% 50%,rgba(7,6,11,0) 55%,rgba(7,6,11,.55) 100%)}
+  .labels{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+  .lab{position:absolute;transform:translate(-50%,-100%);font-family:var(--display);font-size:22px;font-weight:400;font-variation-settings:"opsz" 40;letter-spacing:-.01em;color:var(--ink);pointer-events:auto;cursor:pointer;padding:6px 10px;border-radius:8px;transition:opacity .3s,font-size .3s;white-space:nowrap;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+  .lab:hover{background:rgba(237,230,218,.06)}
+  .lab.sel{font-size:30px;font-style:italic}
+  .lab .sub{display:block;font-family:var(--mono);font-size:10.5px;font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:-2px}
+  .ax{position:absolute;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;text-shadow:0 1px 8px rgba(0,0,0,.9)}
+  .ax i{font-style:normal;color:var(--ink-2)}
+
+  .top{position:fixed;z-index:3;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:20px clamp(16px,3vw,36px);pointer-events:none}
+  .top>*{pointer-events:auto}
+  .wordmark{font-family:var(--display);font-weight:500;font-size:19px;font-variation-settings:"opsz" 24}
+  .wordmark em{font-style:italic;font-weight:400;color:var(--ink-2)}
+  .wordmark a{color:var(--muted);text-decoration:none;font-family:var(--mono);font-size:11px;margin-left:12px;letter-spacing:.04em}
+  .wordmark a:hover{color:var(--ink)}
+  .btns{display:flex;gap:8px}
+  .btn{appearance:none;border:1px solid var(--line);background:rgba(12,10,18,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);font-family:var(--body);font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+  .btn:hover{background:rgba(237,230,218,.09)}
+  .btn:focus-visible,button:focus-visible,.lab:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .btn .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);transition:.2s}
+  .btn.on .dot{background:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 30%,transparent)}
+
+  .hud{position:fixed;z-index:3;left:clamp(16px,3vw,36px);bottom:clamp(16px,3vw,36px);width:min(460px,calc(100vw - 32px));pointer-events:none}
+  .hud>*{pointer-events:auto}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;display:flex;gap:14px;flex-wrap:wrap}
+  .eyebrow b{color:var(--accent);font-weight:500;transition:color .5s}
+  h1.name{font-family:var(--display);font-weight:300;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(56px,8vw,104px);line-height:.95;letter-spacing:-.025em;margin:0 0 10px;text-wrap:balance;text-shadow:0 4px 30px rgba(0,0,0,.7)}
+  .def{font-family:var(--display);font-style:italic;font-weight:400;font-variation-settings:"opsz" 30;font-size:clamp(19px,2.2vw,24px);line-height:1.25;margin:0 0 8px;max-width:24ch;text-wrap:balance}
+  .says{font-size:14.5px;color:var(--ink-2);margin:0 0 14px;max-width:50ch;text-shadow:0 1px 10px rgba(0,0,0,.8)}
+  .says b{color:var(--ink);font-weight:600}
+  .pad{display:grid;grid-template-columns:auto 1fr auto;gap:6px 12px;align-items:center;font-family:var(--mono);font-size:11px;color:var(--muted);margin:0 0 10px;max-width:360px}
+  .pad .k{letter-spacing:.06em;text-transform:uppercase}
+  .pad .bar{height:6px;border-radius:3px;background:rgba(237,230,218,.08);position:relative;overflow:hidden}
+  .pad .bar i{position:absolute;top:0;bottom:0;background:var(--accent);border-radius:3px;transition:left .6s cubic-bezier(.2,.8,.2,1),width .6s cubic-bezier(.2,.8,.2,1),background .5s}
+  .pad .bar::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:rgba(237,230,218,.25)}
+  .pad .v{color:var(--ink-2);font-variant-numeric:tabular-nums;min-width:5ch;text-align:right}
+  .padnote{font-size:13.5px;color:var(--ink-2);margin:0 0 14px;max-width:50ch}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{appearance:none;border:1px solid var(--line);background:rgba(12,10,18,.55);color:var(--ink-2);font-family:var(--body);font-size:12.5px;padding:5px 10px 5px 8px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:.2s}
+  .chip .sw{width:8px;height:8px;border-radius:50%;background:var(--c)}
+  .chip:hover{color:var(--ink);border-color:rgba(237,230,218,.25)}
+  .chip.sel{color:var(--ink);border-color:var(--c);background:color-mix(in oklab,var(--c) 18%,transparent)}
+  .hint{position:fixed;z-index:3;right:clamp(16px,3vw,36px);bottom:clamp(16px,3vw,36px);font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.02em;text-align:right;line-height:1.8;pointer-events:none}
+  .hint kbd{font:inherit;color:var(--ink-2);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin:0 1px}
+  .loading{position:fixed;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg);transition:opacity .6s}
+  .loading.off{opacity:0;pointer-events:none}
+  @media (max-width:760px){
+    .hint{display:none}
+    .lab{font-size:16px}.lab.sel{font-size:22px}
+    .hud{width:calc(100vw - 32px)}
+    .says,.padnote{display:none}
+    h1.name{font-size:48px}
+  }
+  @media (prefers-reduced-motion:reduce){ .btn.on .dot{box-shadow:none} }
+</style>
+
+<div id="scene"></div>
+<div class="vignette"></div>
+<div class="labels" id="labels"></div>
+<div class="loading" id="loading">Building the space…</div>
+
+<header class="top">
+  <div class="wordmark">Feeling Space <em>· eight emotions in three dimensions</em></div>
+  <div class="btns">
+    <button class="btn" id="overview">Overview</button>
+    <button class="btn" id="listen" aria-pressed="false"><span class="dot"></span><span class="t">Listen to it</span></button>
+  </div>
+</header>
+
+<aside class="hud" id="hud">
+  <p class="eyebrow" id="eyebrow"></p>
+  <h1 class="name" id="name">Feeling Space</h1>
+  <p class="def" id="def">Every emotion has an address.</p>
+  <p class="says" id="says">Psychologists locate feelings on three axes: how <b>pleasant</b>, how <b>activated</b>, and how <b>in control</b> you are. Fear and anger sit almost on top of each other on the first two. The third tells them apart. Click an emotion to fly to it.</p>
+  <div class="pad" id="pad"></div>
+  <p class="padnote" id="padnote"></p>
+  <div class="chips" id="chips"></div>
+</aside>
+<div class="hint">drag to orbit · scroll to zoom<br><kbd>←</kbd><kbd>→</kbd> next emotion · <kbd>1</kbd>–<kbd>8</kbd> jump · <kbd>O</kbd> overview</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+/* ---------------- data ---------------- */
+const S = 13; // world units per PAD unit
+const E = [
+{ key:'joy', name:'Joy', color:'#EFC23A', job:'Reproduction', pad:[.8,.5,.4],
+  def:'Something is going right.', says:'<b>Stay. Repeat. Share it.</b> The reward signal that turns a good thing into a habit and a habit into a bond.',
+  note:'Top-right of the map: pleasant, awake, and firmly in charge of the situation. Joy is the feeling of things going your way.',
+  core:{amp:.32,freq:1.6,speed:.5,spike:1,droop:0,stretch:0,jitter:0,pulse:.35,prate:1.4,glow:1}, cols:['#EFC23A','#FFF1B0','#FFD86B'],
+  pts:{radius:2.7,spread:.6,rise:.06,swirl:.25,jitter:.05,jf:1,burst:0,clump:0,stretch:0,flat:0,size:1}, pcols:['#EFC23A','#FFF6D6'],
+  audio:{type:'arp',wave:'triangle',root:329.63,iv:[0,4,7,11,12,16,19],rate:170,cutoff:3400,decay:.4,gain:.5} },
+{ key:'trust', name:'Trust', color:'#2FB08A', job:'Incorporation', pad:[.6,-.2,.3],
+  def:'This can come closer.', says:'<b>Lower the guard. Take it in.</b> Letting something past your defences: food, a person, an idea.',
+  note:'Pleasant but calm, below the arousal line. Trust is the only primary that feels like rest.',
+  core:{amp:.12,freq:1,speed:.25,spike:1.4,droop:0,stretch:0,jitter:0,pulse:.7,prate:.5,glow:.9}, cols:['#2FB08A','#BFF3E4','#7EDDBF'],
+  pts:{radius:2.9,spread:.15,rise:0,swirl:.35,jitter:.02,jf:.5,burst:0,clump:0,stretch:0,flat:.85,size:.9}, pcols:['#2FB08A','#BFF3E4'],
+  audio:{type:'pad',wave:'triangle',root:196,iv:[0,4,7,11,14],cutoff:1400,lfo:[.15,600],attack:2.2,gain:.45} },
+{ key:'fear', name:'Fear', color:'#9070F5', job:'Protection', pad:[-.65,.6,-.65],
+  def:'Threat detected. The body is already moving.', says:'<b>Get safe. Now.</b> The rest of the mind is put on hold until the message is answered.',
+  note:'Look across to anger: the same unpleasantness, the same activation. Fear is the one that has lost control. The dominance axis is the whole difference.',
+  core:{amp:.24,freq:3.5,speed:2.2,spike:.6,droop:0,stretch:0,jitter:.06,pulse:.4,prate:9,glow:1.1}, cols:['#9070F5','#E6DEFF','#C4B2FF'],
+  pts:{radius:2.4,spread:1.4,rise:0,swirl:.1,jitter:.5,jf:6,burst:0,clump:0,stretch:0,flat:0,size:.7}, pcols:['#9070F5','#E6DEFF'],
+  audio:{type:'pad',wave:'sawtooth',root:110,iv:[0,1,6,13],cutoff:900,trem:[9,.8],attack:.3,noise:.16,gain:.32} },
+{ key:'surprise', name:'Surprise', color:'#33C2EA', job:'Orientation', pad:[.2,.8,-.25],
+  def:'The world just broke a prediction.', says:'<b>Stop. Look. Update.</b> Surprise clears the stage so whatever comes next can be seen properly.',
+  note:'Highest on the arousal axis and nearly neutral on the other two. Slightly submissive, because something else just acted on you.',
+  core:{amp:.3,freq:2.2,speed:1.2,spike:.8,droop:0,stretch:0,jitter:0,pulse:1,prate:2.2,glow:1.2}, cols:['#33C2EA','#FFFFFF','#B9F0FF'],
+  pts:{radius:1.3,spread:.5,rise:0,swirl:.2,jitter:.05,jf:1,burst:.35,clump:0,stretch:0,flat:0,size:.9}, pcols:['#33C2EA','#FFFFFF'],
+  audio:{type:'pings',wave:'sine',root:880,iv:[0,7,12,19,24],rate:[350,1400],cutoff:6000,decay:.7,gain:.45} },
+{ key:'sadness', name:'Sadness', color:'#4A74D6', job:'Reintegration', pad:[-.65,-.5,-.5],
+  def:'Something is lost.', says:'<b>Slow down. Conserve. Let them come to you.</b> The tears are a broadcast; the heaviness is a brake.',
+  note:'Bottom-left-back corner: unpleasant, switched off, and powerless. The furthest point from joy on all three axes at once.',
+  core:{amp:.22,freq:1.2,speed:.2,spike:1.6,droop:.6,stretch:0,jitter:0,pulse:0,prate:1,glow:.55}, cols:['#4A74D6','#2A3F80','#8FA9EE'],
+  pts:{radius:2.5,spread:.8,rise:-.08,swirl:.02,jitter:.02,jf:.3,burst:0,clump:0,stretch:0,flat:0,size:.6}, pcols:['#4A74D6','#C8D4F5'],
+  audio:{type:'pad',wave:'sine',root:130.81,iv:[0,3,7,10],cutoff:700,attack:3,detune:9,lfo:[.08,200],gain:.5} },
+{ key:'disgust', name:'Disgust', color:'#A8B534', job:'Rejection', pad:[-.6,.2,.3],
+  def:'Contamination flagged.', says:'<b>Expel it. Step back.</b> Disgust began at the mouth and moved outward to people, ideas and whole groups.',
+  note:'Unpleasant, only mildly aroused, and slightly dominant: the disgusted person is the one doing the rejecting.',
+  core:{amp:.45,freq:.9,speed:.35,spike:1.8,droop:.15,stretch:0,jitter:0,pulse:.3,prate:.7,glow:.8}, cols:['#A8B534','#3F4A12','#D9E27A'],
+  pts:{radius:2.6,spread:.7,rise:0,swirl:.08,jitter:.08,jf:.6,burst:0,clump:.9,stretch:0,flat:0,size:1.1}, pcols:['#A8B534','#D9E27A'],
+  audio:{type:'pad',wave:'square',root:82.41,iv:[0,6,11],cutoff:520,vib:[.6,4],attack:.8,gain:.28} },
+{ key:'anger', name:'Anger', color:'#E0344B', job:'Destruction', pad:[-.55,.75,.6],
+  def:'An obstacle stands between you and what you want.', says:'<b>Push through it.</b> Anger is the only negative emotion that moves toward its cause.',
+  note:'Fear’s twin on pleasure and arousal, and its opposite on dominance. Anger is unpleasant but in charge, which is why it moves forward.',
+  core:{amp:.5,freq:2.6,speed:1.8,spike:.45,droop:0,stretch:0,jitter:.03,pulse:.5,prate:6,glow:1.4}, cols:['#E0344B','#FFC9A8','#FF7A5C'],
+  pts:{radius:1.8,spread:.9,rise:.35,swirl:.6,jitter:.25,jf:3,burst:0,clump:0,stretch:0,flat:0,size:.8}, pcols:['#E0344B','#FFC9A8'],
+  audio:{type:'pulse',wave:'sawtooth',root:55,iv:[0,.08,7,13],rate:240,cutoff:1300,dist:true,gain:.38} },
+{ key:'anticipation', name:'Anticipation', color:'#F5892A', job:'Exploration', pad:[.45,.35,0],
+  def:'The future is leaning in.', says:'<b>Scan ahead. Get ready.</b> The pleasure of wanting is real and separate from the pleasure of having.',
+  note:'Pleasant, moderately aroused, and neutral on dominance: you do not yet know whether the thing ahead is yours to command.',
+  core:{amp:.28,freq:1.8,speed:.8,spike:.9,droop:0,stretch:.55,jitter:0,pulse:.3,prate:2,glow:1}, cols:['#F5892A','#FFF0D9','#FFC27A'],
+  pts:{radius:2.2,spread:.8,rise:0,swirl:.9,jitter:.05,jf:1,burst:0,clump:0,stretch:1.2,flat:0,size:.8}, pcols:['#F5892A','#FFF0D9'],
+  audio:{type:'arp',wave:'triangle',root:261.63,iv:[0,4,7,10,12,14],rate:135,cutoff:2000,rise:true,decay:.28,gain:.45} }
+];
+const N=E.length, $=s=>document.querySelector(s);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile=innerWidth<760;
+
+/* ---------------- shaders ---------------- */
+const NOISE=`
+vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
+vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+float snoise(vec3 v){
+  const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);
+  vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);
+  vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);
+  vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;
+  i=mod289(i);
+  vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+  float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;
+  vec4 j=p-49.0*floor(p*ns.z*ns.z); vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);
+  vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);
+  vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+  vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));
+  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+  vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+  vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+  vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;
+  return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+}`;
+const CORE_VS=NOISE+`
+uniform float uTime,uAmp,uFreq,uSpeed,uSpike,uDroop,uStretch,uJitter,uPulse,uPrate;
+varying float vDisp; varying vec3 vPos;
+void main(){
+  vec3 p=position;
+  float n=snoise(p*uFreq+vec3(0.0,uTime*uSpeed,uTime*uSpeed*0.7));
+  float n2=snoise(p*uFreq*3.1+uTime*uSpeed*2.3)*0.35;
+  float d=n+n2;
+  float sd=sign(d)*pow(abs(d),uSpike);
+  float jit=snoise(p*18.0+uTime*9.0)*uJitter;
+  float disp=sd*uAmp+jit;
+  float pulse=1.0+uPulse*sin(uTime*uPrate)*0.08;
+  vec3 np=p*pulse+normal*disp;
+  np.y-=uDroop*(1.0-p.y)*0.5*(1.0+0.3*n);
+  np.z*=1.0+uStretch;
+  vDisp=disp;
+  vec4 mv=modelViewMatrix*vec4(np,1.0);
+  vPos=mv.xyz;
+  gl_Position=projectionMatrix*mv;
+}`;
+const CORE_FS=`
+uniform vec3 uColA,uColB,uColC; uniform float uGlow,uSel;
+varying float vDisp; varying vec3 vPos;
+void main(){
+  vec3 N=normalize(cross(dFdx(vPos),dFdy(vPos)));
+  vec3 V=normalize(-vPos);
+  float fres=pow(1.0-max(dot(N,V),0.0),2.5);
+  float t=clamp(vDisp*1.6+0.5,0.0,1.0);
+  vec3 col=mix(uColA,uColB,t);
+  float diff=max(dot(N,normalize(vec3(0.4,0.8,0.6))),0.0)*0.6+0.22;
+  col=col*diff*(0.85+0.35*uSel)+uColC*fres*uGlow*(0.8+0.6*uSel);
+  gl_FragColor=vec4(col,1.0);
+}`;
+const PTS_VS=NOISE+`
+attribute vec3 aSeed; attribute float aSize;
+uniform float uTime,uRadius,uSpread,uRise,uSwirl,uJitter,uJf,uBurst,uClump,uStretch,uFlat,uSize,uSel;
+uniform vec3 uColA,uColB;
+varying float vA; varying vec3 vC;
+void main(){
+  float th=aSeed.x*6.2831853; float ph=acos(2.0*aSeed.y-1.0);
+  float r=uRadius*(1.0+uSpread*aSeed.z);
+  float life=fract(aSeed.z+uTime*uRise);
+  float ang=th+uTime*uSwirl*(0.5+aSeed.y);
+  vec3 p=vec3(r*sin(ph)*cos(ang),r*cos(ph),r*sin(ph)*sin(ang));
+  float hasRise=step(0.0001,abs(uRise));
+  p.y=mix(p.y,(life*2.0-1.0)*r*1.6,hasRise);
+  float bl=fract(aSeed.x*3.7+uTime*uBurst);
+  float hasBurst=step(0.0001,uBurst);
+  p*=1.0+hasBurst*bl*2.2;
+  vec3 cl=vec3(snoise(p*0.35+1.0),snoise(p*0.35+5.0),snoise(p*0.35+9.0));
+  p+=cl*uClump*r*0.6;
+  p+=vec3(snoise(aSeed*50.0+uTime*uJf),snoise(aSeed*70.0+uTime*uJf+3.0),snoise(aSeed*90.0+uTime*uJf+7.0))*uJitter;
+  p.y*=1.0-uFlat*0.85;
+  p.z*=1.0+uStretch;
+  vec4 mv=modelViewMatrix*vec4(p,1.0);
+  gl_PointSize=aSize*uSize*(1.0+0.35*uSel)*(95.0/-mv.z);
+  float fade=mix(1.0,sin(life*3.14159),hasRise)*mix(1.0,1.0-bl,hasBurst);
+  vA=fade*(0.3+0.7*aSeed.y)*(0.55+0.45*uSel)*0.32;
+  vC=mix(uColA,uColB,aSeed.x);
+  gl_Position=projectionMatrix*mv;
+}`;
+const PTS_FS=`
+varying float vA; varying vec3 vC;
+void main(){ float d=length(gl_PointCoord-0.5); float a=smoothstep(0.5,0.12,d)*vA; gl_FragColor=vec4(vC*a,a); }`;
+
+/* ---------------- scene ---------------- */
+const mount=$('#scene');
+const renderer=new THREE.WebGLRenderer({antialias:false,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(2,devicePixelRatio||1));
+renderer.setSize(innerWidth,innerHeight);
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+mount.appendChild(renderer.domElement);
+const scene=new THREE.Scene(); scene.background=new THREE.Color('#07060B');
+scene.fog=new THREE.FogExp2('#07060B',0.006);
+const camera=new THREE.PerspectiveCamera(50,innerWidth/innerHeight,.1,400);
+camera.position.set(0,10,38);
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=.06; controls.enablePan=false; controls.minDistance=4; controls.maxDistance=90; controls.rotateSpeed=.6;
+
+const composer=new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene,camera));
+const bloom=new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),0.55,0.5,0.4);
+composer.addPass(bloom); composer.addPass(new OutputPass());
+
+// axes
+const axisMat=new THREE.LineBasicMaterial({color:'#EDE6DA',transparent:true,opacity:.14});
+[[1,0,0],[0,1,0],[0,0,1]].forEach(([x,y,z])=>{
+  const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-x*S*1.1,-y*S*1.1,-z*S*1.1),new THREE.Vector3(x*S*1.1,y*S*1.1,z*S*1.1)]);
+  scene.add(new THREE.Line(g,axisMat));
+});
+// faint tick rings on the ground plane for depth
+const ringMat=new THREE.LineBasicMaterial({color:'#EDE6DA',transparent:true,opacity:.025});
+[S*.5,S].forEach(r=>{const pts=[];for(let i=0;i<=96;i++){const a=i/96*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*r,-S*1.2,Math.sin(a)*r));}scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),ringMat));});
+// opposite-pair threads
+const threadMat=new THREE.LineDashedMaterial({color:'#EDE6DA',transparent:true,opacity:.10,dashSize:.6,gapSize:.5});
+for(let i=0;i<4;i++){const a=E[i].pad,b=E[i+4].pad;const g=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a[0]*S,a[1]*S,a[2]*S),new THREE.Vector3(b[0]*S,b[1]*S,b[2]*S)]);const l=new THREE.Line(g,threadMat);l.computeLineDistances();scene.add(l);}
+// stars
+{const n=isMobile?1200:3000, pos=new Float32Array(n*3);for(let i=0;i<n;i++){const v=new THREE.Vector3().randomDirection().multiplyScalar(160+Math.random()*80);pos.set([v.x,v.y,v.z],i*3);}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ scene.add(new THREE.Points(g,new THREE.PointsMaterial({color:'#B9B4C4',size:.9,transparent:true,opacity:.55,sizeAttenuation:true,depthWrite:false})));}
+
+// emotions
+const coreGeo=new THREE.IcosahedronGeometry(1.35,isMobile?4:5);
+const PN=isMobile?6000:16000;
+function ptsGeo(){const g=new THREE.BufferGeometry();const pos=new Float32Array(PN*3),seed=new Float32Array(PN*3),size=new Float32Array(PN);
+  for(let i=0;i<PN;i++){seed[i*3]=Math.random();seed[i*3+1]=Math.random();seed[i*3+2]=Math.random();size[i]=.6+Math.random()*1.6;}
+  g.setAttribute('position',new THREE.BufferAttribute(pos,3));g.setAttribute('aSeed',new THREE.BufferAttribute(seed,3));g.setAttribute('aSize',new THREE.BufferAttribute(size,1));
+  g.boundingSphere=new THREE.Sphere(new THREE.Vector3(),12);return g;}
+const nodes=E.map((em,i)=>{
+  const group=new THREE.Group(); group.position.set(em.pad[0]*S,em.pad[1]*S,em.pad[2]*S);
+  const c=em.core;
+  const coreMat=new THREE.ShaderMaterial({vertexShader:CORE_VS,fragmentShader:CORE_FS,uniforms:{
+    uTime:{value:Math.random()*100},uAmp:{value:c.amp},uFreq:{value:c.freq},uSpeed:{value:c.speed},uSpike:{value:c.spike},uDroop:{value:c.droop},uStretch:{value:c.stretch},uJitter:{value:c.jitter},uPulse:{value:c.pulse},uPrate:{value:c.prate},uGlow:{value:c.glow},uSel:{value:0},
+    uColA:{value:new THREE.Color(em.cols[0])},uColB:{value:new THREE.Color(em.cols[1])},uColC:{value:new THREE.Color(em.cols[2])}}});
+  const core=new THREE.Mesh(coreGeo,coreMat); group.add(core);
+  const p=em.pts;
+  const ptsMat=new THREE.ShaderMaterial({vertexShader:PTS_VS,fragmentShader:PTS_FS,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,uniforms:{
+    uTime:{value:Math.random()*100},uRadius:{value:p.radius},uSpread:{value:p.spread},uRise:{value:p.rise},uSwirl:{value:p.swirl},uJitter:{value:p.jitter},uJf:{value:p.jf},uBurst:{value:p.burst},uClump:{value:p.clump},uStretch:{value:p.stretch},uFlat:{value:p.flat},uSize:{value:p.size},uSel:{value:0},
+    uColA:{value:new THREE.Color(em.pcols[0])},uColB:{value:new THREE.Color(em.pcols[1])}}});
+  const pts=new THREE.Points(ptsGeo(),ptsMat); pts.frustumCulled=false; group.add(pts);
+  // invisible hit sphere
+  const hit=new THREE.Mesh(new THREE.SphereGeometry(3.2,12,12),new THREE.MeshBasicMaterial({visible:false})); hit.userData.i=i; group.add(hit);
+  scene.add(group);
+  return {group,core,coreMat,pts,ptsMat,hit,sel:0};
+});
+
+// labels
+const labels=$('#labels');
+const labEls=E.map((em,i)=>{const d=document.createElement('div');d.className='lab';d.tabIndex=0;d.setAttribute('role','button');d.innerHTML=`${em.name}<span class="sub">${em.job}</span>`;d.addEventListener('click',()=>select(i));d.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);}});labels.appendChild(d);return d;});
+const AX=[['pleasant',[S*1.16,0,0]],['unpleasant',[-S*1.16,0,0]],['activated',[0,S*1.16,0]],['calm',[0,-S*1.16,0]],['dominant',[0,0,S*1.16]],['submissive',[0,0,-S*1.16]]];
+const axEls=AX.map(([t,p])=>{const d=document.createElement('div');d.className='ax';d.innerHTML=`<i>${t}</i>`;labels.appendChild(d);return d;});
+const tmpV=new THREE.Vector3();
+function place(el,x,y,z,yOff=0){tmpV.set(x,y+yOff,z).project(camera);const behind=tmpV.z>1;el.style.opacity=behind?0:'';el.style.left=((tmpV.x+1)/2*innerWidth)+'px';el.style.top=((1-tmpV.y)/2*innerHeight)+'px';}
+
+// picking
+const ray=new THREE.Raycaster(), ndc=new THREE.Vector2(); let downAt=null;
+renderer.domElement.addEventListener('pointerdown',e=>{downAt=[e.clientX,e.clientY];});
+renderer.domElement.addEventListener('pointerup',e=>{ if(!downAt) return; const moved=Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1]); downAt=null; if(moved>6) return;
+  ndc.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1); ray.setFromCamera(ndc,camera);
+  const hits=ray.intersectObjects(nodes.map(n=>n.hit)); if(hits.length) select(hits[0].object.userData.i); });
+renderer.domElement.addEventListener('pointermove',e=>{ ndc.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1); ray.setFromCamera(ndc,camera); const hits=ray.intersectObjects(nodes.map(n=>n.hit)); renderer.domElement.style.cursor=hits.length?'pointer':''; hover=hits.length?hits[0].object.userData.i:-1; });
+let hover=-1;
+
+/* ---------------- camera flights ---------------- */
+const flight={t:1,dur:1.8,from:new THREE.Vector3(),to:new THREE.Vector3(),tf:new THREE.Vector3(),tt:new THREE.Vector3()};
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+function flyTo(pos,target,dur=1.8){flight.from.copy(camera.position);flight.to.copy(pos);flight.tf.copy(controls.target);flight.tt.copy(target);flight.t=0;flight.dur=reduced?.01:dur;}
+function viewFor(i){const p=nodes[i].group.position; const dir=p.clone().normalize().multiplyScalar(.55).add(new THREE.Vector3(.35,.28,1).normalize()).normalize(); return [p.clone().add(dir.multiplyScalar(isMobile?12:9.5)),p.clone()];}
+
+/* ---------------- HUD ---------------- */
+let sel=-1;
+const chips=$('#chips');
+E.forEach((em,i)=>{const b=document.createElement('button');b.className='chip';b.style.setProperty('--c',em.color);b.innerHTML=`<span class="sw"></span>${em.name}`;b.addEventListener('click',()=>select(i));chips.appendChild(b);});
+const padRow=(k,v)=>{const w=Math.abs(v)*50, l=v<0?50-w:50; return `<span class="k">${k}</span><span class="bar"><i style="left:${l}%;width:${w}%"></i></span><span class="v">${v>0?'+':''}${v.toFixed(2)}</span>`;};
+function select(i){
+  i=(i+N)%N; sel=i; const em=E[i];
+  document.documentElement.style.setProperty('--accent',em.color);
+  $('#eyebrow').innerHTML=`<span>Primary emotion <b>${i+1} / 8</b></span><span>Job: <b>${em.job}</b></span><span>Opposite: <b>${E[(i+4)%N].name}</b></span>`;
+  $('#name').textContent=em.name; $('#def').textContent=em.def; $('#says').innerHTML='What it says: '+em.says;
+  $('#pad').innerHTML=padRow('pleasure',em.pad[0])+padRow('arousal',em.pad[1])+padRow('dominance',em.pad[2]);
+  $('#padnote').textContent=em.note;
+  chips.querySelectorAll('.chip').forEach((c,k)=>c.classList.toggle('sel',k===i));
+  labEls.forEach((l,k)=>l.classList.toggle('sel',k===i));
+  const [pos,tgt]=viewFor(i); flyTo(pos,tgt);
+  if(Audio_.on) audioPlay(em);
+  history.replaceState(null,'','#'+em.key); document.title=`${em.name} · Feeling Space`;
+}
+function overview(){
+  sel=-1; document.documentElement.style.setProperty('--accent','#9070F5');
+  $('#eyebrow').innerHTML=`<span>Mehrabian &amp; Russell’s <b>PAD</b> model</span><span>Plutchik’s <b>eight primaries</b></span>`;
+  $('#name').textContent='Feeling Space'; $('#def').textContent='Every emotion has an address.';
+  $('#says').innerHTML='Psychologists locate feelings on three axes: how <b>pleasant</b>, how <b>activated</b>, and how <b>in control</b> you are. Fear and anger sit almost on top of each other on the first two. The third tells them apart. Click an emotion to fly to it.';
+  $('#pad').innerHTML=''; $('#padnote').textContent='';
+  chips.querySelectorAll('.chip').forEach(c=>c.classList.remove('sel')); labEls.forEach(l=>l.classList.remove('sel'));
+  flyTo(new THREE.Vector3(13,4,42),new THREE.Vector3(0,1,0),2.2);
+  if(Audio_.on) audioStop();
+  history.replaceState(null,'',' '); document.title='Feeling Space';
+}
+$('#overview').addEventListener('click',overview);
+addEventListener('keydown',e=>{ if(e.target.matches('input,textarea')) return;
+  if(e.key==='ArrowRight') select(sel<0?0:sel+1); else if(e.key==='ArrowLeft') select(sel<0?N-1:sel-1);
+  else if(/^[1-8]$/.test(e.key)) select(+e.key-1); else if(e.key==='o'||e.key==='O'||e.key==='Escape') overview(); });
+
+/* ---------------- audio (same synth as the wheel) ---------------- */
+const Audio_={ctx:null,master:null,voices:[],timers:[],on:false};
+function audioInit(){ if(Audio_.ctx) return; const ac=new (window.AudioContext||window.webkitAudioContext)(); const comp=ac.createDynamicsCompressor(); comp.threshold.value=-18; comp.ratio.value=6;
+  const master=ac.createGain(); master.gain.value=0; master.connect(comp); comp.connect(ac.destination);
+  const delay=ac.createDelay(1); delay.delayTime.value=.32; const fb=ac.createGain(); fb.gain.value=.32; const wet=ac.createGain(); wet.gain.value=.28;
+  master.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(comp); Audio_.ctx=ac; Audio_.master=master; }
+function audioStop(){ const ac=Audio_.ctx; if(!ac) return; Audio_.timers.forEach(t=>{clearInterval(t);clearTimeout(t);}); Audio_.timers=[];
+  for(const v of Audio_.voices){ try{ v.g.gain.cancelScheduledValues(ac.currentTime); v.g.gain.setTargetAtTime(0,ac.currentTime,.12); v.nodes.forEach(n=>{ if(n.stop) setTimeout(()=>{try{n.stop()}catch(e){}},900); }); }catch(e){} } Audio_.voices=[]; }
+function shaper(ac){const s=ac.createWaveShaper();const n=1024,c=new Float32Array(n);for(let i=0;i<n;i++){const x=i*2/n-1;c[i]=Math.tanh(x*3.2);}s.curve=c;return s;}
+function audioPlay(em){
+  const ac=Audio_.ctx; if(!ac||!Audio_.on) return; audioStop();
+  const A=em.audio, t=ac.currentTime;
+  const bus=ac.createGain(); bus.gain.value=0; bus.gain.setTargetAtTime(A.gain,t,.4); bus.connect(Audio_.master);
+  const filt=ac.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=A.cutoff; filt.Q.value=1.2;
+  let chain=filt; if(A.dist){const s=shaper(ac); filt.connect(s); chain=s;} chain.connect(bus);
+  const nodes=[bus,filt]; const f=iv=>A.root*Math.pow(2,iv/12);
+  if(A.type==='pad'){
+    A.iv.forEach((iv,i)=>{ const o=ac.createOscillator(); o.type=A.wave; o.frequency.value=f(iv); if(A.detune) o.detune.value=(i%2?1:-1)*A.detune;
+      const g=ac.createGain(); g.gain.value=0; g.gain.setTargetAtTime(.32/A.iv.length*2,t,A.attack); o.connect(g); g.connect(filt); o.start(); nodes.push(o,g);
+      if(A.vib){const l=ac.createOscillator(); l.frequency.value=A.vib[0]; const lg=ac.createGain(); lg.gain.value=A.vib[1]; l.connect(lg); lg.connect(o.frequency); l.start(); nodes.push(l,lg);} });
+    if(A.lfo){const l=ac.createOscillator(); l.frequency.value=A.lfo[0]; const lg=ac.createGain(); lg.gain.value=A.lfo[1]; l.connect(lg); lg.connect(filt.frequency); l.start(); nodes.push(l,lg);}
+    if(A.trem){const l=ac.createOscillator(); l.frequency.value=A.trem[0]; const lg=ac.createGain(); lg.gain.value=A.gain*A.trem[1]*.5; l.connect(lg); lg.connect(bus.gain); l.start(); nodes.push(l,lg);}
+    if(A.noise){const len=ac.sampleRate*2, b=ac.createBuffer(1,len,ac.sampleRate), d=b.getChannelData(0); for(let i=0;i<len;i++)d[i]=(Math.random()*2-1); const n=ac.createBufferSource(); n.buffer=b; n.loop=true; const nf=ac.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=1600; nf.Q.value=.6; const ng=ac.createGain(); ng.gain.value=A.noise; n.connect(nf); nf.connect(ng); ng.connect(bus); n.start(); nodes.push(n,nf,ng);}
+  } else {
+    let step=0, t1=ac.currentTime;
+    const hit=()=>{ const now=ac.currentTime; let iv;
+      if(A.type==='arp'){ iv=A.iv[step%A.iv.length]+(Math.floor(step/A.iv.length)%2?12:0); step++; }
+      else if(A.type==='pings'){ iv=A.iv[Math.floor(Math.random()*A.iv.length)]; }
+      else { iv=A.iv[step%A.iv.length]; step++; }
+      const o=ac.createOscillator(); o.type=A.wave; o.frequency.value=f(iv);
+      if(A.type==='pings'){ o.frequency.setValueAtTime(f(iv)*.6,now); o.frequency.exponentialRampToValueAtTime(f(iv),now+.08); }
+      const g=ac.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(A.type==='pulse'?.5:.35,now+.012); g.gain.exponentialRampToValueAtTime(.001,now+(A.decay||.3));
+      o.connect(g); g.connect(filt); o.start(now); o.stop(now+(A.decay||.3)+.05);
+      if(A.rise){ const el=(now-t1)%12; filt.frequency.setTargetAtTime(A.cutoff*(.5+el/12*1.6),now,.1); }
+      if(A.type==='pulse'){ const sub=ac.createOscillator(); sub.type='square'; sub.frequency.value=f(iv)/2; const sg=ac.createGain(); sg.gain.setValueAtTime(.25,now); sg.gain.exponentialRampToValueAtTime(.001,now+.2); sub.connect(sg); sg.connect(filt); sub.start(now); sub.stop(now+.25); } };
+    hit();
+    if(A.type==='pings'){ const loop=()=>{ if(!Audio_.voices.includes(V)) return; hit(); Audio_.timers.push(setTimeout(loop,A.rate[0]+Math.random()*(A.rate[1]-A.rate[0]))); }; Audio_.timers.push(setTimeout(loop,600)); }
+    else Audio_.timers.push(setInterval(hit,A.rate));
+  }
+  const V={g:bus,nodes}; Audio_.voices.push(V);
+}
+const listenBtn=$('#listen');
+listenBtn.addEventListener('click',async()=>{ audioInit(); const ac=Audio_.ctx; if(ac.state==='suspended') await ac.resume();
+  Audio_.on=!Audio_.on; listenBtn.classList.toggle('on',Audio_.on); listenBtn.setAttribute('aria-pressed',Audio_.on);
+  listenBtn.querySelector('.t').textContent=Audio_.on?'Listening':'Listen to it';
+  Audio_.master.gain.setTargetAtTime(Audio_.on?.9:0,ac.currentTime,.3);
+  if(Audio_.on){ if(sel<0) select(0); else audioPlay(E[sel]); } else audioStop(); });
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&Audio_.on) listenBtn.click(); });
+
+/* ---------------- loop ---------------- */
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);composer.setSize(innerWidth,innerHeight);});
+const clock=new THREE.Clock(); let last=0;
+function loop(){
+  requestAnimationFrame(loop);
+  const t=clock.getElapsedTime(), dt=Math.min(.1,t-last); last=t;
+  const speed=reduced?.35:1;
+  if(flight.t<1){flight.t=Math.min(1,flight.t+dt/flight.dur);const k=ease(flight.t);camera.position.lerpVectors(flight.from,flight.to,k);controls.target.lerpVectors(flight.tf,flight.tt,k);}
+  controls.update();
+  nodes.forEach((n,i)=>{
+    n.coreMat.uniforms.uTime.value+=dt*speed; n.ptsMat.uniforms.uTime.value+=dt*speed;
+    const want=(i===sel||i===hover)?1:0; n.sel+=(want-n.sel)*.06; n.coreMat.uniforms.uSel.value=n.sel; n.ptsMat.uniforms.uSel.value=n.sel;
+    n.core.rotation.y+=dt*.08*speed;
+    const p=n.group.position; place(labEls[i],p.x,p.y,p.z,3.6);
+    const d=camera.position.distanceTo(p); labEls[i].style.opacity=(i===sel||d<60)?'':.55;
+  });
+  AX.forEach(([,p],k)=>place(axEls[k],p[0],p[1],p[2]));
+  composer.render();
+}
+const start=E.findIndex(e=>'#'+e.key===location.hash);
+overview(); if(start>=0){ camera.position.set(13,4,42); select(start); }
+$('#loading').classList.add('off');
+loop();
+</script>

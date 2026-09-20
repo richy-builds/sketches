@@ -1,0 +1,737 @@
+<title>Atlas of Feeling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0B0A10; --bg2:#12101A;
+    --ink:#EDE6DA; --ink-2:#C9C2B8; --muted:#8F899C; --line:#26232F;
+    --panel:rgba(16,14,24,.70); --panel-line:rgba(237,230,218,.09);
+    --accent:#9070F5;
+    --warm:#F5892A; --hot:#FF3B2F; --cool:#3E6BD6; --cold:#33C2EA;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+    --body:"Instrument Sans","Helvetica Neue",Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html{background:var(--bg)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:color-mix(in oklab,var(--accent) 45%,transparent)}
+  a{color:inherit}
+  #field{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  .scrim{position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:
+      radial-gradient(120% 90% at 18% 30%, rgba(11,10,16,.78) 0%, rgba(11,10,16,.35) 45%, rgba(11,10,16,0) 75%),
+      linear-gradient(180deg, rgba(11,10,16,.35) 0%, rgba(11,10,16,0) 30%, rgba(11,10,16,.55) 100%);}
+  .page{position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 clamp(18px,4vw,48px) 80px}
+
+  /* ---------- top bar ---------- */
+  .top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 8px;flex-wrap:wrap}
+  .wordmark{font-family:var(--display);font-weight:500;font-size:19px;letter-spacing:.005em;font-variation-settings:"opsz" 24}
+  .wordmark em{font-style:italic;font-weight:400;color:var(--ink-2)}
+  .top-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .hint{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+  .hint kbd{font:inherit;color:var(--ink-2);border:1px solid var(--line);border-radius:4px;padding:0 5px;margin:0 1px}
+  .btn{appearance:none;border:1px solid var(--panel-line);background:rgba(237,230,218,.04);color:var(--ink);font-family:var(--body);font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .2s,border-color .2s,color .2s}
+  .btn:hover{background:rgba(237,230,218,.08);border-color:rgba(237,230,218,.18)}
+  .btn:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .btn .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);transition:background .2s,box-shadow .2s}
+  .btn.on .dot{background:var(--accent);box-shadow:0 0 0 3px color-mix(in oklab,var(--accent) 30%,transparent);animation:pulse 1.6s infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(320px,.95fr);gap:clamp(24px,4vw,56px);align-items:center;padding:34px 0 30px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;gap:14px;flex-wrap:wrap}
+  .eyebrow b{color:var(--accent);font-weight:500;transition:color .5s}
+  h1.name{font-family:var(--display);font-weight:300;font-variation-settings:"opsz" 144,"SOFT" 40;font-size:clamp(76px,12.5vw,168px);line-height:.92;letter-spacing:-.025em;margin:0 0 22px;color:var(--ink);text-wrap:balance;position:relative}
+  h1.name .ghost{position:absolute;inset:0;color:var(--accent);opacity:.32;filter:blur(18px);pointer-events:none;transition:color .6s}
+  h1.name .word{position:relative;display:inline-block}
+  .def{font-family:var(--display);font-style:italic;font-weight:400;font-variation-settings:"opsz" 30;font-size:clamp(22px,2.6vw,30px);line-height:1.25;margin:0 0 14px;max-width:22ch;text-wrap:balance;color:var(--ink)}
+  .says{font-size:16.5px;color:var(--ink-2);margin:0 0 26px;max-width:52ch}
+  .says b{color:var(--ink);font-weight:600}
+  .ladder{display:flex;align-items:center;gap:0;margin:0 0 26px;font-family:var(--mono);font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+  .ladder .step{display:flex;align-items:center;gap:10px}
+  .ladder .rung{display:inline-block;width:22px;height:1px;background:var(--line);margin:0 12px}
+  .ladder .w{padding:5px 10px;border-radius:999px;border:1px solid transparent;transition:.35s}
+  .ladder .w.core{color:var(--ink);border-color:var(--panel-line);background:color-mix(in oklab,var(--accent) 16%,transparent)}
+  .ladder .lvl{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+  .controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .ctl{appearance:none;border:1px solid var(--panel-line);background:rgba(237,230,218,.04);color:var(--ink);font-family:var(--body);font-size:13.5px;padding:9px 14px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+  .ctl:hover{background:rgba(237,230,218,.09)}
+  .ctl .sw{width:10px;height:10px;border-radius:50%;flex:none}
+  .ctl span.n{color:var(--ink-2)}
+
+  /* wheel */
+  .wheel{width:100%;max-width:520px;margin:0 auto;justify-self:end;position:relative}
+  .wheel svg{width:100%;height:auto;display:block;overflow:visible}
+  .wheel .petal{cursor:pointer;transition:opacity .45s,filter .45s}
+  .wheel g.em{opacity:.42;transition:opacity .45s}
+  .wheel g.em:hover{opacity:.62}
+  .wheel g.em.sel{opacity:1}
+  .wheel g.em.sel .petal{filter:drop-shadow(0 0 10px color-mix(in oklab,var(--accent) 60%,transparent))}
+  .wheel text{font-family:var(--body);fill:#0B0A10;pointer-events:none;font-weight:600}
+  .wheel text.mild{font-size:9.5px;font-weight:500}
+  .wheel text.core{font-size:11px}
+  .wheel text.intense{font-size:8px;letter-spacing:.02em}
+  .wheel text.dyad{fill:var(--muted);font-family:var(--mono);font-size:9.5px;font-weight:400;letter-spacing:.03em;text-transform:lowercase}
+  .wheel text.dyad.lit{fill:var(--ink)}
+  .wheel .cap{position:absolute;left:0;right:0;bottom:-6px;text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+  /* ---------- panels ---------- */
+  .panels{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:22px}
+  .panel{background:var(--panel);border:1px solid var(--panel-line);border-radius:16px;padding:18px 20px 20px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);min-width:0;display:flex;flex-direction:column;gap:12px}
+  .panel h2{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  .panel h2 span.r{letter-spacing:0;text-transform:none;color:var(--muted);font-weight:400;opacity:.8}
+  .panel p{margin:0;color:var(--ink-2);font-size:14.5px}
+  .panel p.lede{color:var(--ink);font-size:15.5px}
+  .p-face{grid-column:span 4}
+  .p-body{grid-column:span 4}
+  .p-map{grid-column:span 4}
+  .p-vitals{grid-column:span 7}
+  .p-blends{grid-column:span 5}
+  .fig{width:100%;display:flex;align-items:center;justify-content:center;min-height:200px}
+  .fig svg{width:100%;height:auto;max-height:300px;display:block;overflow:visible}
+  .caption{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.5}
+  .caption b{color:var(--ink-2);font-weight:500}
+
+  /* face */
+  .face .skin{fill:none;stroke:var(--ink-2);stroke-width:1.4;opacity:.55}
+  .face .feat{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+  .face .eye{fill:var(--bg);stroke:var(--ink);stroke-width:2.2}
+  .face .pupil{fill:var(--ink)}
+  .face .iris{fill:var(--accent);opacity:.85;transition:fill .5s}
+  .face .mouthfill{fill:#1a0f14}
+  .face .soft{stroke:var(--ink-2);stroke-width:1.6;fill:none;stroke-linecap:round}
+  .au{display:flex;flex-wrap:wrap;gap:6px}
+  .au span{font-family:var(--mono);font-size:11px;color:var(--ink-2);border:1px solid var(--panel-line);border-radius:6px;padding:2px 7px;background:rgba(237,230,218,.03)}
+  .au span b{color:var(--accent);font-weight:500;transition:color .5s}
+
+  /* body */
+  .body .sil{fill:#1d1a27;stroke:rgba(237,230,218,.22);stroke-width:1}
+  .legend{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .legend .bar{flex:1;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--cold),var(--cool),#1d1a27 50%,var(--warm),var(--hot))}
+
+  /* map */
+  .map text{font-family:var(--mono);font-size:10.5px;fill:var(--muted)}
+  .map text.lab{font-family:var(--body);font-size:11.5px;fill:var(--ink-2);font-weight:500}
+  .map text.lab.sel{fill:var(--ink);font-weight:600}
+  .map .axis{stroke:rgba(237,230,218,.16);stroke-width:1}
+  .map .grid{stroke:rgba(237,230,218,.06);stroke-width:1}
+  .map .pt{cursor:pointer}
+  .map .pt circle.c{stroke:var(--bg);stroke-width:2;transition:r .3s}
+  .map .pt.sel circle.c{stroke:var(--ink)}
+  .map .halo{fill:none;stroke:var(--accent);stroke-width:1;opacity:.7}
+  .tip{position:fixed;z-index:5;pointer-events:none;background:#17141f;border:1px solid var(--panel-line);border-radius:8px;padding:7px 10px;font-family:var(--mono);font-size:11.5px;color:var(--ink-2);opacity:0;transform:translate(-50%,calc(-100% - 12px));transition:opacity .15s;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+  .tip b{color:var(--ink);font-weight:500}
+
+  /* vitals */
+  .vitals{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;margin:0}
+  .vitals .row{display:grid;grid-template-columns:118px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--panel-line);align-items:baseline}
+  .vitals .row:nth-last-child(-n+2){border-bottom:0}
+  .vitals dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0}
+  .vitals dd{margin:0;font-size:14.5px;color:var(--ink)}
+  .vitals dd small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .job{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:6px 0 2px}
+  .job .big{font-family:var(--display);font-style:italic;font-weight:400;font-variation-settings:"opsz" 40;font-size:30px;color:var(--ink);line-height:1}
+  .job .why{color:var(--ink-2);font-size:14px;max-width:46ch}
+
+  /* blends */
+  .blend{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--panel-line)}
+  .blend:last-child{border-bottom:0}
+  .blend .mix{width:58px;height:58px;border-radius:50%;flex:none;position:relative;box-shadow:inset 0 0 0 1px rgba(237,230,218,.08)}
+  .blend .mix.opp{background:conic-gradient(from 90deg,var(--a) 50%,var(--b) 50%)}
+  .blend .name{font-family:var(--display);font-weight:400;font-variation-settings:"opsz" 40;font-size:24px;line-height:1.1;color:var(--ink)}
+  .blend .eq{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:3px}
+  .blend .eq button{appearance:none;background:none;border:0;padding:0;color:var(--ink-2);font:inherit;cursor:pointer;text-decoration:underline;text-decoration-color:rgba(237,230,218,.25);text-underline-offset:3px}
+  .blend .eq button:hover{color:var(--ink)}
+  .blend .desc{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;gap:18px 40px;font-size:13px;color:var(--muted);max-width:980px}
+  footer h3{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 8px;color:var(--ink-2)}
+  footer ul{margin:0;padding-left:18px}
+  footer li{margin-bottom:5px}
+
+  @media (max-width:980px){
+    .p-face,.p-body,.p-map{grid-column:span 6}
+    .p-vitals,.p-blends{grid-column:span 12}
+  }
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .wheel{justify-self:center;max-width:460px}
+    .vitals{grid-template-columns:1fr}
+    .vitals .row:nth-last-child(-n+2){border-bottom:1px solid var(--panel-line)}
+    .vitals .row:last-child{border-bottom:0}
+    footer{grid-template-columns:1fr}
+  }
+  @media (max-width:600px){
+    .p-face,.p-body,.p-map{grid-column:span 12}
+    .hint{display:none}
+    .vitals .row{grid-template-columns:96px 1fr}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .btn.on .dot{animation:none}
+  }
+</style>
+
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="scrim" aria-hidden="true"></div>
+<div class="tip" id="tip" role="tooltip"></div>
+
+<div class="page">
+  <header class="top">
+    <div class="wordmark">Atlas of Feeling <em>· the eight primaries</em></div>
+    <div class="top-right">
+      <div class="hint"><kbd>←</kbd><kbd>→</kbd> around the wheel &nbsp; <kbd>1</kbd>–<kbd>8</kbd> jump &nbsp; move &amp; click the field</div>
+      <button class="btn" id="listen" aria-pressed="false"><span class="dot"></span><span class="t">Listen to it</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow"><span>Primary emotion <b id="idx">3 / 8</b></span><span>Job: <b id="jobShort">Protection</b></span><span>Opposite: <b id="oppShort">Anger</b></span></p>
+        <h1 class="name" id="name"><span class="ghost" aria-hidden="true">Fear</span><span class="word">Fear</span></h1>
+        <p class="def" id="def">Threat detected. The body is already moving.</p>
+        <p class="says" id="says">What it says: <b>Get safe. Now.</b> The rest of the mind is put on hold until the message is answered.</p>
+        <div class="ladder" id="ladder"></div>
+        <div class="controls">
+          <button class="ctl" id="prev"><span class="sw"></span>← <span class="n"></span></button>
+          <button class="ctl" id="next"><span class="n"></span> →<span class="sw"></span></button>
+        </div>
+      </div>
+      <div class="wheel">
+        <svg id="wheel" viewBox="-235 -235 470 470" role="img" aria-label="Plutchik's wheel of the eight primary emotions with their intensities and blends"></svg>
+        <div class="cap">Plutchik's wheel · intensity rises toward the centre · blends sit between petals</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <article class="panel p-face">
+        <h2>In the face <span class="r">Ekman &amp; Friesen's action units</span></h2>
+        <div class="fig face"><svg id="face" viewBox="0 0 220 240" aria-label="A schematic face showing the expression"></svg></div>
+        <div class="au" id="au"></div>
+        <p id="faceNote"></p>
+      </article>
+
+      <article class="panel p-body">
+        <h2>In the body <span class="r">where people feel it</span></h2>
+        <div class="fig body"><svg id="bodymap" viewBox="0 0 200 400" aria-label="Body map of felt activation"></svg></div>
+        <div class="legend"><span>numb</span><div class="bar"></div><span>alive</span></div>
+        <p class="caption">After Nummenmaa et al., who asked 701 people to paint where each emotion changes their body. Trust and anticipation are read from their <b>love</b> and <b>interest</b> maps.</p>
+      </article>
+
+      <article class="panel p-map">
+        <h2>On the map <span class="r">Russell's circumplex</span></h2>
+        <div class="fig map"><svg id="cmap" viewBox="0 0 360 360" aria-label="Scatter of the eight emotions by valence and arousal"></svg></div>
+        <p id="mapNote"></p>
+      </article>
+
+      <article class="panel p-vitals">
+        <h2>Under the hood <span class="r">what the organism does with it</span></h2>
+        <div class="job"><span class="big" id="jobBig"></span><span class="why" id="jobWhy"></span></div>
+        <dl class="vitals" id="vitals"></dl>
+      </article>
+
+      <article class="panel p-blends">
+        <h2>Blends <span class="r">what it makes with its neighbours</span></h2>
+        <div id="blends"></div>
+        <p class="caption">Plutchik's primary dyads: two adjacent petals combine into a named feeling, the way two primary colours make a secondary.</p>
+      </article>
+    </section>
+
+    <footer>
+      <div>
+        <h3>Where the atlas comes from</h3>
+        <ul>
+          <li>Robert Plutchik, <i>Emotion: A Psychoevolutionary Synthesis</i> (1980): the wheel, the intensities, the dyads and the eight adaptive jobs.</li>
+          <li>James Russell, "A circumplex model of affect", <i>J. Personality &amp; Social Psychology</i> (1980): the valence × arousal map. Positions here are typical placements, not a single dataset.</li>
+          <li>Paul Ekman &amp; Wallace Friesen, <i>Facial Action Coding System</i> (1978); Ekman, Levenson &amp; Friesen, <i>Science</i> (1983) for heart rate and hand temperature.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>And the rest</h3>
+        <ul>
+          <li>Lauri Nummenmaa et al., "Bodily maps of emotions", <i>PNAS</i> (2014): the body heat-maps, redrawn here by region.</li>
+          <li>Philippe Verduyn &amp; Saskia Lavrijsen, "Which emotions last longest and why", <i>Motivation and Emotion</i> (2015): median episode lengths.</li>
+          <li>Brain hubs and chemistry are the textbook consensus; every emotion recruits far more than one region.</li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const E = [
+{ key:'joy', name:'Joy', color:'#EFC23A',
+  ladder:['serenity','joy','ecstasy'],
+  def:'Something is going right.',
+  says:'<b>Stay. Repeat. Share it.</b> Joy is the reward signal that turns a good thing into a habit and a habit into a bond.',
+  jobShort:'Reproduction', jobWhy:'Plutchik’s word for anything that keeps life going: a meal, a mate, a friend who laughs with you.',
+  valence:.8, arousal:.45, mapNote:'High on both axes: pleasant and awake. Its calm cousin, serenity, drifts down toward trust.',
+  vitals:{heart:['Rises gently','a few beats a minute, no more'], hands:['Warm','skin temperature rises slightly'], brain:['Ventral striatum, nucleus accumbens','the reward circuit lights up'], chem:['Dopamine, endorphins, serotonin',''], face:['AU 6 + 12','cheeks up, lip corners up: the Duchenne smile'], length:['~35 hours','median episode, Verduyn & Lavrijsen']},
+  au:[['6','cheek raiser'],['12','lip corner puller']],
+  faceNote:'Only AU 6, the cheek raise that narrows the eyes, separates a felt smile from a polite one. Most people cannot fake it on purpose.',
+  body:[.8,.5,.9,.5,.6,.6,.5],
+  face:{bi:0,bo:0,tog:0,eye:.62,pupil:4.5,cheek:1,corner:-13,open:6,mw:1.05,press:0,nose:0},
+  field:{n:1300,speed:.9,drift:[0,-.14],ns:.0016,nspeed:.00028,curl:1,jitter:.12,cohesion:0,cursor:'attract',cs:.7,size:[.8,2.6],trail:.12,colors:['#EFC23A','#FFE28A','#FFF6D6','#F5892A'],twinkle:1},
+  audio:{type:'arp',wave:'triangle',root:329.63,iv:[0,4,7,11,12,16,19],rate:170,cutoff:3400,decay:.4,gain:.5}
+},
+{ key:'trust', name:'Trust', color:'#2FB08A',
+  ladder:['acceptance','trust','admiration'],
+  def:'This can come closer.',
+  says:'<b>Lower the guard. Take it in.</b> Trust is the emotion of letting something past your defences: food, a person, an idea.',
+  jobShort:'Incorporation', jobWhy:'Taking in what is good for you. The oldest version is swallowing; the newest is believing someone.',
+  valence:.55, arousal:-.15, mapNote:'Pleasant and low-key. Trust is the quietest primary, closer to a mood than a jolt.',
+  vitals:{heart:['Slows','vagal tone rises; the body settles'], hands:['Warm','blood flows to the skin'], brain:['Medial prefrontal cortex, hypothalamus','where oxytocin is released'], chem:['Oxytocin, vasopressin','the bonding pair'], face:['AU 12 (soft), relaxed lids','no canonical code: an open face at rest'], length:['Days to years','a state more than an episode; not timed in the study']},
+  au:[['12','lip corner puller, faint'],['43','eyes softened']],
+  faceNote:'Trust has no diagnostic expression. It shows as the absence of guarding: brows level, lids easy, mouth unclenched.',
+  body:[.5,.4,.8,.4,.4,.3,.3],
+  face:{bi:0,bo:0,tog:0,eye:.8,pupil:4.5,cheek:.4,corner:-6,open:0,mw:1,press:0,nose:0},
+  field:{n:800,speed:.45,drift:[0,0],ns:.0012,nspeed:.00015,curl:1,jitter:.02,cohesion:.35,cursor:'orbit',cs:.9,size:[1,3],trail:.06,colors:['#2FB08A','#7EDDBF','#BFF3E4','#1E7F63'],twinkle:0},
+  audio:{type:'pad',wave:'triangle',root:196,iv:[0,4,7,11,14],cutoff:1400,lfo:[.15,600],attack:2.2,gain:.45}
+},
+{ key:'fear', name:'Fear', color:'#9070F5',
+  ladder:['apprehension','fear','terror'],
+  def:'Threat detected. The body is already moving.',
+  says:'<b>Get safe. Now.</b> The rest of the mind is put on hold until the message is answered.',
+  jobShort:'Protection', jobWhy:'Escape or freeze before the threat arrives. Fear runs faster than thought because it predates it.',
+  valence:-.72, arousal:.68, mapNote:'Unpleasant and highly activated, a near neighbour of anger. The difference is direction: fear moves away.',
+  vitals:{heart:['Rises sharply','blood pulled to the large muscles'], hands:['Cold','vessels in the skin clamp down'], brain:['Amygdala, periaqueductal grey','the alarm and the freeze/flee switch'], chem:['Adrenaline, cortisol',''], face:['AU 1 + 2 + 4 + 5 + 7 + 20 + 26','brows raised and drawn, eyes wide, lips stretched, jaw drops'], length:['~40 minutes','median episode, Verduyn & Lavrijsen']},
+  au:[['1+2','brows raised'],['4','brows drawn'],['5','upper lid raised'],['20','lips stretched'],['26','jaw drop']],
+  faceNote:'The brows both rise and pull together, a combination no other emotion makes. The stretched mouth is what separates it from surprise.',
+  body:[.7,.5,.9,.4,.2,-.2,-.2],
+  face:{bi:-10,bo:-5,tog:1,eye:1.3,pupil:6.5,cheek:0,corner:3,open:14,mw:1.15,press:0,nose:0},
+  field:{n:1700,speed:2.4,drift:[0,0],ns:.003,nspeed:.001,curl:1.6,jitter:1.2,cohesion:0,cursor:'flee',cs:2.6,size:[.6,1.8],trail:.22,colors:['#9070F5','#C4B2FF','#4C3A9E','#E6DEFF'],twinkle:0},
+  audio:{type:'pad',wave:'sawtooth',root:110,iv:[0,1,6,13],cutoff:900,trem:[9,.8],attack:.3,noise:.16,gain:.32}
+},
+{ key:'surprise', name:'Surprise', color:'#33C2EA',
+  ladder:['distraction','surprise','amazement'],
+  def:'The world just broke a prediction.',
+  says:'<b>Stop. Look. Update.</b> Surprise clears the stage so whatever comes next can be seen properly.',
+  jobShort:'Orientation', jobWhy:'Point every sense at the unexpected thing. Surprise is a reset, which is why it never lasts.',
+  valence:.15, arousal:.85, mapNote:'The most activated primary and the most neutral. It borrows its pleasantness from whatever follows it.',
+  vitals:{heart:['Brief dip, then a rise','the orienting reflex'], hands:['Neutral','no reliable change'], brain:['Locus coeruleus, anterior cingulate','the prediction-error alarm'], chem:['Noradrenaline','one sharp pulse'], face:['AU 1 + 2 + 5 + 26','brows up, eyes wide, jaw drops: the face least altered by culture'], length:['Seconds','not timed in the study; it dissolves as the prediction updates']},
+  au:[['1+2','brows raised'],['5','upper lid raised'],['26','jaw drop']],
+  faceNote:'Fear’s face without the tension: brows go straight up rather than up-and-together, and the mouth falls open round instead of wide.',
+  body:[.8,.4,.6,.2,.1,.1,-.1],
+  face:{bi:-12,bo:-12,tog:0,eye:1.35,pupil:5.5,cheek:0,corner:0,open:22,mw:.78,press:0,nose:0},
+  field:{n:1100,speed:1.6,drift:[0,0],ns:.002,nspeed:.0004,curl:.6,jitter:.3,cohesion:-.15,cursor:'burst',cs:1,size:[.8,2.4],trail:.1,colors:['#33C2EA','#B9F0FF','#FFFFFF','#1C7FA0'],twinkle:.5},
+  audio:{type:'pings',wave:'sine',root:880,iv:[0,7,12,19,24],rate:[350,1400],cutoff:6000,decay:.7,gain:.45}
+},
+{ key:'sadness', name:'Sadness', color:'#4A74D6',
+  ladder:['pensiveness','sadness','grief'],
+  def:'Something is lost.',
+  says:'<b>Slow down. Conserve. Let them come to you.</b> The tears are a broadcast; the heaviness is a brake.',
+  jobShort:'Reintegration', jobWhy:'Pull the group back in around the loss. Crying is the one emotional signal humans make that no other animal does.',
+  valence:-.7, arousal:-.55, mapNote:'Unpleasant and switched off. Grief, its extreme, sinks further down the arousal axis rather than out.',
+  vitals:{heart:['Rises a little, then falls','the body slows over hours'], hands:['Cool','circulation withdraws'], brain:['Subgenual anterior cingulate, insula','the region deep-brain stimulation targets in depression'], chem:['Serotonin falls, cortisol drifts up',''], face:['AU 1 + 4 + 15','inner brows up and together, lip corners down'], length:['~120 hours','the longest-lasting emotion measured, Verduyn & Lavrijsen']},
+  au:[['1','inner brow raiser'],['4','brow lowerer'],['15','lip corner depressor']],
+  faceNote:'The inner brow raise, AU 1, is the hardest muscle movement to fake. Ekman found only a minority of people can produce it on request.',
+  body:[.3,.2,.4,0,-.6,-.7,-.7],
+  face:{bi:-6,bo:3,tog:.5,eye:.68,pupil:4,cheek:0,corner:10,open:0,mw:.95,press:0,nose:0},
+  field:{n:650,speed:.35,drift:[0,.38],ns:.0009,nspeed:.0001,curl:.4,jitter:.02,cohesion:0,cursor:'avoid',cs:.35,size:[.6,2],trail:.045,colors:['#4A74D6','#8FA9EE','#2A3F80','#C8D4F5'],twinkle:0},
+  audio:{type:'pad',wave:'sine',root:130.81,iv:[0,3,7,10],cutoff:700,attack:3,detune:9,lfo:[.08,200],gain:.5}
+},
+{ key:'disgust', name:'Disgust', color:'#A8B534',
+  ladder:['boredom','disgust','loathing'],
+  def:'Contamination flagged.',
+  says:'<b>Expel it. Step back.</b> Disgust began at the mouth and moved outward to people, ideas and whole groups.',
+  jobShort:'Rejection', jobWhy:'Keep the poison out of the body. Later, keep the wrong person out of the tribe: moral disgust runs on the same circuit.',
+  valence:-.6, arousal:.2, mapNote:'Unpleasant but only moderately activated. Boredom, its mild form, is disgust with the volume turned down.',
+  vitals:{heart:['Slows','a parasympathetic response; nausea can follow'], hands:['Neutral','the action is in the throat and gut'], brain:['Anterior insula, basal ganglia','the insula also registers bad taste'], chem:['Acetylcholine (vagal)','slows the gut, primes the gag'], face:['AU 9 + 10 + 15 + 17','nose wrinkle, upper lip raised, corners down'], length:['~30 minutes','median episode, Verduyn & Lavrijsen']},
+  au:[['9','nose wrinkler'],['10','upper lip raiser'],['15','lip corner depressor'],['17','chin raiser']],
+  faceNote:'The nose wrinkle is the giveaway. It is the same movement a baby makes at a bitter taste before it has any concept of disgust.',
+  body:[.6,.9,.4,.8,0,0,-.2],
+  face:{bi:3,bo:1,tog:.4,eye:.6,pupil:4,cheek:.2,corner:7,open:3,mw:.9,press:0,nose:1},
+  field:{n:1000,speed:.7,drift:[0,.05],ns:.004,nspeed:.0003,curl:2.2,jitter:.4,cohesion:.15,cursor:'repel',cs:1.3,size:[1,3.2],trail:.08,colors:['#A8B534','#6B7A1E','#D9E27A','#3F4A12'],twinkle:0},
+  audio:{type:'pad',wave:'square',root:82.41,iv:[0,6,11],cutoff:520,vib:[.6,4],attack:.8,gain:.28}
+},
+{ key:'anger', name:'Anger', color:'#E0344B',
+  ladder:['annoyance','anger','rage'],
+  def:'An obstacle stands between you and what you want.',
+  says:'<b>Push through it.</b> Anger is the only negative emotion that moves toward its cause.',
+  jobShort:'Destruction', jobWhy:'Remove the barrier, by force if needed. Its evolutionary cousin is the threat display: look bigger, sound louder.',
+  valence:-.5, arousal:.85, mapNote:'Fear’s twin on the map, just as activated and just as unpleasant. The body tells them apart by temperature.',
+  vitals:{heart:['Rises sharply','blood pressure climbs with it'], hands:['Hot','Ekman’s finding: anger warms the hands, fear chills them'], brain:['Amygdala, orbitofrontal cortex, hypothalamus','the frontal lobe decides whether to act on it'], chem:['Noradrenaline, testosterone',''], face:['AU 4 + 5 + 7 + 23','brows down and together, glare, lips pressed'], length:['~2 hours','median episode, Verduyn & Lavrijsen']},
+  au:[['4','brow lowerer'],['5','upper lid raised'],['7','lids tightened'],['23','lips tightened']],
+  faceNote:'The glare is two opposite actions at once: the brow drops while the upper lid lifts, so the eye looks bigger under a lower brow.',
+  body:[.9,.7,.8,.3,.9,.9,0],
+  face:{bi:8,bo:1,tog:1,eye:1.1,pupil:3.5,cheek:0,corner:3,open:0,mw:.9,press:1,nose:.3},
+  field:{n:1500,speed:3,drift:[0,-.05],ns:.0025,nspeed:.0015,curl:2,jitter:1.5,cohesion:0,cursor:'charge',cs:2.3,size:[.8,2.4],trail:.25,colors:['#E0344B','#FF7A5C','#FFC9A8','#8C1226'],twinkle:0},
+  audio:{type:'pulse',wave:'sawtooth',root:55,iv:[0,.08,7,13],rate:240,cutoff:1300,dist:true,gain:.38}
+},
+{ key:'anticipation', name:'Anticipation', color:'#F5892A',
+  ladder:['interest','anticipation','vigilance'],
+  def:'The future is leaning in.',
+  says:'<b>Scan ahead. Get ready.</b> The pleasure of wanting is real and separate from the pleasure of having.',
+  jobShort:'Exploration', jobWhy:'Map the territory before you need it. Anticipation is what makes an animal leave a full bowl to look over the ridge.',
+  valence:.45, arousal:.5, mapNote:'Pleasant and alert, a step down from joy. Vigilance, its extreme, climbs up toward fear’s corner.',
+  vitals:{heart:['Rises mildly','attention narrows'], hands:['Warm, slightly damp',''], brain:['Nucleus accumbens, prefrontal cortex','dopamine here codes wanting, not liking'], chem:['Dopamine, in short bursts','fires on the cue, not the reward'], face:['AU 1 + 2 (slight), forward lean','no canonical code: a look rather than a face'], length:['~24 hours','measured as hope, Verduyn & Lavrijsen']},
+  au:[['1+2','brows slightly raised'],['eyes','tracking, lids lifted']],
+  faceNote:'Anticipation lives in the eyes and posture more than the mouth: lids lifted, gaze fixed forward, the head a fraction ahead of the body.',
+  body:[.7,.4,.6,.5,.3,.2,.1],
+  face:{bi:-4,bo:-4,tog:0,eye:1.05,pupil:5.5,cheek:.2,corner:-3,open:2,mw:1,press:0,nose:0},
+  field:{n:1200,speed:1.4,drift:[.55,-.15],ns:.0014,nspeed:.0004,curl:.8,jitter:.1,cohesion:0,cursor:'converge',cs:1.1,size:[.7,2.2],trail:.16,colors:['#F5892A','#FFC27A','#FFF0D9','#B24F0E'],twinkle:.3},
+  audio:{type:'arp',wave:'triangle',root:261.63,iv:[0,4,7,10,12,14],rate:135,cutoff:2000,rise:true,decay:.28,gain:.45}
+}];
+const DYADS = [ // between i and i+1 (wrapping)
+  ['Love','joy meets trust: attachment with the guard down'],
+  ['Submission','trust meets fear: yielding to something larger'],
+  ['Awe','fear meets surprise: the vast thing you cannot flee'],
+  ['Disapproval','surprise meets sadness: the let-down you did not see coming'],
+  ['Remorse','sadness meets disgust: loss, and it was your fault'],
+  ['Contempt','disgust meets anger: the other is beneath you'],
+  ['Aggressiveness','anger meets anticipation: force with a plan'],
+  ['Optimism','anticipation meets joy: the future is going to be good']
+];
+const N = E.length;
+const $ = s => document.querySelector(s);
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const hex2rgb=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* =========================================================
+   WHEEL
+   ========================================================= */
+const wheel = $('#wheel');
+(function buildWheel(){
+  const NS='http://www.w3.org/2000/svg';
+  const rings=[[24,74],[78,134],[138,190]]; // intense, core, mild
+  const gap=.022, TAU=Math.PI*2;
+  const arc=(r0,r1,a0,a1)=>{const p=(r,a)=>[(r*Math.cos(a)).toFixed(2),(r*Math.sin(a)).toFixed(2)];
+    const [x0,y0]=p(r1,a0),[x1,y1]=p(r1,a1),[x2,y2]=p(r0,a1),[x3,y3]=p(r0,a0);
+    return `M${x0},${y0}A${r1},${r1},0,0,1,${x1},${y1}L${x2},${y2}A${r0},${r0},0,0,0,${x3},${y3}Z`;};
+  const mk=(t,a)=>{const el=document.createElementNS(NS,t);for(const k in a)el.setAttribute(k,a[k]);return el;};
+  E.forEach((em,i)=>{
+    const c=-Math.PI/2+i*TAU/N, a0=c-TAU/N/2+gap, a1=c+TAU/N/2-gap;
+    const g=mk('g',{class:'em',id:'w-'+em.key,tabindex:0,role:'button','aria-label':em.name});
+    rings.forEach(([r0,r1],ri)=>{
+      const p=mk('path',{d:arc(r0,r1,a0,a1),fill:em.color,'fill-opacity':[1,.84,.66][ri],class:'petal'});
+      g.appendChild(p);
+      const rm=(r0+r1)/2, x=rm*Math.cos(c), y=rm*Math.sin(c);
+      const word=em.ladder[2-ri];
+      const t=mk('text',{x:x.toFixed(1),y:y.toFixed(1),'text-anchor':'middle','dominant-baseline':'central',class:['intense','core','mild'][ri]});
+      if(ri===0){ // radial text for the intense ring
+        let deg=c*180/Math.PI; if(deg>90||deg<-90) deg+=180;
+        t.setAttribute('transform',`rotate(${deg.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})`);
+      }
+      t.textContent=word; g.appendChild(t);
+    });
+    g.addEventListener('click',()=>select(i));
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);}});
+    wheel.appendChild(g);
+  });
+  DYADS.forEach((d,i)=>{
+    const a=-Math.PI/2+(i+.5)*TAU/N, r=210;
+    const t=mk('text',{x:(r*Math.cos(a)).toFixed(1),y:(r*Math.sin(a)).toFixed(1),'text-anchor':'middle','dominant-baseline':'central',class:'dyad',id:'dy-'+i});
+    t.textContent=d[0]; wheel.appendChild(t);
+  });
+})();
+
+/* =========================================================
+   FACE
+   ========================================================= */
+const faceSvg=$('#face');
+faceSvg.innerHTML=`
+<ellipse class="skin" cx="110" cy="122" rx="74" ry="88"/>
+<path id="cheekL" class="soft"/><path id="cheekR" class="soft"/>
+<path id="noseW" class="soft"/>
+<path id="browL" class="feat"/><path id="browR" class="feat"/>
+<ellipse id="eyeL" class="eye" cx="80" cy="108"/><ellipse id="eyeR" class="eye" cx="140" cy="108"/>
+<clipPath id="clipL"><ellipse id="clipLe" cx="80" cy="108"/></clipPath>
+<clipPath id="clipR"><ellipse id="clipRe" cx="140" cy="108"/></clipPath>
+<g clip-path="url(#clipL)"><circle id="irisL" class="iris" cx="80" cy="108"/><circle id="pupL" class="pupil" cx="80" cy="108"/></g>
+<g clip-path="url(#clipR)"><circle id="irisR" class="iris" cx="140" cy="108"/><circle id="pupR" class="pupil" cx="140" cy="108"/></g>
+<path class="soft" d="M104,140 q6,8 12,0" opacity=".8"/>
+<path id="mouthFill" class="mouthfill"/>
+<path id="mouthU" class="feat"/><path id="mouthD" class="feat"/>`;
+const faceCur={...E[2].face};
+function drawFace(p){
+  const g=id=>document.getElementById(id);
+  // brows: outer end, control, inner end
+  const bl=`M58,${88+p.bo} Q76,${80+(p.bo+p.bi)/2} ${94+p.tog*4},${88+p.bi}`;
+  const br=`M162,${88+p.bo} Q144,${80+(p.bo+p.bi)/2} ${126-p.tog*4},${88+p.bi}`;
+  g('browL').setAttribute('d',bl); g('browR').setAttribute('d',br);
+  const ry=Math.max(.6,8.5*p.eye);
+  ['eyeL','eyeR','clipLe','clipRe'].forEach(id=>{g(id).setAttribute('rx',13);g(id).setAttribute('ry',ry.toFixed(2));});
+  ['pupL','pupR'].forEach(id=>g(id).setAttribute('r',(p.pupil*.55).toFixed(2)));
+  ['irisL','irisR'].forEach(id=>g(id).setAttribute('r',(p.pupil*.55+3.2).toFixed(2)));
+  g('cheekL').setAttribute('d',`M64,${122+p.corner*.1} Q80,${130+p.cheek*5} 96,${122+p.corner*.1}`); g('cheekL').setAttribute('opacity',(p.cheek*.9).toFixed(2));
+  g('cheekR').setAttribute('d',`M124,${122+p.corner*.1} Q140,${130+p.cheek*5} 156,${122+p.corner*.1}`); g('cheekR').setAttribute('opacity',(p.cheek*.9).toFixed(2));
+  g('noseW').setAttribute('d',`M100,${126-p.nose*4} l3,-9 M120,${126-p.nose*4} l-3,-9 M96,118 q14,-6 28,0`); g('noseW').setAttribute('opacity',(p.nose*.9).toFixed(2));
+  const cx=110, cy=170, w=26*p.mw, cornerY=cy+p.corner, upperMid=cy-p.corner*.35, open=Math.max(0,p.open*(1-p.press)), lowerMid=cy+open+Math.max(0,-p.corner)*.45;
+  const upper=`M${cx-w},${cornerY} Q${cx},${upperMid} ${cx+w},${cornerY}`;
+  const lower=`M${cx+w},${cornerY} Q${cx},${lowerMid} ${cx-w},${cornerY}`;
+  g('mouthU').setAttribute('d',upper); g('mouthD').setAttribute('d',lower);
+  g('mouthU').setAttribute('stroke-width',(2.6+p.press*1.6).toFixed(2)); g('mouthD').setAttribute('stroke-width',(2.6+p.press*1.6).toFixed(2));
+  g('mouthFill').setAttribute('d',upper+` Q${cx},${lowerMid} ${cx-w},${cornerY} Z`);
+  g('mouthFill').setAttribute('opacity',open>1.5?1:0);
+}
+
+/* =========================================================
+   BODY MAP
+   ========================================================= */
+const bodySvg=$('#bodymap');
+const REGIONS=[[100,40,36],[100,80,22],[100,128,48],[100,182,42],[44,150,32],[34,224,24],[100,300,70]]; // head, throat, chest, stomach, arms, hands, legs (mirrored where needed)
+(function buildBody(){
+  const sil=`
+    <circle cx="100" cy="42" r="26"/>
+    <rect x="90" y="62" width="20" height="22" rx="6"/>
+    <path d="M70,82 L130,82 Q140,82 142,96 L146,202 Q146,216 130,216 L70,216 Q54,216 54,202 L58,96 Q60,82 70,82 Z"/>
+    <path d="M60,88 Q42,92 37,128 L28,214 Q26,230 39,232 Q50,233 52,220 L60,146 Z"/>
+    <path d="M140,88 Q158,92 163,128 L172,214 Q174,230 161,232 Q150,233 148,220 L140,146 Z"/>
+    <path d="M62,212 L96,212 L96,372 Q96,384 84,384 L74,384 Q62,384 62,372 Z"/>
+    <path d="M104,212 L138,212 L138,372 Q138,384 126,384 L116,384 Q104,384 104,372 Z"/>`;
+  let blobs='';
+  const add=(x,y,r,i)=>{blobs+=`<circle class="blob" data-i="${i}" cx="${x}" cy="${y}" r="${r}" fill="url(#g${i})"/>`;};
+  REGIONS.forEach(([x,y,r],i)=>{
+    if(i===4){add(44,150,r,i);add(156,150,r,i);}
+    else if(i===5){add(34,224,r,i);add(166,224,r,i);}
+    else if(i===6){add(79,300,r*.6,i);add(121,300,r*.6,i);add(79,360,r*.4,i);add(121,360,r*.4,i);}
+    else add(x,y,r,i);
+  });
+  let grads='';
+  for(let i=0;i<7;i++) grads+=`<radialGradient id="g${i}"><stop offset="0" stop-color="#F5892A" stop-opacity="0"/><stop offset="1" stop-color="#F5892A" stop-opacity="0"/></radialGradient>`;
+  bodySvg.innerHTML=`<defs>${grads}<clipPath id="silc">${sil}</clipPath><filter id="blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="9"/></filter></defs>
+    <g class="sil">${sil}</g>
+    <g clip-path="url(#silc)" filter="url(#blur)" style="mix-blend-mode:screen">${blobs}</g>`;
+})();
+const bodyCur=E[2].body.slice();
+function drawBody(v){
+  v.forEach((t,i)=>{
+    const g=document.getElementById('g'+i), st=g.children;
+    const mag=Math.abs(t);
+    const col = t>=0 ? mixHex('#F5892A','#FF3B2F',clamp((mag-.3)/.7,0,1)) : mixHex('#3E6BD6','#33C2EA',clamp((mag-.3)/.7,0,1));
+    st[0].setAttribute('stop-color',col); st[0].setAttribute('stop-opacity',(mag*.95).toFixed(3));
+    st[1].setAttribute('stop-color',col); st[1].setAttribute('stop-opacity',0);
+  });
+}
+function mixHex(a,b,t){const A=hex2rgb(a),B=hex2rgb(b);return `rgb(${A.map((c,i)=>Math.round(lerp(c,B[i],t))).join(',')})`;}
+
+/* =========================================================
+   CIRCUMPLEX
+   ========================================================= */
+const cmap=$('#cmap'), tip=$('#tip');
+(function buildMap(){
+  const NS='http://www.w3.org/2000/svg';
+  const mk=(t,a)=>{const el=document.createElementNS(NS,t);for(const k in a)el.setAttribute(k,a[k]);return el;};
+  const C=180, R=136;
+  const X=v=>C+v*R, Y=a=>C-a*R;
+  cmap.appendChild(mk('circle',{cx:C,cy:C,r:R,class:'grid',fill:'none'}));
+  cmap.appendChild(mk('circle',{cx:C,cy:C,r:R/2,class:'grid',fill:'none'}));
+  cmap.appendChild(mk('line',{x1:C-R-8,x2:C+R+8,y1:C,y2:C,class:'axis'}));
+  cmap.appendChild(mk('line',{y1:C-R-8,y2:C+R+8,x1:C,x2:C,class:'axis'}));
+  const lab=(x,y,txt,anchor='middle',cls='')=>{const t=mk('text',{x,y,'text-anchor':anchor,class:cls});t.textContent=txt;cmap.appendChild(t);return t;};
+  lab(C+R+6,C-6,'pleasant','end'); lab(C-R-6,C-6,'unpleasant','start');
+  lab(C+6,C-R-4,'activated','start'); lab(C+6,C+R+12,'calm','start');
+  const OFF={joy:[10,-7,'start'],trust:[10,4,'start'],fear:[-10,4,'end'],surprise:[10,-6,'start'],sadness:[-10,14,'end'],disgust:[-10,4,'end'],anger:[10,-6,'start'],anticipation:[-10,15,'end']};
+  const halo=mk('circle',{class:'halo',r:14,id:'halo'}); cmap.appendChild(halo);
+  E.forEach((em,i)=>{
+    const g=mk('g',{class:'pt',id:'m-'+em.key,tabindex:0,role:'button','aria-label':`${em.name}: valence ${em.valence}, arousal ${em.arousal}`});
+    const x=X(em.valence), y=Y(em.arousal);
+    g.appendChild(mk('circle',{cx:x,cy:y,r:14,fill:'transparent'}));
+    g.appendChild(mk('circle',{cx:x,cy:y,r:6,fill:em.color,class:'c'}));
+    const [dx,dy,an]=OFF[em.key];
+    const t=mk('text',{x:x+dx,y:y+dy,'text-anchor':an,class:'lab',id:'ml-'+em.key}); t.textContent=em.name; g.appendChild(t);
+    g.addEventListener('click',()=>select(i));
+    g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();select(i);}});
+    g.addEventListener('mousemove',e=>{tip.innerHTML=`<b>${em.name}</b> · valence ${em.valence>0?'+':''}${em.valence.toFixed(2)} · arousal ${em.arousal>0?'+':''}${em.arousal.toFixed(2)}`;tip.style.left=e.clientX+'px';tip.style.top=e.clientY+'px';tip.style.opacity=1;});
+    g.addEventListener('mouseleave',()=>tip.style.opacity=0);
+    cmap.appendChild(g);
+  });
+  cmap._X=X; cmap._Y=Y;
+})();
+
+/* =========================================================
+   PARTICLE FIELD
+   ========================================================= */
+const canvas=$('#field'), ctx=canvas.getContext('2d',{alpha:false});
+let W=0,H=0,DPR=1;
+function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;canvas.width=W*DPR;canvas.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.fillStyle='#0B0A10';ctx.fillRect(0,0,W,H);}
+addEventListener('resize',resize); resize();
+
+// compact 2-D value noise
+const PERM=new Uint8Array(512); (()=>{const p=[];for(let i=0;i<256;i++)p[i]=i;for(let i=255;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p[i],p[j]]=[p[j],p[i]];}for(let i=0;i<512;i++)PERM[i]=p[i&255];})();
+function noise(x,y){const xi=Math.floor(x)&255, yi=Math.floor(y)&255; const xf=x-Math.floor(x), yf=y-Math.floor(y);
+  const u=xf*xf*(3-2*xf), v=yf*yf*(3-2*yf);
+  const a=PERM[PERM[xi]+yi]/255, b=PERM[PERM[xi+1]+yi]/255, c=PERM[PERM[xi]+yi+1]/255, d=PERM[PERM[xi+1]+yi+1]/255;
+  return lerp(lerp(a,b,u),lerp(c,d,u),v);}
+
+const mouse={x:-9999,y:-9999,vx:0,vy:0,on:false};
+addEventListener('pointermove',e=>{mouse.vx=e.clientX-mouse.x;mouse.vy=e.clientY-mouse.y;mouse.x=e.clientX;mouse.y=e.clientY;mouse.on=true;});
+addEventListener('pointerleave',()=>{mouse.on=false;mouse.x=-9999;});
+const rings=[]; // expanding rings on switch/click
+addEventListener('pointerdown',e=>{ if(e.target.closest('button,a,.panel,.wheel,.controls')) return; burst(e.clientX,e.clientY,1); rings.push({x:e.clientX,y:e.clientY,r:0,a:.8}); });
+
+const parts=[];
+let cur=JSON.parse(JSON.stringify(E[2].field)), target=E[2].field, curCols=E[2].field.colors.map(hex2rgb);
+function spawn(){const c=cur.colors?curCols:curCols; const k=Math.floor(Math.random()*4); const col=curCols[k];
+  parts.push({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0,r:Math.random(),ci:k,c:[...col],tw:Math.random()*Math.PI*2,life:Math.random()});}
+function burst(x,y,s){for(const p of parts){const dx=p.x-x,dy=p.y-y,d=Math.hypot(dx,dy)+1;const f=Math.min(40,1200/d)*s;p.vx+=dx/d*f*(0.6+Math.random()*.8);p.vy+=dy/d*f*(0.6+Math.random()*.8);}}
+let t0=performance.now(), tNoise=0;
+function frame(now){
+  const dt=clamp((now-t0)/16.67,.2,2.5); t0=now;
+  // ease params toward target
+  const k=.035;
+  ['speed','ns','nspeed','curl','jitter','cohesion','cs','trail','twinkle'].forEach(p=>cur[p]=lerp(cur[p],target[p],k));
+  cur.drift[0]=lerp(cur.drift[0],target.drift[0],k); cur.drift[1]=lerp(cur.drift[1],target.drift[1],k);
+  cur.size[0]=lerp(cur.size[0],target.size[0],k); cur.size[1]=lerp(cur.size[1],target.size[1],k);
+  const wantN=reduced?Math.round(target.n*.4):target.n;
+  if(parts.length<wantN) for(let i=0;i<12&&parts.length<wantN;i++) spawn();
+  else if(parts.length>wantN) parts.splice(0,Math.min(12,parts.length-wantN));
+  tNoise+=cur.nspeed*dt*16;
+  // fade
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=`rgba(11,10,16,${clamp(cur.trail,.03,.5)})`; ctx.fillRect(0,0,W,H);
+  ctx.globalCompositeOperation='lighter';
+  const cx=W/2, cy=H/2, mode=target.cursor, cs=cur.cs, sp=cur.speed, TAU=Math.PI*2;
+  for(const p of parts){
+    // recolor toward target palette
+    const tc=curCols[p.ci]; p.c[0]+=(tc[0]-p.c[0])*.04; p.c[1]+=(tc[1]-p.c[1])*.04; p.c[2]+=(tc[2]-p.c[2])*.04;
+    const a=noise(p.x*cur.ns+tNoise,p.y*cur.ns-tNoise*.7)*TAU*cur.curl+tNoise*.3;
+    p.vx+=Math.cos(a)*sp*.12*dt; p.vy+=Math.sin(a)*sp*.12*dt;
+    p.vx+=cur.drift[0]*.1*dt; p.vy+=cur.drift[1]*.1*dt;
+    if(cur.jitter>.03){p.vx+=(Math.random()-.5)*cur.jitter*dt;p.vy+=(Math.random()-.5)*cur.jitter*dt;}
+    if(Math.abs(cur.cohesion)>.01){const dx=cx-p.x,dy=cy-p.y,d=Math.hypot(dx,dy)+1; if(cur.cohesion>0){ // orbit around centre
+        p.vx+=(dx/d*.02+(-dy/d)*.06)*cur.cohesion*dt*sp; p.vy+=(dy/d*.02+(dx/d)*.06)*cur.cohesion*dt*sp;}
+      else {p.vx-=dx/d*.05*-cur.cohesion*dt; p.vy-=dy/d*.05*-cur.cohesion*dt;}}
+    if(mouse.on){const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.hypot(dx,dy)+1;
+      if(mode==='attract'&&d<320){const f=cs*.5*(1-d/320);p.vx+=dx/d*f*dt;p.vy+=dy/d*f*dt;}
+      else if(mode==='flee'&&d<260){const f=cs*2.2*(1-d/260);p.vx-=dx/d*f*dt+(Math.random()-.5)*f;p.vy-=dy/d*f*dt+(Math.random()-.5)*f;}
+      else if(mode==='orbit'&&d<300){const f=cs*.35*(1-d/300);p.vx+=(dx/d*.25-dy/d)*f*dt;p.vy+=(dy/d*.25+dx/d)*f*dt;}
+      else if(mode==='charge'&&d<420){const f=cs*.9*(1-d/420);p.vx+=dx/d*f*dt;p.vy+=dy/d*f*dt;}
+      else if(mode==='avoid'&&d<200){const f=cs*.35*(1-d/200);p.vx-=dx/d*f*dt;p.vy-=dy/d*f*dt;}
+      else if(mode==='repel'&&d<240){const f=cs*.9*(1-d/240);p.vx-=dx/d*f*dt;p.vy-=dy/d*f*dt;}
+      else if(mode==='converge'&&d<520){const ax=mouse.x+mouse.vx*8,ay=mouse.y+mouse.vy*8;const ex=ax-p.x,ey=ay-p.y,ed=Math.hypot(ex,ey)+1;const f=cs*.55*(1-d/520);p.vx+=ex/ed*f*dt;p.vy+=ey/ed*f*dt;}
+      else if(mode==='burst'&&d<160&&Math.hypot(mouse.vx,mouse.vy)>18){const f=cs*1.4*(1-d/160);p.vx-=dx/d*f;p.vy-=dy/d*f;}
+    }
+    const fr=Math.pow(.92,dt); p.vx*=fr; p.vy*=fr;
+    const vmax=sp*4+3; const v=Math.hypot(p.vx,p.vy); if(v>vmax){p.vx*=vmax/v;p.vy*=vmax/v;}
+    p.x+=p.vx*dt; p.y+=p.vy*dt;
+    if(p.x<-20)p.x=W+20; else if(p.x>W+20)p.x=-20; if(p.y<-20)p.y=H+20; else if(p.y>H+20)p.y=-20;
+    p.tw+=.05*dt;
+    const twk=cur.twinkle>.02?(.55+.45*Math.sin(p.tw*3+p.r*9))*cur.twinkle+(1-cur.twinkle):1;
+    const rad=lerp(cur.size[0],cur.size[1],p.r)*(1+Math.min(1.2,v*.12));
+    const al=(.35+.5*p.r)*twk;
+    ctx.fillStyle=`rgba(${p.c[0]|0},${p.c[1]|0},${p.c[2]|0},${al.toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(p.x,p.y,rad,0,TAU); ctx.fill();
+  }
+  // rings
+  for(let i=rings.length-1;i>=0;i--){const r=rings[i]; r.r+=9*dt; r.a-=.018*dt; if(r.a<=0){rings.splice(i,1);continue;}
+    ctx.strokeStyle=`rgba(${curCols[1][0]},${curCols[1][1]},${curCols[1][2]},${r.a.toFixed(3)})`; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(r.x,r.y,r.r,0,Math.PI*2); ctx.stroke();}
+  // face + body easing
+  let moved=false; for(const k in faceCur){const t=E[sel].face[k]; if(Math.abs(t-faceCur[k])>.002){faceCur[k]=lerp(faceCur[k],t,.09);moved=true;}}
+  if(moved||frameCount<3) drawFace(faceCur);
+  let bm=false; E[sel].body.forEach((t,i)=>{if(Math.abs(t-bodyCur[i])>.003){bodyCur[i]=lerp(bodyCur[i],t,.06);bm=true;}});
+  if(bm||frameCount<3) drawBody(bodyCur);
+  frameCount++;
+  requestAnimationFrame(frame);
+}
+let frameCount=0;
+
+/* =========================================================
+   AUDIO
+   ========================================================= */
+const Audio_={ctx:null,master:null,voices:[],timers:[],on:false};
+function audioInit(){ if(Audio_.ctx) return; const ac=new (window.AudioContext||window.webkitAudioContext)(); const comp=ac.createDynamicsCompressor(); comp.threshold.value=-18; comp.ratio.value=6;
+  const master=ac.createGain(); master.gain.value=0; master.connect(comp); comp.connect(ac.destination);
+  const delay=ac.createDelay(1); delay.delayTime.value=.32; const fb=ac.createGain(); fb.gain.value=.32; const wet=ac.createGain(); wet.gain.value=.28;
+  master.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(comp);
+  Audio_.ctx=ac; Audio_.master=master; }
+function audioStop(){ const ac=Audio_.ctx; if(!ac) return; Audio_.timers.forEach(clearInterval); Audio_.timers=[];
+  for(const v of Audio_.voices){ try{ v.g.gain.cancelScheduledValues(ac.currentTime); v.g.gain.setTargetAtTime(0,ac.currentTime,.12); v.nodes.forEach(n=>{ if(n.stop) setTimeout(()=>{try{n.stop()}catch(e){}},900); }); }catch(e){} }
+  Audio_.voices=[]; }
+function shaper(ac){const s=ac.createWaveShaper();const n=1024,c=new Float32Array(n);for(let i=0;i<n;i++){const x=i*2/n-1;c[i]=Math.tanh(x*3.2);}s.curve=c;return s;}
+function audioPlay(em){
+  const ac=Audio_.ctx; if(!ac||!Audio_.on) return; audioStop();
+  const A=em.audio, t=ac.currentTime;
+  const bus=ac.createGain(); bus.gain.value=0; bus.gain.setTargetAtTime(A.gain,t,.4); bus.connect(Audio_.master);
+  const filt=ac.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value=A.cutoff; filt.Q.value=1.2;
+  let chain=filt; if(A.dist){const s=shaper(ac); filt.connect(s); chain=s;} chain.connect(bus);
+  const nodes=[bus,filt];
+  const f=(iv)=>A.root*Math.pow(2,iv/12);
+  if(A.type==='pad'){
+    A.iv.forEach((iv,i)=>{ const o=ac.createOscillator(); o.type=A.wave; o.frequency.value=f(iv); if(A.detune) o.detune.value=(i%2?1:-1)*A.detune;
+      const g=ac.createGain(); g.gain.value=0; g.gain.setTargetAtTime(.32/A.iv.length*2,t,A.attack); o.connect(g); g.connect(filt); o.start(); nodes.push(o,g);
+      if(A.vib){const l=ac.createOscillator(); l.frequency.value=A.vib[0]; const lg=ac.createGain(); lg.gain.value=A.vib[1]; l.connect(lg); lg.connect(o.frequency); l.start(); nodes.push(l,lg);} });
+    if(A.lfo){const l=ac.createOscillator(); l.frequency.value=A.lfo[0]; const lg=ac.createGain(); lg.gain.value=A.lfo[1]; l.connect(lg); lg.connect(filt.frequency); l.start(); nodes.push(l,lg);}
+    if(A.trem){const l=ac.createOscillator(); l.frequency.value=A.trem[0]; const lg=ac.createGain(); lg.gain.value=A.gain*A.trem[1]*.5; l.connect(lg); lg.connect(bus.gain); l.start(); nodes.push(l,lg);}
+    if(A.noise){const len=ac.sampleRate*2, b=ac.createBuffer(1,len,ac.sampleRate), d=b.getChannelData(0); for(let i=0;i<len;i++)d[i]=(Math.random()*2-1); const n=ac.createBufferSource(); n.buffer=b; n.loop=true; const nf=ac.createBiquadFilter(); nf.type='bandpass'; nf.frequency.value=1600; nf.Q.value=.6; const ng=ac.createGain(); ng.gain.value=A.noise; n.connect(nf); nf.connect(ng); ng.connect(bus); n.start(); nodes.push(n,nf,ng);}
+  } else if(A.type==='arp'||A.type==='pings'||A.type==='pulse'){
+    let step=0, t1=ac.currentTime;
+    const hit=()=>{ const now=ac.currentTime; let iv;
+      if(A.type==='arp'){ iv=A.iv[step%A.iv.length]+(Math.floor(step/A.iv.length)%2?12:0); step++; }
+      else if(A.type==='pings'){ iv=A.iv[Math.floor(Math.random()*A.iv.length)]; }
+      else { iv=A.iv[step%A.iv.length]; step++; }
+      const o=ac.createOscillator(); o.type=A.wave; o.frequency.value=f(iv);
+      if(A.type==='pings'){ o.frequency.setValueAtTime(f(iv)*.6,now); o.frequency.exponentialRampToValueAtTime(f(iv),now+.08); }
+      const g=ac.createGain(); g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(A.type==='pulse'?.5:.35,now+.012); g.gain.exponentialRampToValueAtTime(.001,now+(A.decay||.3));
+      o.connect(g); g.connect(filt); o.start(now); o.stop(now+(A.decay||.3)+.05);
+      if(A.rise){ const el=(now-t1)%12; filt.frequency.setTargetAtTime(A.cutoff*(.5+el/12*1.6),now,.1); }
+      if(A.type==='pulse'){ const sub=ac.createOscillator(); sub.type='square'; sub.frequency.value=f(iv)/2; const sg=ac.createGain(); sg.gain.setValueAtTime(.25,now); sg.gain.exponentialRampToValueAtTime(.001,now+.2); sub.connect(sg); sg.connect(filt); sub.start(now); sub.stop(now+.25); }
+    };
+    hit();
+    if(A.type==='pings'){ const loop=()=>{ if(!Audio_.voices.includes(V)) return; hit(); const id=setTimeout(loop,A.rate[0]+Math.random()*(A.rate[1]-A.rate[0])); Audio_.timers.push(id); }; const id=setTimeout(loop,600); Audio_.timers.push(id); }
+    else { Audio_.timers.push(setInterval(hit,A.rate)); }
+  }
+  const V={g:bus,nodes}; Audio_.voices.push(V);
+}
+const listenBtn=$('#listen');
+listenBtn.addEventListener('click',async()=>{
+  audioInit(); const ac=Audio_.ctx; if(ac.state==='suspended') await ac.resume();
+  Audio_.on=!Audio_.on; listenBtn.classList.toggle('on',Audio_.on); listenBtn.setAttribute('aria-pressed',Audio_.on);
+  listenBtn.querySelector('.t').textContent=Audio_.on?'Listening':'Listen to it';
+  Audio_.master.gain.setTargetAtTime(Audio_.on?.9:0,ac.currentTime,.3);
+  if(Audio_.on) audioPlay(E[sel]); else audioStop();
+});
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&Audio_.on) listenBtn.click(); });
+
+/* =========================================================
+   SELECT
+   ========================================================= */
+let sel=2;
+function select(i,push=true){
+  i=(i+N)%N; const prevSel=sel; sel=i; const em=E[i];
+  document.documentElement.style.setProperty('--accent',em.color);
+  $('#idx').textContent=`${i+1} / 8`; $('#jobShort').textContent=em.jobShort; $('#oppShort').textContent=E[(i+4)%N].name;
+  $('#name').innerHTML=`<span class="ghost" aria-hidden="true">${em.name}</span><span class="word">${em.name}</span>`;
+  $('#def').textContent=em.def; $('#says').innerHTML='What it says: '+em.says;
+  $('#ladder').innerHTML=['mild','core','intense'].map((l,k)=>`<span class="step"><span class="w ${k===1?'core':''}"><span class="lvl">${l}</span> &nbsp;${em.ladder[k]}</span></span>`).join('<span class="rung"></span>');
+  const pv=E[(i+N-1)%N], nx=E[(i+1)%N];
+  $('#prev .n').textContent=pv.name; $('#prev .sw').style.background=pv.color; $('#next .n').textContent=nx.name; $('#next .sw').style.background=nx.color;
+  document.querySelectorAll('#wheel g.em').forEach((g,k)=>{g.classList.toggle('sel',k===i);g.setAttribute('aria-pressed',k===i);});
+  document.querySelectorAll('#wheel text.dyad').forEach((t,k)=>t.classList.toggle('lit',k===i||k===(i+N-1)%N));
+  $('#au').innerHTML=em.au.map(([n,d])=>`<span><b>AU ${n}</b> ${d}</span>`).join('');
+  $('#faceNote').textContent=em.faceNote; $('#mapNote').textContent=em.mapNote;
+  document.querySelectorAll('#cmap .pt').forEach((g,k)=>{g.classList.toggle('sel',k===i);g.querySelector('circle.c').setAttribute('r',k===i?8:6);});
+  document.querySelectorAll('#cmap text.lab').forEach((t,k)=>t.classList.toggle('sel',k===i));
+  const halo=$('#halo'); halo.setAttribute('cx',cmap._X(em.valence)); halo.setAttribute('cy',cmap._Y(em.arousal));
+  $('#jobBig').textContent=em.jobShort; $('#jobWhy').textContent=em.jobWhy;
+  const V=em.vitals, rows=[['Heart',V.heart],['Hands',V.hands],['Brain hub',V.brain],['Chemistry',V.chem],['Facial code',V.face],['Typical length',V.length]];
+  $('#vitals').innerHTML=rows.map(([k,[v,s]])=>`<div class="row"><dt>${k}</dt><dd>${v}${s?`<small>${s}</small>`:''}</dd></div>`).join('');
+  const L=(i+N-1)%N, R=i, O=(i+4)%N;
+  const blend=(di,a,b)=>{const o=a===i?b:a;return `<div class="blend"><div class="mix" style="background:radial-gradient(circle at 30% 30%,${E[a].color},${E[b].color} 70%)"></div><div><div class="name">${DYADS[di][0]}</div><div class="eq">${em.name} + <button data-go="${o}">${E[o].name}</button></div><div class="desc">${DYADS[di][1]}</div></div></div>`;};
+  $('#blends').innerHTML= blend(L,L,i) + blend(R,i,(i+1)%N) +
+    `<div class="blend"><div class="mix opp" style="--a:${em.color};--b:${E[O].color}"></div><div><div class="name">Opposite: ${E[O].name}</div><div class="eq">across the wheel · <button data-go="${O}">go there</button></div><div class="desc">Plutchik pairs each primary with its antagonist; the two cannot be felt at full strength at once.</div></div></div>`;
+  $('#blends').querySelectorAll('button[data-go]').forEach(b=>b.addEventListener('click',()=>select(+b.dataset.go)));
+  // field
+  target=em.field; curCols=em.field.colors.map(hex2rgb);
+  if(prevSel!==i){ rings.push({x:W/2,y:H/2,r:0,a:.6}); if(em.key==='surprise') burst(W/2,H/2,1.4); if(em.key==='anger') burst(mouse.on?mouse.x:W/2,mouse.on?mouse.y:H/2,.6); }
+  if(Audio_.on) audioPlay(em);
+  if(push) history.replaceState(null,'','#'+em.key);
+  document.title=`${em.name} · Atlas of Feeling`;
+}
+$('#prev').addEventListener('click',()=>select(sel-1)); $('#next').addEventListener('click',()=>select(sel+1));
+addEventListener('keydown',e=>{ if(e.target.matches('input,textarea')) return;
+  if(e.key==='ArrowRight'){select(sel+1);} else if(e.key==='ArrowLeft'){select(sel-1);}
+  else if(/^[1-8]$/.test(e.key)){select(+e.key-1);} });
+
+const start=E.findIndex(e=>'#'+e.key===location.hash);
+select(start>=0?start:2,false);
+for(let i=0;i<600;i++) spawn();
+requestAnimationFrame(frame);
+</script>
