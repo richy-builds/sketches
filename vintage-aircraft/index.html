@@ -1,0 +1,1704 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Field Guide to Vintage Aircraft</title>
+<meta name="description" content="Five aircraft, 1903 to 1943, drawn as engineering plates. Every line is hand-authored SVG.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Shared SVG definitions: section hatching used by every cutaway -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="6" stroke="var(--ink-2)" stroke-width="0.8"/>
+    </pattern>
+  </defs>
+</svg>
+
+<header class="bar">
+  <a class="brand" href="#top">Field Guide</a>
+  <nav aria-label="Plates">
+    <a href="#flyer">Wright Flyer</a>
+    <a href="#camel">Sopwith Camel</a>
+    <a href="#dc3">DC-3</a>
+    <a href="#spitfire">Spitfire</a>
+    <a href="#constellation">Constellation</a>
+    <a href="#compare">Compared</a>
+  </nav>
+  <button class="theme" type="button" aria-label="Switch colour theme">
+    <svg viewBox="0 0 14 14" aria-hidden="true"><circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M7 1a6 6 0 0 1 0 12z" fill="currentColor"/></svg>
+    <span>Blueprint</span>
+  </button>
+</header>
+
+<main id="top">
+
+<!-- ======================================================================
+     COVER
+     ====================================================================== -->
+<section class="cover wrap">
+  <h1>A Field Guide to Vintage Aircraft</h1>
+  <p class="lede">Five machines that each changed what an aeroplane could be, drawn as engineering plates. Side profile in service colours, three-view to scale, and one detail worth a closer look.</p>
+  <p class="lede">Every line on this page is hand-written SVG. No photographs, no image models, no drawing libraries.</p>
+
+  <figure class="lineup" aria-labelledby="lineup-title">
+    <svg viewBox="0 0 1240 230" role="img" aria-labelledby="lineup-title">
+      <title id="lineup-title">The five aircraft in side view at one scale, from the 1903 Wright Flyer to the 1943 Constellation</title>
+      <g fill="var(--ink)" stroke="none">
+        <!-- Wright Flyer, 1903 -->
+        <g transform="translate(3.5 92.5) scale(0.11)">
+          <rect x="470" y="66" width="280" height="14"/>
+          <rect x="470" y="320" width="280" height="16"/>
+          <rect x="990" y="150" width="64" height="186" rx="12"/>
+          <rect x="150" y="232" width="180" height="20" rx="8"/>
+          <rect x="150" y="286" width="180" height="20" rx="8"/>
+          <path d="M786,190 L785,30 Q790,18 795,30 L794,190 Z M786,210 L785,370 Q790,382 795,370 L794,210 Z"/>
+          <path fill="none" stroke="var(--ink)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" d="M480,80 V320 M600,80 V320 M740,80 V320 M747,80 L1000,196 M747,334 L1000,318 M1000,196 V318 M782,398 L240,398 C205,398 180,384 165,356 C160,344 160,330 170,318 M482,336 V398 M600,336 V398 M740,336 V398 M170,318 L200,238 M240,398 L300,238 M300,300 L470,328 M300,238 L470,300 M200,252 V286 M300,252 V286"/>
+          <rect x="610" y="266" width="90" height="54"/>
+          <path d="M540,318 C560,300 600,296 640,298 C670,300 700,304 720,314 L722,320 L540,320 Z"/>
+          <rect x="486" y="96" width="14" height="210"/>
+        </g>
+        <!-- Sopwith Camel, 1916 -->
+        <g transform="translate(127 92.9) scale(0.11)">
+          <use href="#camel-fus"/>
+          <path d="M300,178 C245,178 200,208 200,246 C200,284 245,316 300,316 Z"/>
+          <path d="M940,246 C955,215 968,190 985,182 C1003,180 1012,190 1012,204 L1006,300 C1004,310 996,312 990,306 L995,290 Z"/>
+          <path d="M878,252 C900,246 980,246 1000,252 C980,258 900,258 878,252 Z"/>
+          <path d="M382,100 C384,90 396,88 410,88 L574,102 L574,108 L382,110 Z"/>
+          <path d="M430,300 C432,294 440,292 450,292 L622,306 L622,316 L430,316 Z"/>
+          <path fill="none" stroke="var(--ink)" stroke-width="14" stroke-linecap="round" d="M452,300 L408,110 M598,300 L556,110 M348,180 L400,110 M442,198 L505,110 M400,316 L410,402 M470,316 L412,402 M965,300 L985,336"/>
+          <circle cx="410" cy="402" r="46"/>
+          <path d="M192,236 L190,70 Q196,60 202,70 L200,236 Z M192,256 L190,422 Q196,432 202,422 L200,256 Z"/>
+        </g>
+        <!-- Douglas DC-3, 1935 -->
+        <g transform="translate(250.2 47.2) scale(0.28)">
+          <use href="#dc3-fus"/>
+          <path d="M362,300 L598,318 L652,246 C651,240 636,238 626,240 L588,240 Z"/>
+          <path d="M300,232 C320,228 380,228 440,238 C500,248 540,262 560,270 L560,300 C520,306 470,314 450,320 L400,322 L300,306 Z"/>
+          <path d="M300,232 C286,232 278,250 278,269 C278,288 286,306 300,306 Z"/>
+          <path d="M958,262 C990,254 1080,254 1112,262 C1080,270 990,270 958,262 Z"/>
+          <path d="M289,250 L287,182 Q292,172 297,182 L295,250 Z M289,288 L287,356 Q292,366 297,356 L295,288 Z"/>
+          <path d="M392,322 A30 30 0 0 0 452,320 Z"/>
+          <circle cx="1032" cy="340" r="14"/>
+        </g>
+        <!-- Supermarine Spitfire, 1936 -->
+        <g transform="translate(593.6 87.9) scale(0.1283)">
+          <use href="#spit-fus"/>
+          <path d="M338,268 C348,258 380,256 420,258 L610,270 C650,274 668,282 650,290 L360,304 C340,300 332,282 338,268 Z"/>
+          <path d="M1000,238 C1030,228 1100,228 1128,238 C1100,246 1030,246 1000,238 Z"/>
+          <path d="M50,250 C68,232 90,220 112,218 L112,282 C90,280 68,268 50,250 Z"/>
+          <path d="M114,220 L111,62 Q116,54 121,62 L120,220 Z M114,280 L111,438 Q116,446 121,438 L120,280 Z"/>
+          <circle cx="1100" cy="311" r="11"/>
+        </g>
+        <!-- Lockheed Constellation, 1943 -->
+        <g transform="translate(745 7.6) scale(0.4162)">
+          <use href="#con-fus"/>
+          <path d="M1035,236 C1046,192 1068,160 1096,156 C1114,154 1124,170 1126,192 C1129,222 1127,236 1125,240 Z"/>
+          <path d="M1050,246 C1058,200 1080,168 1108,164 C1126,162 1136,178 1138,200 C1141,236 1138,262 1132,276 C1124,284 1104,284 1090,278 L1060,270 Z"/>
+          <path d="M1000,236 C1040,230 1110,230 1134,240 C1110,248 1040,248 1000,236 Z"/>
+          <path d="M449,300 L671,336 L700,274 C699,268 686,266 676,268 L640,268 Z"/>
+          <path d="M380,252 C410,246 490,248 560,258 C600,264 626,274 640,280 L640,308 C600,314 540,318 500,318 L440,316 L380,312 Z"/>
+          <path d="M380,252 C366,252 358,266 358,282 C358,298 366,312 380,312 Z"/>
+          <path d="M422,236 C450,232 520,234 580,242 C620,248 640,254 646,258 L646,282 C610,286 560,290 530,292 L470,292 L422,288 Z"/>
+          <path d="M369,270 L368,206 Q372,196 376,206 L375,270 Z M369,294 L368,358 Q372,368 376,358 L375,294 Z"/>
+          <path d="M409,250 L408,186 Q412,176 416,186 L415,250 Z M409,274 L408,338 Q412,348 416,338 L415,274 Z"/>
+        </g>
+      </g>
+      <!-- year axis -->
+      <path class="ln-2" d="M20,178 H1220"/>
+      <path class="ln-2" d="M69.5,178 v8 M193,178 v8 M418,178 v8 M670,178 v8 M993,178 v8"/>
+      <g class="lbl lbl-ink" style="font-size:14px" text-anchor="middle">
+        <text x="69.5" y="204">1903</text><text x="193" y="204">1916</text><text x="418" y="204">1935</text><text x="670" y="204">1936</text><text x="993" y="204">1943</text>
+      </g>
+      <g class="lbl" style="font-size:11.5px" text-anchor="middle">
+        <text x="69.5" y="221">Wright Flyer</text><text x="193" y="221">Sopwith Camel</text><text x="418" y="221">Douglas DC-3</text><text x="670" y="221">Spitfire Mk I</text><text x="993" y="221">Constellation</text>
+      </g>
+    </svg>
+  </figure>
+</section>
+
+<!-- ======================================================================
+     HOW TO READ A PLATE
+     ====================================================================== -->
+<section class="legend">
+  <div class="wrap">
+    <h2>How to read a plate</h2>
+    <div class="grid">
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Visible outline, a solid line"><path class="ln" d="M12 40 C 50 10, 90 10, 120 30 S 190 48, 208 20"/></svg>
+        <h3>Outline</h3>
+        <p>A solid line is an edge you could see or touch on the real aircraft.</p>
+      </div>
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Hidden line, short dashes"><path class="hid" d="M12 30 H 208"/><path class="ln" d="M12 44 H 208"/></svg>
+        <h3>Hidden line</h3>
+        <p>Short dashes mark structure behind a surface: a spar inside a wing, a wheel inside its bay.</p>
+      </div>
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Centreline, long dash short dash"><path class="ctr" d="M12 28 H 208"/></svg>
+        <h3>Centreline</h3>
+        <p>Long dash, short dash. The axis of symmetry, or the middle of a shaft or engine.</p>
+      </div>
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Dimension line with arrowheads and a measurement"><path class="dim" d="M20 14 V 46 M200 14 V 46 M20 40 H 200"/><path class="dim" d="M20 40 l 8 -3 v 6 z M200 40 l -8 -3 v 6 z" fill="var(--ink-2)"/><text class="lbl num" x="110" y="32" text-anchor="middle">11.23 m</text></svg>
+        <h3>Dimension</h3>
+        <p>Metres, measured tip to tip. The plates keep one scale across all three views.</p>
+      </div>
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Section hatching at 45 degrees inside an outline"><rect class="sec" x="40" y="10" width="140" height="36"/><rect class="ln" x="40" y="10" width="140" height="36"/></svg>
+        <h3>Section</h3>
+        <p>Hatching shows solid material where the drawing cuts through a part.</p>
+      </div>
+      <div>
+        <svg class="swatch" viewBox="0 0 220 56" role="img" aria-label="Red pencil annotation circling a detail"><circle class="red" cx="110" cy="28" r="18"/><path class="red" d="M128 28 H 200"/><text class="lbl lbl-red" x="204" y="32" text-anchor="end"> </text></svg>
+        <h3>Checker's red</h3>
+        <p>Red marks the feature each plate singles out for its detail drawing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     PLATES
+     ====================================================================== -->
+<div class="plates wrap">
+
+<!-- PLATE 1: WRIGHT FLYER -->
+<article class="plate" id="flyer" aria-labelledby="flyer-title">
+  <header class="plate-head">
+    <h2 id="flyer-title">Wright Flyer</h2>
+    <p class="sub">Experimental powered aeroplane, one pilot. United States, first flown 17 December 1903.</p>
+  </header>
+
+  <figure class="hero">
+    <svg class="profile" viewBox="0 0 1200 480" role="img" aria-labelledby="flyer-hero-t">
+      <title id="flyer-hero-t">Port side view of the 1903 Wright Flyer: canard elevator forward, twin pusher propellers aft, prone pilot on the lower wing, skids beneath</title>
+      <defs>
+        <linearGradient id="fly-fabric" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F3EBD8"/>
+          <stop offset="1" stop-color="#D9CCAE"/>
+        </linearGradient>
+        <linearGradient id="fly-wood" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#C9A574"/>
+          <stop offset="1" stop-color="#8E6A3E"/>
+        </linearGradient>
+      </defs>
+
+      <!-- propellers, edge-on, the far one first -->
+      <path class="ln-3" d="M804,18 V382"/>
+      <path d="M801,190 L800,30 Q804,18 808,30 L807,190 Z M801,210 L800,370 Q804,382 808,370 L807,210 Z" fill="#8E6A3E" opacity=".7"/>
+      <path class="ln-3" d="M790,18 V382"/>
+      <path d="M786,190 L785,30 Q790,18 795,30 L794,190 Z M786,210 L785,370 Q790,382 795,370 L794,210 Z" fill="url(#fly-wood)" stroke="var(--ink)" stroke-opacity=".6" stroke-width=".8"/>
+
+      <!-- rudder outriggers and twin rudders -->
+      <g stroke="#8E6A3E" stroke-width="4" stroke-linecap="round" fill="none">
+        <path d="M747,80 L1000,196 M747,334 L1000,318 M760,80 L985,196 M760,334 L985,318"/>
+        <path d="M1000,196 L1000,318 M985,196 L985,318"/>
+      </g>
+      <path d="M990,160 C990,154 996,150 1002,150 L1044,150 C1050,150 1054,154 1054,160 L1054,326 C1054,332 1050,336 1044,336 L1002,336 C996,336 990,332 990,326 Z" fill="url(#fly-fabric)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1010,150 V336 M1030,150 V336" stroke="#000" stroke-opacity=".18" stroke-width=".8"/>
+      <path d="M1000,196 L992,196 M1000,318 L992,318" stroke="#3A3A3A" stroke-width="2"/>
+
+      <!-- upper wing, edge-on -->
+      <path d="M470,74 C470,68 476,66 482,66 L740,66 C746,66 750,70 747,80 L470,80 Z" fill="url(#fly-fabric)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <!-- lower wing, edge-on -->
+      <path d="M470,328 C470,322 476,320 482,320 L740,320 C746,320 750,326 747,336 L470,336 Z" fill="url(#fly-fabric)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+
+      <!-- rear struts and rigging, behind the pilot -->
+      <g stroke="#8E6A3E" stroke-width="5" stroke-linecap="round" fill="none">
+        <path d="M740,80 V320 M600,80 V320"/>
+      </g>
+      <g stroke="var(--ink)" stroke-opacity=".45" stroke-width=".8" fill="none">
+        <path d="M480,80 L600,320 M600,80 L480,320 M600,80 L740,320 M740,80 L600,320"/>
+      </g>
+
+      <!-- engine, on the starboard side beyond the pilot -->
+      <g>
+        <rect x="610" y="266" width="90" height="54" rx="4" fill="#4A4A4A" stroke="var(--ink)" stroke-opacity=".6" stroke-width=".8"/>
+        <rect x="622" y="250" width="14" height="18" fill="#5C5C5C"/><rect x="644" y="250" width="14" height="18" fill="#5C5C5C"/>
+        <rect x="666" y="250" width="14" height="18" fill="#5C5C5C"/><rect x="688" y="250" width="10" height="18" fill="#5C5C5C"/>
+        <circle cx="700" cy="300" r="10" fill="#2A2A2A" stroke="#9A9A9A" stroke-width="1.5"/>
+        <!-- chain drives to the propeller shafts -->
+        <path d="M700,300 L790,204 M700,296 L804,208" fill="none" stroke="#2A2A2A" stroke-width="2.5" stroke-dasharray="4 3"/>
+        <circle cx="790" cy="200" r="9" fill="#2A2A2A" stroke="#9A9A9A" stroke-width="1.5"/>
+      </g>
+      <!-- radiator on the front strut -->
+      <rect x="486" y="96" width="14" height="210" fill="#5C5C5C" stroke="var(--ink)" stroke-opacity=".6" stroke-width=".8"/>
+      <path d="M486,110 H500 M486,130 H500 M486,150 H500 M486,170 H500 M486,190 H500 M486,210 H500 M486,230 H500 M486,250 H500 M486,270 H500 M486,290 H500" stroke="#2A2A2A" stroke-width=".8"/>
+
+      <!-- pilot, prone on the lower wing, head forward -->
+      <g fill="#3B3F4A" stroke="var(--ink)" stroke-opacity=".6" stroke-width=".8">
+        <path d="M540,318 C560,300 600,296 640,298 C670,300 700,304 720,314 L722,320 L540,320 Z"/>
+        <circle cx="540" cy="306" r="12" fill="#D8B08A"/>
+        <path d="M560,300 C556,290 566,286 578,290 L582,300" fill="#3B3F4A"/>
+      </g>
+      <path d="M528,302 C532,294 544,292 550,300" fill="none" stroke="#2A2A2A" stroke-width="2"/>
+
+      <!-- front struts -->
+      <g stroke="#8E6A3E" stroke-width="5" stroke-linecap="round" fill="none">
+        <path d="M480,80 V320"/>
+      </g>
+
+      <!-- skids and elevator outriggers -->
+      <g stroke="#8E6A3E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+        <path d="M782,398 L240,398 C205,398 180,384 165,356 C160,344 160,330 170,318"/>
+        <path d="M782,392 L250,392 C218,392 195,378 182,350"/>
+        <path d="M482,336 L482,398 M600,336 L600,398 M740,336 L740,398"/>
+        <path d="M170,318 L200,238 M182,350 L200,238 M240,398 L300,238"/>
+        <path d="M300,300 L470,328 M300,238 L470,300"/>
+      </g>
+
+      <!-- biplane elevator, forward -->
+      <path d="M150,242 C150,236 156,232 162,232 L320,232 C326,232 330,236 330,242 L330,244 C330,250 326,252 320,252 L162,252 C156,252 150,250 150,244 Z" fill="url(#fly-fabric)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M150,296 C150,290 156,286 162,286 L320,286 C326,286 330,290 330,296 L330,298 C330,304 326,306 320,306 L162,306 C156,306 150,304 150,298 Z" fill="url(#fly-fabric)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <g stroke="#8E6A3E" stroke-width="4" stroke-linecap="round" fill="none">
+        <path d="M200,252 V286 M300,252 V286"/>
+      </g>
+      <g stroke="var(--ink)" stroke-opacity=".45" stroke-width=".8" fill="none">
+        <path d="M200,252 L300,286 M300,252 L200,286"/>
+      </g>
+    </svg>
+  </figure>
+
+  <div class="plate-body">
+    <figure class="threeview">
+      <svg class="draws" viewBox="0 0 1260 880" role="img" aria-labelledby="flyer-3v-t">
+        <title id="flyer-3v-t">Three-view line drawing of the Wright Flyer: plan, front and side views to one scale</title>
+
+        <!-- ===== PLAN VIEW (nose up), centreline x=370 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,30 V430"/>
+          <!-- wings -->
+          <path class="ln" d="M60,176 H680 V276 H60 Z"/>
+          <!-- ribs, every 0.3 m -->
+          <path class="ln-3" d="M75,176 V276 M90,176 V276 M105,176 V276 M120,176 V276 M135,176 V276 M150,176 V276 M165,176 V276 M180,176 V276 M195,176 V276 M210,176 V276 M225,176 V276 M240,176 V276 M255,176 V276 M270,176 V276 M285,176 V276 M300,176 V276 M315,176 V276 M330,176 V276 M345,176 V276 M395,176 V276 M410,176 V276 M425,176 V276 M440,176 V276 M455,176 V276 M470,176 V276 M485,176 V276 M500,176 V276 M515,176 V276 M530,176 V276 M545,176 V276 M560,176 V276 M575,176 V276 M590,176 V276 M605,176 V276 M620,176 V276 M635,176 V276 M650,176 V276 M665,176 V276"/>
+          <!-- spars -->
+          <path class="ln-2" d="M60,182 H680 M60,262 H680"/>
+          <!-- strut stations -->
+          <path class="ln-2" d="M110,182 h6 M110,262 h6 M210,182 h6 M210,262 h6 M310,182 h6 M310,262 h6 M424,182 h6 M424,262 h6 M524,182 h6 M524,262 h6 M624,182 h6 M624,262 h6"/>
+          <text class="lbl" x="700" y="230" style="font-size:20px">Chord 1.98 m</text>
+        </g>
+        <g class="part">
+          <!-- skids -->
+          <path class="ln" d="M352,66 C346,80 344,120 344,180 V300 M388,66 C394,80 396,120 396,180 V300"/>
+          <!-- elevator, biplane, forward -->
+          <path class="ln" d="M254,80 H486 V116 H254 Z"/>
+          <path class="ln-2" d="M254,98 H486"/>
+          <path class="ln-3" d="M270,80 V116 M290,80 V116 M310,80 V116 M330,80 V116 M350,80 V116 M390,80 V116 M410,80 V116 M430,80 V116 M450,80 V116 M470,80 V116"/>
+          <!-- pilot and engine -->
+          <path class="ln" d="M330,196 C330,190 346,188 346,196 L348,260 C348,270 330,270 330,260 Z"/>
+          <circle class="ln" cx="338" cy="190" r="6"/>
+          <path class="ln" d="M392,204 H424 V262 H392 Z"/>
+          <path class="ln-2" d="M392,216 H424 M392,228 H424 M392,240 H424 M392,252 H424"/>
+          <!-- radiator on the front strut -->
+          <path class="ln" d="M376,178 H384 V184 H376 Z"/>
+          <!-- propellers, edge-on, and chains -->
+          <path class="ln" d="M219,300 H349 M391,300 H521"/>
+          <path class="ln-2" d="M284,296 V304 M456,296 V304"/>
+          <path class="hid" d="M418,262 L456,296 M400,262 L284,296"/>
+          <!-- rudder outriggers and twin rudders -->
+          <path class="ln-2" d="M340,276 L356,330 M400,276 L384,330 M340,276 L356,384 M400,276 L384,384"/>
+          <path class="ln" d="M354,330 H360 V384 H354 Z M380,330 H386 V384 H380 Z"/>
+          <text class="lbl lbl-ink" x="700" y="60" style="font-size:24px">Plan</text>
+        </g>
+        <g class="part">
+          <path class="dim" d="M60,290 V470 M680,290 V470 M60,460 H680"/>
+          <path class="dim" d="M60,460 l10 -3.5 v7 z M680,460 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="370" y="453" text-anchor="middle" style="font-size:20px">Span 12.29 m</text>
+        </g>
+
+        <!-- ===== FRONT VIEW, ground line y=830 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,680 V850"/>
+          <path class="ln-2" d="M40,830 H700"/>
+          <!-- wings -->
+          <path class="ln" d="M60,700 H680 V706 H60 Z M60,793 H680 V799 H60 Z"/>
+          <!-- struts -->
+          <path class="ln" d="M113,706 V793 M213,706 V793 M313,706 V793 M427,706 V793 M527,706 V793 M627,706 V793"/>
+          <!-- rigging -->
+          <path class="ln-3" d="M113,706 L213,793 M213,706 L113,793 M213,706 L313,793 M313,706 L213,793 M427,706 L527,793 M527,706 L427,793 M527,706 L627,793 M627,706 L527,793 M313,706 L427,793 M427,706 L313,793"/>
+          <!-- elevator, forward -->
+          <path class="ln" d="M254,758 H486 V763 H254 Z M254,782 H486 V787 H254 Z"/>
+          <path class="ln-2" d="M300,763 V782 M440,763 V782"/>
+          <!-- rudders, behind -->
+          <path class="hid" d="M355,740 V793 M361,740 V793 M379,740 V793 M385,740 V793"/>
+          <!-- engine, pilot -->
+          <path class="ln" d="M392,772 H424 V793 H392 Z"/>
+          <circle class="ln" cx="338" cy="784" r="6"/>
+          <!-- skids -->
+          <path class="ln" d="M344,799 V824 M396,799 V824 M334,824 H354 M386,824 H406"/>
+          <!-- propellers -->
+          <g class="prop"><ellipse class="ln" cx="284" cy="750" rx="5" ry="65" transform="translate(0 -65)"/><ellipse class="ln" cx="284" cy="750" rx="5" ry="65" transform="rotate(180 284 750) translate(0 -65)"/></g>
+          <g class="prop"><ellipse class="ln" cx="456" cy="750" rx="5" ry="65" transform="translate(0 -65)"/><ellipse class="ln" cx="456" cy="750" rx="5" ry="65" transform="rotate(180 456 750) translate(0 -65)"/></g>
+          <circle class="ctr" cx="284" cy="750" r="65"/><circle class="ctr" cx="456" cy="750" r="65"/>
+          <text class="lbl lbl-ink" x="700" y="700" style="font-size:24px">Front</text>
+          <path class="dim" d="M40,830 H30 M40,692 H30 M32,692 V830"/>
+          <path class="dim" d="M32,692 l-3.5 10 h7 z M32,830 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="26" y="765" text-anchor="end" style="font-size:20px">2.74 m</text>
+        </g>
+
+        <!-- ===== SIDE VIEW: hero geometry at the shared scale ===== -->
+        <g class="part">
+          <path class="ctr" d="M700,300 H1100"/>
+          <g transform="translate(686 210) scale(0.36)" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path vector-effect="non-scaling-stroke" d="M470,74 C470,68 476,66 482,66 L740,66 C746,66 750,70 747,80 L470,80 Z M470,328 C470,322 476,320 482,320 L740,320 C746,320 750,326 747,336 L470,336 Z"/>
+            <path vector-effect="non-scaling-stroke" d="M990,160 C990,154 996,150 1002,150 L1044,150 C1050,150 1054,154 1054,160 L1054,326 C1054,332 1050,336 1044,336 L1002,336 C996,336 990,332 990,326 Z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M747,80 L1000,196 M747,334 L1000,318 M1000,196 L1000,318"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M480,80 V320 M600,80 V320 M740,80 V320"/>
+            <path vector-effect="non-scaling-stroke" d="M782,398 L240,398 C205,398 180,384 165,356 C160,344 160,330 170,318 M482,336 L482,398 M600,336 L600,398 M740,336 L740,398"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M170,318 L200,238 M240,398 L300,238 M300,300 L470,328 M300,238 L470,300 M200,252 V286 M300,252 V286"/>
+            <path vector-effect="non-scaling-stroke" d="M150,242 C150,236 156,232 162,232 L320,232 C326,232 330,236 330,242 L330,244 C330,250 326,252 320,252 L162,252 C156,252 150,250 150,244 Z M150,296 C150,290 156,286 162,286 L320,286 C326,286 330,290 330,296 L330,298 C330,304 326,306 320,306 L162,306 C156,306 150,304 150,298 Z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M610,266 H700 V320 H610 Z M486,96 H500 V306 H486 Z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M540,318 C560,300 600,296 640,298 C670,300 700,304 720,314 L722,320 L540,320 Z"/>
+            <path vector-effect="non-scaling-stroke" d="M786,190 L785,30 Q790,18 795,30 L794,190 M786,210 L785,370 Q790,382 795,370 L794,210"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" stroke-dasharray="10 8" d="M700,300 L790,204"/>
+          </g>
+          <text class="lbl lbl-ink" x="740" y="200" style="font-size:24px">Side</text>
+          <path class="dim" d="M740,380 V420 M1065,380 V420 M740,410 H1065"/>
+          <path class="dim" d="M740,410 l10 -3.5 v7 z M1065,410 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="902" y="403" text-anchor="middle" style="font-size:20px">Length 6.43 m</text>
+        </g>
+        <text class="lbl" x="720" y="560" style="font-size:18px">All three views share one scale.</text>
+        <text class="lbl" x="720" y="586" style="font-size:18px">Do not scale from the screen.</text>
+      </svg>
+      <figcaption><b>Plan, front and side.</b> The engine sits to the right of centre on the lower wing and the pilot lies to the left of it, so the machine is balanced by the two together. The propellers turn in opposite directions, one chain crossed in a figure of eight, to cancel their torque.</figcaption>
+    </figure>
+
+    <div class="specs">
+      <table>
+        <caption>Wright Flyer, 1903</caption>
+        <tr><th>Crew</th><td>1, prone</td></tr>
+        <tr><th>First flight</th><td>17 December 1903, 12 seconds, 37 m</td></tr>
+        <tr><th>Span</th><td>12.29 m</td></tr>
+        <tr><th>Length</th><td>6.43 m</td></tr>
+        <tr><th>Height</th><td>2.74 m</td></tr>
+        <tr><th>Wing area</th><td>47.4 m²</td></tr>
+        <tr><th>Engine</th><td>Wright 4-cylinder inline, water-cooled, 12 hp</td></tr>
+        <tr><th>Speed</th><td>48 km/h through the air</td></tr>
+        <tr><th>Best height</th><td>About 3 m</td></tr>
+        <tr><th>Weight</th><td>274 kg empty, 341 kg with pilot</td></tr>
+        <tr><th>Built</th><td>1</td></tr>
+      </table>
+    </div>
+
+    <div class="text">
+      <p>On the morning of 17 December 1903, at Kill Devil Hills in North Carolina, Orville Wright flew this machine 37 metres in twelve seconds into a headwind of more than 30 km/h. Three more flights followed, the last of 260 metres in 59 seconds, before a gust rolled the Flyer over on the sand and wrecked it. It never flew again.</p>
+      <p>Nothing about it was conventional. The elevator led and the rudders trailed, the pilot lay prone on the lower wing, and the propellers pushed. The brothers built the engine in their own shop when no manufacturer would supply one light enough, and carved the propellers as rotating wings from their own wind-tunnel data. What made it an aeroplane rather than a glider with a motor was control: the wings twisted along their span to bank, and the rudder moved with them to counter the yaw that twisting produced.</p>
+    </div>
+
+    <figure class="callout">
+      <svg class="draws" viewBox="0 0 520 330" role="img" aria-labelledby="flyer-co-t">
+        <title id="flyer-co-t">Wing warping seen from behind: the trailing edges of the two wing tips twist in opposite directions when the pilot shifts the hip cradle</title>
+        <!-- neutral wings, dashed -->
+        <path class="hid" d="M30,120 H490 M30,200 H490"/>
+        <text class="lbl" x="34" y="112" style="font-size:12px">Wings level, seen from behind</text>
+        <!-- warped wings, red: left trailing edge pulled down, right pulled up -->
+        <path class="red" d="M30,140 C120,132 200,122 260,120 C320,118 400,110 490,102"/>
+        <path class="red" d="M30,220 C120,212 200,202 260,200 C320,198 400,190 490,182"/>
+        <!-- struts -->
+        <path class="ln-2" d="M110,133 V213 M190,124 V204 M330,116 V196 M410,108 V188"/>
+        <!-- cradle and cables -->
+        <path class="ln" d="M232,206 H288 V222 H232 Z"/>
+        <path class="red" d="M262,214 L296,214" />
+        <path class="red" d="M296,214 l-8 -4 M296,214 l-8 4" fill="none"/>
+        <path class="ln-2" d="M232,214 C160,214 80,218 30,220 M288,206 C360,196 430,188 490,182"/>
+        <text class="lbl" x="230" y="240" style="font-size:12px">Hip cradle</text>
+        <text class="lbl" x="230" y="255" style="font-size:12px">slides 10 cm</text>
+        <!-- annotations -->
+        <text class="lbl lbl-red" x="30" y="248" style="font-size:12px">This tip: more lift, wing rises</text>
+        <text class="lbl lbl-red" x="490" y="96" text-anchor="end" style="font-size:12px">This tip: less lift, wing drops</text>
+        <path class="ln-2" d="M30,290 H490"/>
+        <text class="lbl" x="30" y="284" style="font-size:12px">The rudder is cabled to the cradle too, so it turns toward the rising wing and cancels the extra drag.</text>
+        <text class="lbl" x="30" y="312" style="font-size:12px">Patented 1906. Ailerons replaced warping within a decade, but the principle is unchanged.</text>
+      </svg>
+      <figcaption><b>Wing warping.</b> No hinged surfaces. Cables from a cradle under the pilot's hips twist the whole outer wing so one tip meets the air at a steeper angle than the other. That difference in lift rolls the machine.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="titleblock">
+    <dl style="display:contents">
+      <div class="wide"><dt>Drawing</dt><dd>Wright Flyer, general arrangement</dd></div>
+      <div><dt>Sheet</dt><dd>1 of 5</dd></div>
+      <div><dt>Rev</dt><dd>A</dd></div>
+      <div><dt>Drawn</dt><dd>Claude Fable 5.1</dd></div>
+      <div><dt>Checked</dt><dd>—</dd></div>
+      <div><dt>Scale</dt><dd>As dimensioned</dd></div>
+      <div><dt>Date</dt><dd>2026-09-02</dd></div>
+    </dl>
+  </footer>
+</article>
+
+<!-- PLATE 2: SOPWITH CAMEL -->
+<article class="plate" id="camel" aria-labelledby="camel-title">
+  <header class="plate-head">
+    <h2 id="camel-title">Sopwith F.1 Camel</h2>
+    <p class="sub">Single-seat fighting scout. Great Britain, first flown 22 December 1916.</p>
+  </header>
+
+  <figure class="hero">
+    <svg class="profile" viewBox="0 0 1200 480" role="img" aria-labelledby="camel-hero-t">
+      <title id="camel-hero-t">Port side profile of Sopwith Camel B6313 of 28 Squadron in khaki PC.10 finish with a natural metal cowling</title>
+      <defs>
+        <path id="camel-fus" d="M300,178 C330,170 370,168 400,176 C425,182 440,194 452,198 L462,196 L530,202 C545,203 555,205 560,206 L1000,248 L995,290 L700,316 L300,316 Z"/>
+        <clipPath id="camel-clip"><use href="#camel-fus"/></clipPath>
+        <linearGradient id="camel-shade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".14"/>
+          <stop offset=".5" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".3"/>
+        </linearGradient>
+        <linearGradient id="camel-metal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#C9CDCB"/>
+          <stop offset=".5" stop-color="#9DA3A2"/>
+          <stop offset="1" stop-color="#6E7473"/>
+        </linearGradient>
+      </defs>
+
+      <!-- propeller: two-blade laminated wood, edge-on -->
+      <path class="ln-3" d="M196,64 V428"/>
+      <path d="M192,236 L190,70 Q196,60 202,70 L200,236 Z M192,256 L190,422 Q196,432 202,422 L200,256 Z" fill="#7A5A36"/>
+      <path d="M194,236 L193,74 L196,64 L196,236 Z M194,256 L193,418 L196,428 L196,256 Z" fill="#B08A5A"/>
+
+      <!-- upper wing, edge-on -->
+      <path d="M382,100 C384,90 396,88 410,88 L574,102 L574,108 L382,110 Z" fill="#5A5838" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M384,108 L574,108 L574,104 L386,104 Z" fill="#D9CBA0"/>
+
+      <!-- rear struts and wires (drawn behind fuselage) -->
+      <g stroke="#7A5A36" stroke-width="5" stroke-linecap="round" fill="none">
+        <path d="M598,300 L556,110"/>
+        <path d="M442,198 L505,110"/>
+      </g>
+      <g stroke="var(--ink)" stroke-opacity=".5" stroke-width=".8" fill="none">
+        <path d="M452,300 L556,110 M598,300 L408,110 M348,180 L505,110 M442,198 L400,110"/>
+      </g>
+
+      <!-- fuselage: fabric PC.10 with metal forward panels -->
+      <use href="#camel-fus" fill="#4F4E36"/>
+      <g clip-path="url(#camel-clip)">
+        <rect x="300" y="160" width="160" height="160" fill="url(#camel-metal)"/>
+        <path d="M460,160 L462,196 L530,202 L560,206 L560,316 L460,316 Z" fill="#8B8E86"/>
+        <rect x="280" y="150" width="740" height="180" fill="url(#camel-shade)"/>
+        <g fill="none" stroke="#000" stroke-opacity=".28" stroke-width=".8">
+          <path d="M560,206 L560,316 M620,212 L620,316 M700,220 L700,316 M800,229 L800,308 M900,238 L900,299"/>
+          <path d="M560,270 L995,278"/>
+        </g>
+        <!-- castor oil staining below cowl -->
+        <path d="M300,300 C380,296 470,306 560,308 L560,316 L300,316 Z" fill="#000" opacity=".22"/>
+      </g>
+      <!-- cockpit opening and windscreen -->
+      <path d="M462,196 L530,202 L528,214 L466,210 Z" fill="#1E1C16"/>
+      <path d="M454,198 L470,178 L478,180 L466,198 Z" fill="#CFE0EA" fill-opacity=".8" stroke="#2A2A2A" stroke-width="1"/>
+      <path d="M528,203 C540,203 552,205 560,206 L558,214 L528,214 Z" fill="#6B4A2C"/>
+
+      <!-- twin Vickers muzzles -->
+      <rect x="292" y="170" width="40" height="7" rx="2" fill="#2A2A2A"/>
+
+      <!-- cowl: rotary engine cowling with open front -->
+      <path d="M300,178 C245,178 200,208 200,246 C200,284 245,316 300,316 Z" fill="url(#camel-metal)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M300,200 C262,200 236,222 236,246 C236,270 262,294 300,294 Z" fill="#2B2B2B"/>
+      <path d="M300,214 C272,214 252,230 252,246 C252,262 272,280 300,280 Z" fill="#5A5A5A"/>
+      <path d="M266,246 H300 M282,230 V262" stroke="#1A1A1A" stroke-width="3"/>
+      <path d="M300,178 L300,316" stroke="#000" stroke-opacity=".4" stroke-width="1"/>
+
+      <!-- tail -->
+      <path d="M878,252 C900,246 980,246 1000,252 C980,258 900,258 878,252 Z" fill="#4F4E36" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M940,246 C955,215 968,190 985,182 C1003,180 1012,190 1012,204 L1006,300 C1004,310 996,312 990,306 L995,290 Z" fill="#4F4E36" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M987,183 L992,300" stroke="#000" stroke-opacity=".4" stroke-width=".9"/>
+      <!-- rudder stripes: blue, white, red from hinge to trailing edge -->
+      <path d="M987,183 C1003,180 1012,190 1012,204 L1006,300 C1004,310 996,312 990,306 L992,300 Z" fill="#B7231F"/>
+      <path d="M987,183 L994,185 L1000,304 L992,300 Z" fill="#1C3C8C"/>
+      <path d="M994,185 L1002,190 L1004,300 L1000,304 Z" fill="#F1F1EC"/>
+      <path d="M965,300 L985,336 L990,334" stroke="var(--ink)" stroke-width="2.4" fill="none"/>
+
+      <!-- lower wing, edge-on -->
+      <path d="M430,300 C432,294 440,292 450,292 L622,306 L622,316 L430,316 Z" fill="#5A5838" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+
+      <!-- front struts -->
+      <g stroke="#7A5A36" stroke-width="5" stroke-linecap="round" fill="none">
+        <path d="M452,300 L408,110"/>
+        <path d="M348,180 L400,110"/>
+      </g>
+
+      <!-- undercarriage -->
+      <g stroke="#3A3A3A" stroke-width="4" stroke-linecap="round" fill="none">
+        <path d="M400,316 L410,402 M470,316 L412,402"/>
+        <path d="M398,318 L470,318"/>
+      </g>
+      <circle cx="410" cy="402" r="46" fill="#2B2B2B" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <circle cx="410" cy="402" r="38" fill="#D9CBA0"/>
+      <circle cx="410" cy="402" r="6" fill="#3A3A3A"/>
+
+      <!-- markings -->
+      <circle cx="700" cy="264" r="42" fill="#1C3C8C"/>
+      <circle cx="700" cy="264" r="28" fill="#F1F1EC"/>
+      <circle cx="700" cy="264" r="14" fill="#B7231F"/>
+      <text x="850" y="292" font-family="Archivo, Arial, sans-serif" font-weight="600" font-size="26" fill="#F1F1EC" text-anchor="middle" style="font-variation-settings:'wdth' 80">B6313</text>
+
+      <!-- outline -->
+      <use href="#camel-fus" fill="none" stroke="var(--ink)" stroke-opacity=".75" stroke-width="1.1"/>
+    </svg>
+  </figure>
+
+  <div class="plate-body">
+    <figure class="threeview">
+      <svg class="draws" viewBox="0 0 1260 880" role="img" aria-labelledby="camel-3v-t">
+        <title id="camel-3v-t">Three-view line drawing of the Sopwith Camel: plan, front and side views to one scale</title>
+
+        <!-- ===== PLAN VIEW (nose up), centreline x=370 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,30 V520"/>
+          <!-- upper wing -->
+          <path class="ln" d="M64,168 L64,236 C64,244 70,249 78,249 L350,249 C358,242 358,232 350,225 L390,225 C382,232 382,242 390,249 L662,249 C670,249 676,244 676,236 L676,168 C676,158 668,150 656,150 L84,150 C72,150 64,158 64,168 Z"/>
+          <path class="ln-2" d="M64,222 H210 M676,222 H530 M210,222 V249 M530,222 V249"/>
+          <path class="ln-2" d="M350,150 V225 M390,150 V225"/>
+          <!-- lower wing, hidden under the upper wing, visible behind its trailing edge -->
+          <path class="hid" d="M78,182 C70,182 64,190 64,200 V249 M662,182 C670,182 676,190 676,200 V249 M78,182 H340 M400,182 H662"/>
+          <path class="ln" d="M64,249 V268 C64,276 70,281 78,281 L343,281 M676,249 V268 C676,276 670,281 662,281 L397,281"/>
+          <path class="ln-2" d="M64,254 H210 M676,254 H530 M210,254 V281 M530,254 V281"/>
+          <text class="lbl" x="120" y="300" style="font-size:20px">Lower wing, stagger 0.45 m</text>
+        </g>
+        <g class="part">
+          <!-- fuselage -->
+          <path class="ln" d="M370,58 C390,58 399,72 399,90 L399,180 C399,240 392,330 384,420 L376,472 L364,472 L356,420 C348,330 341,240 341,180 L341,90 C341,72 350,58 370,58 Z"/>
+          <path class="ln-2" d="M341,110 H399 M341,180 H399"/>
+          <!-- guns and cockpit -->
+          <path class="ln" d="M362,96 V150 M378,96 V150"/>
+          <path class="ln" d="M370,212 C386,212 392,222 392,240 C392,262 384,272 370,272 C356,272 348,262 348,240 C348,222 354,212 370,212 Z"/>
+          <!-- propeller -->
+          <g class="prop">
+            <ellipse class="ln" cx="370" cy="66" rx="8" ry="47" transform="translate(0 -47)"/>
+            <ellipse class="ln" cx="370" cy="66" rx="8" ry="47" transform="rotate(180 370 66) translate(0 -47)"/>
+          </g>
+          <circle class="ctr" cx="370" cy="66" r="94"/>
+          <!-- tailplane and elevators -->
+          <path class="ln" d="M370,395 L455,395 C468,395 475,404 475,418 L475,440 C475,450 468,455 458,455 L376,455 M370,395 L285,395 C272,395 265,404 265,418 L265,440 C265,450 272,455 282,455 L364,455"/>
+          <path class="ln-2" d="M475,428 H376 M265,428 H364"/>
+          <path class="ln-2" d="M366,455 L364,500 M374,455 L376,500"/>
+          <text class="lbl lbl-ink" x="700" y="70" style="font-size:24px">Plan</text>
+        </g>
+        <g class="part">
+          <path class="dim" d="M64,292 V560 M676,292 V560 M64,550 H676"/>
+          <path class="dim" d="M64,550 l10 -3.5 v7 z M676,550 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="370" y="543" text-anchor="middle" style="font-size:20px">Span 8.53 m</text>
+        </g>
+
+        <!-- ===== FRONT VIEW, ground line y=830 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,620 V850"/>
+          <path class="ln-2" d="M40,830 H700"/>
+          <!-- upper wing -->
+          <path class="ln" d="M64,644 H676 M64,656 H676 M64,644 V656 M676,644 V656"/>
+          <!-- lower wing with dihedral -->
+          <path class="ln" d="M340,755 L64,728 L64,740 L340,767 M400,755 L676,728 L676,740 L400,767"/>
+          <!-- fuselage and cowl -->
+          <circle class="ln" cx="370" cy="728" r="36"/>
+          <circle class="ln-2" cx="370" cy="728" r="26"/>
+          <path class="ln" d="M334,728 L334,767 H406 L406,728"/>
+          <path class="ln" d="M352,692 C356,684 384,684 388,692"/>
+          <!-- cabane and interplane struts -->
+          <path class="ln" d="M350,692 V656 M390,692 V656 M197,656 V755 M205,656 V755 M543,656 V755 M535,656 V755"/>
+          <!-- rigging -->
+          <path class="ln-3" d="M205,656 L350,752 M350,656 L205,752 M535,656 L390,752 M390,656 L535,752"/>
+          <!-- undercarriage -->
+          <path class="ln" d="M355,764 L320,805 M385,764 L420,805 M320,805 H420"/>
+          <circle class="ln" cx="320" cy="805" r="25"/>
+          <circle class="ln" cx="420" cy="805" r="25"/>
+          <!-- propeller -->
+          <g class="prop">
+            <ellipse class="ln" cx="370" cy="728" rx="8" ry="94" transform="translate(0 -94)"/>
+            <ellipse class="ln" cx="370" cy="728" rx="8" ry="94" transform="rotate(180 370 728) translate(0 -94)"/>
+          </g>
+          <circle class="ctr" cx="370" cy="728" r="94"/>
+          <text class="lbl lbl-ink" x="700" y="650" style="font-size:24px">Front</text>
+          <path class="dim" d="M40,830 H30 M40,644 H30 M32,644 V830"/>
+          <path class="dim" d="M32,644 l-3.5 10 h7 z M32,830 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="26" y="740" text-anchor="end" style="font-size:20px">2.59 m</text>
+        </g>
+
+        <!-- ===== SIDE VIEW, nose left at x=740 ===== -->
+        <g class="part">
+          <path class="ctr" d="M720,280 H1180"/>
+          <!-- upper wing -->
+          <path class="ln" d="M833.6,204.9 C834.6,199.8 840.8,198.7 848,198.7 L932.3,205.9 L932.3,209 L833.6,210 Z"/>
+          <!-- struts -->
+          <path class="ln-2" d="M869.6,307.8 L847,210 M944.7,307.8 L923.1,210 M816.1,246 L842.9,210 M864.5,255.3 L896.9,210"/>
+          <path class="ln-3" d="M869.6,307.8 L923.1,210 M944.7,307.8 L847,210"/>
+          <!-- fuselage -->
+          <path class="ln" d="M791.4,245 C806.9,240.9 827.4,239.9 842.9,244 C855.7,247.1 863.4,253.3 869.6,255.3 L874.8,254.3 L909.7,257.4 L925.1,259.4 L1151.4,281 L1148.9,302.6 L997.1,316 L791.4,316 Z"/>
+          <path class="ln" d="M791.4,245 C763.1,245 740,260.5 740,280 C740,299.5 763.1,316 791.4,316"/>
+          <path class="ln-2" d="M791.4,245 V316 M925.1,259.4 V316"/>
+          <path class="ln-2" d="M869.6,255.3 L878,245 L882,246 L875.5,255"/>
+          <!-- lower wing -->
+          <path class="ln" d="M858.3,306.7 C859,303 863,301.5 868,301.5 L957,309.8 L957,316 L858.3,316 Z"/>
+          <!-- tail -->
+          <path class="ln" d="M1120.6,280 C1128.3,264.1 1135,251.2 1143.8,247.1 C1153,246.1 1157.6,251.2 1157.6,258.4 L1154.5,307.8 C1153.5,312.9 1149.4,313.9 1146.3,310.9"/>
+          <path class="ln-2" d="M1144.5,247.5 L1147,308"/>
+          <path class="ln" d="M1088.7,283.1 C1100,280 1141.2,280 1151.4,283.1 C1141.2,286.2 1100,286.2 1088.7,283.1 Z"/>
+          <path class="ln" d="M1133.5,307.8 L1143.8,325.8"/>
+          <!-- undercarriage -->
+          <path class="ln-2" d="M842.9,316 L848,360.2 M878.9,316 L848,360.2"/>
+          <circle class="ln" cx="848" cy="360.2" r="23.7"/>
+          <circle class="ln-2" cx="848" cy="360.2" r="4"/>
+          <!-- propeller -->
+          <path class="ln" d="M736,275 L735,190 Q738,185 741,190 L740,275 M736,285 L735,370 Q738,375 741,370 L740,285"/>
+          <text class="lbl lbl-ink" x="740" y="160" style="font-size:24px">Side</text>
+          <path class="dim" d="M740,395 V430 M1157.6,395 V430 M740,420 H1157.6"/>
+          <path class="dim" d="M740,420 l10 -3.5 v7 z M1157.6,420 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="948" y="413" text-anchor="middle" style="font-size:20px">Length 5.72 m</text>
+        </g>
+        <text class="lbl" x="720" y="560" style="font-size:18px">All three views share one scale.</text>
+        <text class="lbl" x="720" y="586" style="font-size:18px">Do not scale from the screen.</text>
+      </svg>
+      <figcaption><b>Plan, front and side.</b> The upper wing is flat and the lower wing has five degrees of dihedral, so the gap between them grows toward the tips. The upper wing is staggered forward, and the cut-out in its trailing edge is for the pilot's head.</figcaption>
+    </figure>
+
+    <div class="specs">
+      <table>
+        <caption>Sopwith F.1 Camel</caption>
+        <tr><th>Crew</th><td>1</td></tr>
+        <tr><th>First flight</th><td>22 December 1916</td></tr>
+        <tr><th>Span</th><td>8.53 m</td></tr>
+        <tr><th>Length</th><td>5.72 m</td></tr>
+        <tr><th>Height</th><td>2.59 m</td></tr>
+        <tr><th>Wing area</th><td>21.46 m²</td></tr>
+        <tr><th>Engine</th><td>Clerget 9B, 9-cylinder air-cooled rotary, 130 hp</td></tr>
+        <tr><th>Maximum speed</th><td>185 km/h at 1,980 m</td></tr>
+        <tr><th>Service ceiling</th><td>5,790 m</td></tr>
+        <tr><th>Armament</th><td>2 × 7.7 mm Vickers machine guns</td></tr>
+        <tr><th>Built</th><td>5,490</td></tr>
+      </table>
+    </div>
+
+    <div class="text">
+      <p>The Camel was the first British fighter to carry two synchronised machine guns, and the fairing over their breeches gave the aircraft its name. Nearly everything heavy sat within the front two metres: engine, guns, fuel and pilot. The Clerget rotary spun its whole crankcase and cylinders with the propeller, and the gyroscopic force of that spinning mass made the Camel turn right with startling speed while fighting its pilot through a left turn.</p>
+      <p>That temperament killed many novices in training and made experienced pilots nearly untouchable. Camels were credited with more enemy aircraft than any other Allied type of the war. This one is B6313, in which William Barker of 28 and later 66 Squadron scored forty-six victories, more than any other single airframe.</p>
+    </div>
+
+    <figure class="callout">
+      <svg class="draws" viewBox="0 0 520 330" role="img" aria-labelledby="camel-co-t">
+        <title id="camel-co-t">Front view of the Clerget 9B rotary engine showing nine cylinders around a fixed crankshaft, with the direction of rotation marked</title>
+        <!-- nine cylinders, each a finned barrel from the crankcase outward -->
+        <g class="ln" transform="translate(190 168)">
+          <g id="cyl">
+            <path d="M-16,-48 L-14,-122 A14 14 0 0 1 14,-122 L16,-48"/>
+            <path class="ln-2" d="M-15,-60 H15 M-15,-70 H15 M-15,-80 H15 M-15,-90 H15 M-15,-100 H15 M-14,-110 H14"/>
+            <path class="ln-2" d="M-6,-122 V-134 M6,-122 V-134"/>
+          </g>
+          <use href="#cyl" transform="rotate(40)"/>
+          <use href="#cyl" transform="rotate(80)"/>
+          <use href="#cyl" transform="rotate(120)"/>
+          <use href="#cyl" transform="rotate(160)"/>
+          <use href="#cyl" transform="rotate(200)"/>
+          <use href="#cyl" transform="rotate(240)"/>
+          <use href="#cyl" transform="rotate(280)"/>
+          <use href="#cyl" transform="rotate(320)"/>
+          <!-- crankcase and fixed crankshaft -->
+          <circle r="48"/>
+          <circle class="ln-2" r="38"/>
+          <circle class="sec" r="12"/>
+          <circle r="12"/>
+          <path class="ln-2" d="M-6,-6 L6,6 M6,-6 L-6,6"/>
+        </g>
+        <!-- rotation arrow -->
+        <path class="red" d="M190,18 A150 150 0 0 1 340,168"/>
+        <path class="red" d="M340,168 l-9 -16 M340,168 l9 -16" fill="none"/>
+        <text class="lbl lbl-red" x="336" y="40" style="font-size:12px">Cylinders, crankcase</text>
+        <text class="lbl lbl-red" x="336" y="55" style="font-size:12px">and propeller all rotate</text>
+        <!-- labels -->
+        <path class="ln-2" d="M190,168 L390,220"/>
+        <text class="lbl" x="392" y="216" style="font-size:12px">Crankshaft, fixed</text>
+        <text class="lbl" x="392" y="231" style="font-size:12px">to the airframe</text>
+        <path class="ln-2" d="M104,84 L40,60"/>
+        <text class="lbl" x="12" y="50" style="font-size:12px">Nine cylinders,</text>
+        <text class="lbl" x="12" y="65" style="font-size:12px">120 mm bore</text>
+        <text class="lbl" x="12" y="300" style="font-size:12px">Castor oil lubrication, total loss.</text>
+        <text class="lbl" x="12" y="315" style="font-size:12px">About 145 kg spinning at 1,250 rpm.</text>
+      </svg>
+      <figcaption><b>The rotary.</b> Fixing the crankshaft and spinning the engine kept the cylinders cool without a radiator, but 145 kilograms turning at 1,250 rpm made a gyroscope the pilot had to fight in every turn.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="titleblock">
+    <dl style="display:contents">
+      <div class="wide"><dt>Drawing</dt><dd>Sopwith F.1 Camel, general arrangement</dd></div>
+      <div><dt>Sheet</dt><dd>2 of 5</dd></div>
+      <div><dt>Rev</dt><dd>A</dd></div>
+      <div><dt>Drawn</dt><dd>Claude Fable 5.1</dd></div>
+      <div><dt>Checked</dt><dd>—</dd></div>
+      <div><dt>Scale</dt><dd>As dimensioned</dd></div>
+      <div><dt>Date</dt><dd>2026-09-02</dd></div>
+    </dl>
+  </footer>
+</article>
+
+<!-- PLATE 3: DOUGLAS DC-3 -->
+<article class="plate" id="dc3" aria-labelledby="dc3-title">
+  <header class="plate-head">
+    <h2 id="dc3-title">Douglas DC-3</h2>
+    <p class="sub">Twin-engined airliner, 21 passengers. United States, first flown 17 December 1935.</p>
+  </header>
+
+  <figure class="hero">
+    <svg class="profile" viewBox="0 0 1200 480" role="img" aria-labelledby="dc3-hero-t">
+      <title id="dc3-hero-t">Port side profile of Douglas DC-3 NC17334, Flagship Detroit, in polished aluminium with an orange cheatline</title>
+      <defs>
+        <path id="dc3-fus" d="M60,262 C62,235 90,205 140,196 L150,196 L185,168 L760,168 C840,174 910,184 960,190 C1020,150 1060,110 1100,100 C1108,98 1116,98 1120,98 C1128,98 1130,104 1130,104 C1140,150 1142,220 1141,262 L1141,270 L1135,282 C1090,292 1040,300 1000,300 C900,312 700,320 600,325 L300,330 L200,330 C120,328 70,300 60,262 Z"/>
+        <clipPath id="dc3-clip"><use href="#dc3-fus"/></clipPath>
+        <linearGradient id="dc3-metal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#EEF1F3"/>
+          <stop offset=".35" stop-color="#C5CACF"/>
+          <stop offset=".62" stop-color="#DDE1E4"/>
+          <stop offset="1" stop-color="#7E868D"/>
+        </linearGradient>
+        <linearGradient id="dc3-nacelle" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#E4E8EA"/>
+          <stop offset="1" stop-color="#6F777E"/>
+        </linearGradient>
+        <linearGradient id="dc3-wing" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#B3BAC0"/>
+          <stop offset="1" stop-color="#E6EAEC"/>
+        </linearGradient>
+      </defs>
+
+      <!-- fuselage in polished metal -->
+      <use href="#dc3-fus" fill="url(#dc3-metal)"/>
+      <g clip-path="url(#dc3-clip)">
+        <!-- panel and frame lines -->
+        <g fill="none" stroke="#000" stroke-opacity=".22" stroke-width=".8">
+          <path d="M240,170 V330 M300,168 V330 M420,168 V328 M540,168 V326 M660,168 V322 M780,170 V316 M880,178 V308 M960,190 V302"/>
+          <path d="M150,250 L1130,250 M140,290 L1120,290"/>
+        </g>
+        <!-- orange cheatline along the window row -->
+        <path d="M110,245 L1120,262 L1122,268 L112,252 Z" fill="#E0702B"/>
+        <path d="M110,245 C300,236 700,232 1060,246 L1062,250 C700,238 300,242 112,252 Z" fill="#E0702B" opacity=".8"/>
+        <!-- passenger door -->
+        <path d="M800,190 H846 V300 H800 Z" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1"/>
+      </g>
+      <!-- windows -->
+      <g fill="#1E2A3A" stroke="#000" stroke-opacity=".4" stroke-width=".8">
+        <rect x="320" y="206" width="28" height="30" rx="3"/>
+        <rect x="380" y="206" width="28" height="30" rx="3"/>
+        <rect x="440" y="206" width="28" height="30" rx="3"/>
+        <rect x="500" y="206" width="28" height="30" rx="3"/>
+        <rect x="560" y="206" width="28" height="30" rx="3"/>
+        <rect x="620" y="206" width="28" height="30" rx="3"/>
+        <rect x="680" y="206" width="28" height="30" rx="3"/>
+        <rect x="810" y="206" width="24" height="26" rx="3"/>
+        <!-- cockpit glazing -->
+        <path d="M152,198 L182,172 L215,172 L215,198 Z"/>
+        <path d="M120,226 L150,200 L200,200 L200,226 Z" fill="#1E2A3A" opacity=".85"/>
+      </g>
+      <path d="M156,196 L182,174 L210,174" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/>
+
+      <!-- tailplane -->
+      <path d="M958,262 C990,254 1080,254 1112,262 C1080,270 990,270 958,262 Z" fill="#C8CDD1" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1060,256 L1062,268" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
+
+      <!-- port wing rising toward the viewer, with the fillet at the root -->
+      <path d="M362,300 L598,318 L652,246 C651,240 636,238 626,240 L588,240 Z" fill="url(#dc3-wing)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M330,304 C345,300 355,300 362,300 M598,318 C620,316 640,314 680,314" fill="none" stroke="#000" stroke-opacity=".35" stroke-width=".9"/>
+      <path d="M380,298 L596,242 M470,308 L624,250" fill="none" stroke="#000" stroke-opacity=".15" stroke-width=".8"/>
+
+      <!-- port engine nacelle -->
+      <path d="M300,232 C320,228 380,228 440,238 C500,248 540,262 560,270 L560,300 C520,306 470,314 450,320 L400,322 L300,306 Z" fill="url(#dc3-nacelle)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M300,232 C286,232 278,250 278,269 C278,288 286,306 300,306 Z" fill="#2B2F33"/>
+      <path d="M300,240 C292,240 288,254 288,269 C288,284 292,298 300,298 Z" fill="#6A7076"/>
+      <path d="M300,232 V306 M330,229 V310" fill="none" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
+      <!-- retracted main wheel, half exposed -->
+      <path d="M392,322 A30 30 0 0 0 452,320 Z" fill="#2B2B2B" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <!-- propeller, edge-on -->
+      <path class="ln-3" d="M292,173 V365"/>
+      <path d="M289,250 L287,182 Q292,172 297,182 L295,250 Z M289,288 L287,356 Q292,366 297,356 L295,288 Z" fill="#2A2A2A"/>
+      <path d="M287,182 Q292,172 297,182 L296.5,200 L287.5,200 Z M287,356 Q292,366 297,356 L296.5,338 L287.5,338 Z" fill="#E8C34A"/>
+      <circle cx="292" cy="269" r="12" fill="#3A3E42"/>
+
+      <!-- tailwheel -->
+      <path d="M1020,300 L1030,330" stroke="var(--ink)" stroke-width="2.4"/>
+      <circle cx="1032" cy="340" r="14" fill="#2B2B2B" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <circle cx="1032" cy="340" r="4" fill="#9A9A9A"/>
+
+      <!-- markings -->
+      <text x="1095" y="160" font-family="Archivo, Arial, sans-serif" font-weight="600" font-size="20" fill="#1B2A44" text-anchor="middle" style="font-variation-settings:'wdth' 80">NC17334</text>
+      <text x="262" y="232" font-family="Archivo, Arial, sans-serif" font-style="italic" font-weight="500" font-size="14" fill="#1B2A44" text-anchor="middle">Flagship Detroit</text>
+
+      <!-- outline -->
+      <use href="#dc3-fus" fill="none" stroke="var(--ink)" stroke-opacity=".75" stroke-width="1.1"/>
+      <path d="M1104,102 L1138,272" fill="none" stroke="#000" stroke-opacity=".4" stroke-width=".9"/>
+    </svg>
+  </figure>
+
+  <div class="plate-body">
+    <figure class="threeview">
+      <svg class="draws" viewBox="0 0 1260 880" role="img" aria-labelledby="dc3-3v-t">
+        <title id="dc3-3v-t">Three-view line drawing of the Douglas DC-3: plan, front and side views to one scale</title>
+
+        <!-- ===== PLAN VIEW (nose up), centreline x=370 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,30 V520"/>
+          <!-- wings: straight centre section, swept outer panels, straight trailing edge -->
+          <path class="ln" d="M394,168 L480,168 L672,236 C680,240 682,250 678,258 C674,262 668,262 660,262 L394,262"/>
+          <path class="ln" d="M346,168 L260,168 L68,236 C60,240 58,250 62,258 C66,262 72,262 80,262 L346,262"/>
+          <!-- ailerons and flaps -->
+          <path class="ln-2" d="M520,250 L660,250 M520,250 V262 M80,250 L220,250 M220,250 V262"/>
+          <path class="ln-2" d="M394,254 L500,254 M240,254 L346,254"/>
+          <!-- nacelles -->
+          <path class="ln" d="M466,168 L466,152 C466,142 494,142 494,152 L494,168 M466,168 V262 M494,168 V262"/>
+          <path class="ln" d="M246,168 L246,152 C246,142 274,142 274,152 L274,168 M246,168 V262 M274,168 V262"/>
+          <path class="hid" d="M470,200 H490 V240 H470 Z M250,200 H270 V240 H250 Z"/>
+          <!-- propellers -->
+          <g class="prop">
+            <ellipse class="ln" cx="480" cy="146" rx="4" ry="37" transform="translate(0 -37)"/>
+            <ellipse class="ln" cx="480" cy="146" rx="4" ry="37" transform="rotate(120 480 146) translate(0 -37)"/>
+            <ellipse class="ln" cx="480" cy="146" rx="4" ry="37" transform="rotate(240 480 146) translate(0 -37)"/>
+          </g>
+          <g class="prop">
+            <ellipse class="ln" cx="260" cy="146" rx="4" ry="37" transform="translate(0 -37)"/>
+            <ellipse class="ln" cx="260" cy="146" rx="4" ry="37" transform="rotate(120 260 146) translate(0 -37)"/>
+            <ellipse class="ln" cx="260" cy="146" rx="4" ry="37" transform="rotate(240 260 146) translate(0 -37)"/>
+          </g>
+          <circle class="ctr" cx="480" cy="146" r="74"/>
+          <circle class="ctr" cx="260" cy="146" r="74"/>
+        </g>
+        <g class="part">
+          <!-- fuselage -->
+          <path class="ln" d="M370,50 C386,50 394,60 394,80 L394,300 C394,360 384,420 376,471 L364,471 C356,420 346,360 346,300 L346,80 C346,60 354,50 370,50 Z"/>
+          <path class="ln-2" d="M346,72 L358,60 H382 L394,72"/>
+          <path class="ln-2" d="M346,110 H394 M346,300 H394"/>
+          <!-- tailplane -->
+          <path class="ln" d="M370,418 L450,418 C460,418 464,426 464,436 L464,458 C464,466 458,469 450,469 L376,469 M370,418 L290,418 C280,418 276,426 276,436 L276,458 C276,466 282,469 290,469 L364,469"/>
+          <path class="ln-2" d="M464,452 H376 M276,452 H364"/>
+          <!-- fin seen from above -->
+          <path class="ln-2" d="M368,380 L372,380 M366,471 L374,471"/>
+          <text class="lbl lbl-ink" x="700" y="70" style="font-size:24px">Plan</text>
+        </g>
+        <g class="part">
+          <path class="dim" d="M60,275 V560 M680,275 V560 M60,550 H680"/>
+          <path class="dim" d="M60,550 l10 -3.5 v7 z M680,550 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="370" y="543" text-anchor="middle" style="font-size:20px">Span 28.96 m</text>
+        </g>
+
+        <!-- ===== FRONT VIEW, ground line y=830 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,700 V850"/>
+          <path class="ln-2" d="M40,830 H700"/>
+          <!-- fin -->
+          <path class="ln" d="M362,752 L364,724 C366,718 374,718 376,724 L378,752"/>
+          <!-- tailplane, hidden behind the wing -->
+          <path class="hid" d="M277,772 H463"/>
+          <!-- fuselage -->
+          <path class="ln" d="M346,778 C346,758 354,750 370,750 C386,750 394,758 394,778 C394,796 386,804 370,804 C354,804 346,796 346,778 Z"/>
+          <path class="ln-2" d="M356,756 H384"/>
+          <!-- wing with dihedral -->
+          <path class="ln" d="M394,796 L680,760 C684,760 684,766 680,768 L394,804 M346,796 L60,760 C56,760 56,766 60,768 L346,804"/>
+          <!-- nacelles and props -->
+          <path class="ln" d="M466,782 C466,772 494,772 494,782 L494,796 C494,806 466,806 466,796 Z"/>
+          <path class="ln" d="M246,782 C246,772 274,772 274,782 L274,796 C274,806 246,806 246,796 Z"/>
+          <g class="prop">
+            <ellipse class="ln" cx="480" cy="786" rx="4" ry="37" transform="translate(0 -37)"/>
+            <ellipse class="ln" cx="480" cy="786" rx="4" ry="37" transform="rotate(120 480 786) translate(0 -37)"/>
+            <ellipse class="ln" cx="480" cy="786" rx="4" ry="37" transform="rotate(240 480 786) translate(0 -37)"/>
+          </g>
+          <g class="prop">
+            <ellipse class="ln" cx="260" cy="786" rx="4" ry="37" transform="translate(0 -37)"/>
+            <ellipse class="ln" cx="260" cy="786" rx="4" ry="37" transform="rotate(120 260 786) translate(0 -37)"/>
+            <ellipse class="ln" cx="260" cy="786" rx="4" ry="37" transform="rotate(240 260 786) translate(0 -37)"/>
+          </g>
+          <circle class="ctr" cx="480" cy="786" r="74"/>
+          <circle class="ctr" cx="260" cy="786" r="74"/>
+          <!-- undercarriage -->
+          <path class="ln" d="M480,806 V817 M260,806 V817"/>
+          <circle class="ln" cx="480" cy="817" r="13"/>
+          <circle class="ln" cx="260" cy="817" r="13"/>
+          <text class="lbl lbl-ink" x="700" y="720" style="font-size:24px">Front</text>
+          <path class="dim" d="M40,830 H30 M40,720 H30 M32,720 V830"/>
+          <path class="dim" d="M32,720 l-3.5 10 h7 z M32,830 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="26" y="778" text-anchor="end" style="font-size:20px">5.16 m</text>
+        </g>
+
+        <!-- ===== SIDE VIEW, nose left at x=740 ===== -->
+        <g class="part">
+          <path class="ctr" d="M720,300 H1180"/>
+          <path class="ln" d="M740,300.8 C740.8,290.3 751.7,278.6 771.1,275.1 L775,275.1 L788.6,264.2 L1012.3,264.2 C1059,267.3 1098,275.1 1129,282.5 L1090.1,272.8 C1113.4,257.2 1129,241.7 1144.6,237.8 C1147.7,237 1150.8,237 1152.4,237 C1155.5,237 1156.3,239.3 1156.3,239.3 C1160.1,257.2 1160.9,284.4 1160.5,300.8 L1160.5,303.9 L1158.2,308.6 C1140.7,312.5 1121.3,315.6 1105.7,315.6 C1066.8,320.3 989,323.4 950.1,325.3 L833.4,327.2 L794.5,327.2 C763.3,326.5 743.9,315.6 740,300.8 Z"/>
+          <!-- windows and cockpit -->
+          <path class="ln-2" d="M775.8,279 L787.4,270 L801,270 V279 Z"/>
+          <path class="ln-2" d="M841.2,280.5 h11 v11 h-11 z M864.5,280.5 h11 v11 h-11 z M887.8,280.5 h11 v11 h-11 z M911.1,280.5 h11 v11 h-11 z M934.4,280.5 h11 v11 h-11 z M957.7,280.5 h11 v11 h-11 z M981,280.5 h11 v11 h-11 z M1031.5,280.5 h9 v10 h-9 z"/>
+          <path class="ln-2" d="M1027.9,272.8 H1045.8 V315.6"/>
+          <!-- wing and nacelle -->
+          <path class="ln" d="M857.5,315.6 L949.3,322.6 L972.2,278.6 C971.8,276.3 965.6,275.5 961.7,276.7 L940.3,277 Z"/>
+          <path class="ln" d="M833.4,289.1 C841,287.5 864,287.5 887.5,291.4 C911,295.3 926.7,300.8 934.5,303.9 L934.5,315.6 C919,318 900,321 891.7,323.3 L872.2,324.1 L833.4,317.9 Z"/>
+          <path class="ln" d="M833.4,289.1 C828,289.1 825,296.5 825,303.5 C825,310.9 828,317.9 833.4,317.9"/>
+          <path class="ln" d="M868.5,324 A11.7 11.7 0 0 0 891.7,323.3"/>
+          <!-- propeller edge-on -->
+          <path class="ln" d="M829,296 L828.5,268 Q830.3,264 832.1,268 L831.6,296 M829,311 L828.5,339 Q830.3,343 832.1,339 L831.6,311"/>
+          <!-- tailplane -->
+          <path class="ln" d="M1089.3,300.8 C1101.8,297.7 1136.8,297.7 1149.2,300.8 C1136.8,303.9 1101.8,303.9 1089.3,300.8 Z"/>
+          <path class="ln-2" d="M1146,238 L1158.5,304"/>
+          <!-- tailwheel -->
+          <path class="ln" d="M1113.4,315.6 L1117.3,327.2"/>
+          <circle class="ln" cx="1118.1" cy="331.1" r="5.4"/>
+          <text class="lbl lbl-ink" x="740" y="200" style="font-size:24px">Side</text>
+          <path class="dim" d="M740,360 V400 M1160.5,360 V400 M740,390 H1160.5"/>
+          <path class="dim" d="M740,390 l10 -3.5 v7 z M1160.5,390 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="950" y="383" text-anchor="middle" style="font-size:20px">Length 19.66 m</text>
+        </g>
+        <text class="lbl" x="720" y="560" style="font-size:18px">All three views share one scale.</text>
+        <text class="lbl" x="720" y="586" style="font-size:18px">Do not scale from the screen.</text>
+      </svg>
+      <figcaption><b>Plan, front and side.</b> The wing centre section is straight between the nacelles and the outer panels sweep back along the leading edge, while the trailing edge stays straight. Seven degrees of dihedral lift the near wing across the window line in the side view.</figcaption>
+    </figure>
+
+    <div class="specs">
+      <table>
+        <caption>Douglas DC-3</caption>
+        <tr><th>Crew</th><td>2 or 3, plus 21 passengers</td></tr>
+        <tr><th>First flight</th><td>17 December 1935</td></tr>
+        <tr><th>Span</th><td>28.96 m</td></tr>
+        <tr><th>Length</th><td>19.66 m</td></tr>
+        <tr><th>Height</th><td>5.16 m</td></tr>
+        <tr><th>Wing area</th><td>91.7 m²</td></tr>
+        <tr><th>Engines</th><td>2 × Wright R-1820 Cyclone, 9-cylinder radials, 1,100 hp each</td></tr>
+        <tr><th>Maximum speed</th><td>370 km/h at 2,590 m</td></tr>
+        <tr><th>Service ceiling</th><td>7,070 m</td></tr>
+        <tr><th>Range</th><td>2,400 km</td></tr>
+        <tr><th>Built</th><td>607 civil; about 16,000 with military and licence versions</td></tr>
+      </table>
+    </div>
+
+    <div class="text">
+      <p>The DC-3 began as a request from American Airlines for a sleeper version of the DC-2, and Douglas widened the fuselage enough for fourteen berths. In the day layout it carried twenty-one passengers, and that turned out to be the number at which an airline could make money on passengers alone, without a mail contract. Within three years it was carrying most of the air traffic in the United States.</p>
+      <p>The airframe was built to last. Its wing is a multi-cellular structure of many small spars and stiffeners that tolerates damage and fatigue, and the stressed-skin fuselage shrugs off hard landings. Around sixteen thousand were built, including the wartime C-47, and a few hundred still fly. This aircraft is NC17334, Flagship Detroit, delivered in 1937 and still airworthy.</p>
+    </div>
+
+    <figure class="callout">
+      <svg class="draws" viewBox="0 0 520 275" role="img" aria-labelledby="dc3-co-t">
+        <title id="dc3-co-t">Main undercarriage retraction sequence in three stages: down, swinging forward, and up with the tyre half exposed below the nacelle</title>
+        <!-- one nacelle side view, reused three times -->
+        <defs>
+          <g id="dc3-nac">
+            <path class="ln" d="M30,110 C40,106 70,106 95,112 C120,118 135,126 140,130 L140,178 C125,182 105,186 95,188 L30,190 Z"/>
+            <path class="ln" d="M30,110 C22,110 18,130 18,150 C18,170 22,190 30,190"/>
+            <path class="ln-2" d="M100,128 C115,124 145,126 165,134 C160,146 130,150 100,150"/>
+            <path class="hid" d="M52,150 L120,150 M60,120 V180"/>
+          </g>
+        </defs>
+        <!-- stage one: down and locked -->
+        <g transform="translate(0 -50)">
+          <use href="#dc3-nac"/>
+          <path class="ln" d="M84,150 L92,222 M70,152 L92,222"/>
+          <circle class="ln" cx="94" cy="246" r="26"/>
+          <circle class="ln-2" cx="94" cy="246" r="6"/>
+          <circle class="red" cx="84" cy="150" r="4"/>
+          <text class="lbl" x="20" y="290" style="font-size:12px">Down and locked</text>
+        </g>
+        <!-- stage two: swinging forward -->
+        <g transform="translate(172 -50)">
+          <use href="#dc3-nac"/>
+          <path class="ln" d="M84,150 L46,212 M70,152 L46,212"/>
+          <circle class="ln" cx="42" cy="232" r="26"/>
+          <circle class="ln-2" cx="42" cy="232" r="6"/>
+          <circle class="red" cx="84" cy="150" r="4"/>
+          <path class="red" d="M94,246 A72 72 0 0 0 42,232"/>
+          <path class="red" d="M42,232 l12 -2 M42,232 l4 12" fill="none"/>
+          <text class="lbl" x="20" y="290" style="font-size:12px">Swinging forward</text>
+        </g>
+        <!-- stage three: up, tyre half exposed -->
+        <g transform="translate(344 -50)">
+          <use href="#dc3-nac"/>
+          <path class="hid" d="M84,150 L62,168 M70,152 L62,168"/>
+          <circle class="hid" cx="60" cy="180" r="26"/>
+          <path class="ln" d="M36,184 A26 26 0 0 0 84,182"/>
+          <circle class="red" cx="84" cy="150" r="4"/>
+          <text class="lbl" x="20" y="290" style="font-size:12px">Up, tyre half exposed</text>
+        </g>
+        <text class="lbl" x="12" y="266" style="font-size:12px">Hydraulic retraction, forward and up into the nacelle. Pivot in red.</text>
+      </svg>
+      <figcaption><b>Retractable gear.</b> The wheels swing forward into the engine nacelles but never fully disappear. A third of each tyre stays in the airstream, which costs a little speed and means a wheels-up landing does remarkably little harm.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="titleblock">
+    <dl style="display:contents">
+      <div class="wide"><dt>Drawing</dt><dd>Douglas DC-3, general arrangement</dd></div>
+      <div><dt>Sheet</dt><dd>3 of 5</dd></div>
+      <div><dt>Rev</dt><dd>A</dd></div>
+      <div><dt>Drawn</dt><dd>Claude Fable 5.1</dd></div>
+      <div><dt>Checked</dt><dd>—</dd></div>
+      <div><dt>Scale</dt><dd>As dimensioned</dd></div>
+      <div><dt>Date</dt><dd>2026-09-02</dd></div>
+    </dl>
+  </footer>
+</article>
+
+<!-- PLATE 4: SUPERMARINE SPITFIRE -->
+<article class="plate" id="spitfire" aria-labelledby="spitfire-title">
+  <header class="plate-head">
+    <h2 id="spitfire-title">Supermarine Spitfire Mk I</h2>
+    <p class="sub">Single-seat fighter. Great Britain, first flown 5 March 1936.</p>
+  </header>
+
+  <figure class="hero">
+    <svg class="profile" viewBox="0 0 1200 480" role="img" aria-labelledby="spit-hero-t">
+      <title id="spit-hero-t">Port side profile of a Spitfire Mk I of 19 Squadron, K9795, in 1938 Dark Green and Dark Earth camouflage</title>
+      <defs>
+        <path id="spit-fus" d="M112,218 C200,200 320,190 450,190 L458,190 C470,175 480,160 490,158 C520,146 560,144 600,150 C640,158 660,172 690,184 C780,196 900,206 990,206 C1040,190 1070,150 1085,120 C1092,104 1102,100 1110,104 C1130,140 1140,200 1146,248 L1140,262 C1100,272 1050,278 1000,282 C900,290 800,294 700,298 L430,300 C410,308 330,308 300,300 C270,296 240,290 230,290 C190,280 150,282 112,282 Z"/>
+        <clipPath id="spit-clip"><use href="#spit-fus"/></clipPath>
+        <linearGradient id="spit-shade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff" stop-opacity=".12"/>
+          <stop offset=".55" stop-color="#000" stop-opacity="0"/>
+          <stop offset="1" stop-color="#000" stop-opacity=".32"/>
+        </linearGradient>
+        <linearGradient id="spit-glass" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#DCEBF5" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#5C86AE" stop-opacity=".7"/>
+        </linearGradient>
+      </defs>
+
+      <!-- propeller disc and edge-on blades -->
+      <ellipse cx="117" cy="250" rx="6" ry="190" class="ln-3"/>
+      <path d="M114,220 L111,62 Q116,54 121,62 L120,220 Z M114,280 L111,438 Q116,446 121,438 L120,280 Z" fill="#1F1F1F"/>
+      <path d="M111,62 Q116,54 121,62 L120.5,96 L111.5,96 Z M111,438 Q116,446 121,438 L120.5,404 L111.5,404 Z" fill="#E8C34A"/>
+
+      <!-- fuselage: dark green base, dark earth pattern, sky underside, shading -->
+      <use href="#spit-fus" fill="#4B5A3A"/>
+      <g clip-path="url(#spit-clip)">
+        <path fill="#6E5B3E" d="M90,150 C160,190 230,300 330,232 C380,196 440,210 490,254 C530,290 560,244 620,236 C700,226 760,300 850,272 C900,252 950,284 1010,264 C1060,250 1080,206 1160,200 L1160,110 L90,110 Z"/>
+        <path fill="#6E5B3E" d="M560,300 C620,300 660,280 720,290 C780,300 820,310 880,300 L880,330 L560,330 Z"/>
+        <path fill="#B9C6B0" d="M90,296 C200,290 320,302 440,298 C560,294 700,306 820,300 C960,294 1080,302 1160,296 L1160,340 L90,340 Z"/>
+        <rect x="80" y="90" width="1100" height="260" fill="url(#spit-shade)"/>
+        <!-- panel lines -->
+        <g fill="none" stroke="#000" stroke-opacity=".28" stroke-width=".8">
+          <path d="M330,192 L322,300 M450,190 L444,300 M700,186 L698,296 M900,206 L900,288 M990,206 L988,283"/>
+          <path d="M120,222 C240,205 360,198 456,196"/>
+        </g>
+        <!-- exhaust staining -->
+        <path d="M300,232 C400,238 470,246 560,252 L560,262 C470,258 400,252 300,246 Z" fill="#000" opacity=".18"/>
+      </g>
+
+      <!-- tailplane and elevator -->
+      <path d="M1000,238 C1030,228 1100,228 1128,238 C1100,246 1030,246 1000,238 Z" fill="#5A6748" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1078,230 L1080,245" stroke="#000" stroke-opacity=".4" stroke-width=".8"/>
+
+      <!-- wing root, fillet and oil cooler -->
+      <path d="M338,268 C348,258 380,256 420,258 L610,270 C650,274 668,282 650,290 L360,304 C340,300 332,282 338,268 Z" fill="#4B5A3A" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M338,268 C348,258 380,256 420,258 L520,264 C500,280 440,296 360,304 C340,300 332,282 338,268 Z" fill="#6E5B3E"/>
+      <path d="M290,262 C320,262 330,266 338,268 M650,290 C680,282 720,280 760,280" fill="none" stroke="#000" stroke-opacity=".35" stroke-width=".9"/>
+      <path d="M556,298 C562,320 638,320 644,298 Z" fill="#8E9C86" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+
+      <!-- exhaust stubs -->
+      <g fill="#3A3A3A" stroke="#000" stroke-opacity=".5" stroke-width=".6">
+        <rect x="176" y="222" width="34" height="10" rx="4"/>
+        <rect x="222" y="223" width="34" height="10" rx="4"/>
+        <rect x="268" y="224" width="34" height="10" rx="4"/>
+      </g>
+
+      <!-- canopy -->
+      <path d="M458,190 C470,175 480,160 490,158 C520,146 560,144 600,150 C640,158 660,172 690,184 L690,192 L458,192 Z" fill="url(#spit-glass)"/>
+      <g fill="none" stroke="#2A2A2A" stroke-width="1.4" stroke-linejoin="round">
+        <path d="M458,190 C470,175 480,160 490,158 C520,146 560,144 600,150 C640,158 660,172 690,184"/>
+        <path d="M490,158 L492,191 M610,152 L612,191 M660,172 L661,191"/>
+      </g>
+      <path d="M496,164 C520,154 556,152 596,157" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.6"/>
+
+      <!-- outline -->
+      <use href="#spit-fus" fill="none" stroke="var(--ink)" stroke-opacity=".75" stroke-width="1.1"/>
+      <path d="M1084,116 L1108,258" fill="none" stroke="#000" stroke-opacity=".45" stroke-width=".9"/>
+
+      <!-- markings -->
+      <g>
+        <circle cx="820" cy="240" r="50" fill="#F2C744"/>
+        <circle cx="820" cy="240" r="40" fill="#1F3A7A"/>
+        <circle cx="820" cy="240" r="28" fill="#F1F1EC"/>
+        <circle cx="820" cy="240" r="16" fill="#B7231F"/>
+      </g>
+      <text x="690" y="262" font-family="Archivo, Arial, sans-serif" font-weight="700" font-size="58" fill="#9AA3A0" text-anchor="middle" style="font-variation-settings:'wdth' 70">QV</text>
+      <text x="910" y="262" font-family="Archivo, Arial, sans-serif" font-weight="700" font-size="58" fill="#9AA3A0" text-anchor="middle" style="font-variation-settings:'wdth' 70">K</text>
+      <text x="1010" y="270" font-family="Archivo, Arial, sans-serif" font-weight="600" font-size="15" fill="#1A1A1A" text-anchor="middle" style="font-variation-settings:'wdth' 80">K9795</text>
+
+      <!-- spinner -->
+      <path d="M50,250 C68,232 90,220 112,218 L112,282 C90,280 68,268 50,250 Z" fill="#2B2B2B" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M58,246 C76,234 94,226 112,224" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.2"/>
+
+      <!-- tailwheel -->
+      <path d="M1094,282 L1100,300" stroke="var(--ink)" stroke-width="2.2"/>
+      <circle cx="1100" cy="311" r="11" fill="#2B2B2B" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <circle cx="1100" cy="311" r="3.5" fill="#9A9A9A"/>
+    </svg>
+  </figure>
+
+  <div class="plate-body">
+    <figure class="threeview">
+      <svg class="draws" viewBox="0 0 1260 880" role="img" aria-labelledby="spit-3v-t">
+        <title id="spit-3v-t">Three-view line drawing of the Spitfire Mk I: plan, front and side views to one scale</title>
+
+        <!-- ===== PLAN VIEW (nose up), centreline x=370 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,30 V590"/>
+          <!-- wings -->
+          <path class="ln" d="M396,187 C520,190 640,212 676,240 C682,246 680,254 674,258 C630,285 560,308 480,320 L396,325"/>
+          <path class="ln" d="M344,187 C220,190 100,212 64,240 C58,246 60,254 66,258 C110,285 180,308 260,320 L344,325"/>
+          <!-- ailerons -->
+          <path class="ln-2" d="M540,296 C600,286 650,270 672,254 M200,296 C140,286 90,270 68,254"/>
+          <path class="ln-2" d="M540,296 L542,312 M200,296 L198,312"/>
+          <!-- wing walk / gun ports (hidden) -->
+          <path class="hid" d="M470,200 L470,320 M230,200 L230,320"/>
+          <path class="ln-2" d="M480,195 V206 M520,200 V210 M600,214 V222 M640,226 V233 M260,195 V206 M220,200 V210 M140,214 V222 M100,226 V233"/>
+          <!-- radiator under starboard wing (hidden), oil cooler under port -->
+          <path class="hid" d="M300,240 H262 V300 H300 Z"/>
+          <path class="hid" d="M418,262 C440,262 452,272 452,286 C452,300 440,304 418,304 Z"/>
+          <text class="lbl" x="120" y="300" style="font-size:20px">Radiator, starboard</text>
+          <text class="lbl" x="462" y="290" style="font-size:20px">Oil cooler, port</text>
+        </g>
+        <g class="part">
+          <!-- fuselage -->
+          <path class="ln" d="M370,50 C385,50 395,60 396,80 L397,120 C400,160 400,200 397,300 C395,360 386,440 379,540 L376,552 L364,552 C354,440 345,360 343,300 C340,200 340,160 343,120 L344,80 C345,60 355,50 370,50 Z"/>
+          <path class="ln-2" d="M344,120 H396 M343,200 H397"/>
+          <!-- canopy -->
+          <path class="ln" d="M370,240 C385,240 390,255 390,275 L386,300 C380,305 360,305 354,300 L350,275 C350,255 355,240 370,240 Z"/>
+          <path class="ln-2" d="M350,256 H390"/>
+          <!-- exhaust stubs -->
+          <path class="ln-2" d="M397,110 h8 M397,124 h8 M397,138 h8 M343,110 h-8 M343,124 h-8 M343,138 h-8"/>
+          <!-- spinner and propeller -->
+          <path class="ln" d="M370,50 C385,50 395,60 396,80 M370,50 C355,50 345,60 344,80"/>
+          <g class="prop">
+            <ellipse class="ln" cx="370" cy="72" rx="6" ry="44" transform="rotate(0 370 72) translate(0 -44)"/>
+            <ellipse class="ln" cx="370" cy="72" rx="6" ry="44" transform="rotate(120 370 72) translate(0 -44)"/>
+            <ellipse class="ln" cx="370" cy="72" rx="6" ry="44" transform="rotate(240 370 72) translate(0 -44)"/>
+          </g>
+          <circle class="ctr" cx="370" cy="72" r="90"/>
+          <!-- tailplane and elevators -->
+          <path class="ln" d="M376,484 C420,486 450,494 457,512 C458,528 440,538 400,543 L376,544"/>
+          <path class="ln" d="M364,484 C320,486 290,494 283,512 C282,528 300,538 340,543 L364,544"/>
+          <path class="ln-2" d="M380,522 L450,522 M360,522 L290,522"/>
+          <!-- fin (seen from above) -->
+          <path class="ln-2" d="M366,470 L374,470 M368,552 L372,552"/>
+          <text class="lbl lbl-ink" x="700" y="70" style="font-size:24px">Plan</text>
+        </g>
+        <!-- span dimension -->
+        <g class="part">
+          <path class="dim" d="M64,270 V600 M676,270 V600 M64,590 H676"/>
+          <path class="dim" d="M64,590 l10 -3.5 v7 z M676,590 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="370" y="583" text-anchor="middle" style="font-size:20px">Span 11.23 m</text>
+        </g>
+
+        <!-- ===== FRONT VIEW, ground line y=830 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,620 V850"/>
+          <path class="ln-2" d="M40,830 H700"/>
+          <!-- fin and rudder -->
+          <path class="ln" d="M365,722 L363,642 C365,634 375,634 377,642 L375,722"/>
+          <!-- tailplane -->
+          <path class="ln" d="M283,748 H457 M283,748 C283,752 457,752 457,748"/>
+          <!-- fuselage section with canopy -->
+          <path class="ln" d="M345,760 C345,740 352,724 370,722 C388,724 395,740 395,760 C395,782 385,798 370,799 C355,798 345,782 345,760 Z"/>
+          <path class="ln" d="M354,724 C354,704 386,704 386,724"/>
+          <path class="ln-2" d="M358,718 C362,712 378,712 382,718"/>
+          <!-- wings with dihedral -->
+          <path class="ln" d="M395,764 L676,736 C682,738 682,744 676,747 L395,780"/>
+          <path class="ln" d="M345,764 L64,736 C58,738 58,744 64,747 L345,780"/>
+          <path class="hid" d="M395,772 L676,742 M345,772 L64,742"/>
+          <!-- radiator (starboard, viewer's left) and oil cooler (port, viewer's right) -->
+          <path class="ln" d="M296,779 V797 H330 V776"/>
+          <path class="ln" d="M410,778 C410,794 442,794 442,775"/>
+          <!-- undercarriage -->
+          <path class="ln" d="M333,780 L325,800 M407,780 L415,800"/>
+          <circle class="ln" cx="323" cy="811" r="19"/>
+          <circle class="ln" cx="417" cy="811" r="19"/>
+          <circle class="ln-2" cx="323" cy="811" r="5"/>
+          <circle class="ln-2" cx="417" cy="811" r="5"/>
+          <path class="hid" d="M370,824 a8 8 0 1 0 0.1 0"/>
+          <!-- spinner and propeller -->
+          <circle class="ln" cx="370" cy="764" r="15"/>
+          <g class="prop">
+            <ellipse class="ln" cx="370" cy="764" rx="7" ry="88" transform="rotate(0 370 764) translate(0 -88)"/>
+            <ellipse class="ln" cx="370" cy="764" rx="7" ry="88" transform="rotate(120 370 764) translate(0 -88)"/>
+            <ellipse class="ln" cx="370" cy="764" rx="7" ry="88" transform="rotate(240 370 764) translate(0 -88)"/>
+          </g>
+          <circle class="ctr" cx="370" cy="764" r="180"/>
+          <text class="lbl lbl-ink" x="700" y="650" style="font-size:24px">Front</text>
+          <!-- height dimension -->
+          <path class="dim" d="M40,830 H30 M40,642 H30 M32,642 V830"/>
+          <path class="dim" d="M32,642 l-3.5 10 h7 z M32,830 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="26" y="740" text-anchor="end" style="font-size:20px">3.86 m</text>
+        </g>
+
+        <!-- ===== SIDE VIEW, nose left at x=720, datum y=300 ===== -->
+        <g class="part">
+          <path class="ctr" d="M700,300 H1240"/>
+          <!-- fuselage -->
+          <path class="ln" d="M748,285 C789,277 844,272.5 903,272.5 L907,272.5 C912.5,265.6 917,258.8 921.7,257.8 C935.4,252.3 953.8,251.4 972,254.2 C990.4,257.8 999.6,264.3 1013.3,269.8 C1054.6,275.3 1109.6,279.8 1150.8,279.8 C1173.7,272.5 1187.5,254.2 1194.4,240.4 C1197.6,233.1 1202.2,231.3 1205.8,233.1 C1215,249.6 1219.6,277.1 1222.3,299.1 L1219.6,305.5 C1201.3,310.1 1178.3,312.8 1155.4,314.7 C1109.6,318.3 1063.8,320.2 1017.9,322 L894,323 C884,326.5 848,326.5 834,323 C822,321 809,318.3 802.5,318.3 C784.2,313.8 765.8,314.7 748,314.7"/>
+          <!-- spinner -->
+          <path class="ln" d="M720,300 C728,292 738,286 748,285 M720,300 C728,308 738,314 748,314.7"/>
+          <!-- propeller edge-on -->
+          <path class="ln" d="M749,286 L746,214 Q750,210 754,214 L753,286 M749,314 L746,386 Q750,390 754,386 L753,314"/>
+          <path class="ln-3" d="M756,213 V387"/>
+          <!-- canopy -->
+          <path class="ln-2" d="M921.7,257.8 L922.5,273 M976.6,255 L977.5,273 M999.6,264.3 L1000,273 M907,273 H1013"/>
+          <!-- wing root and fillet -->
+          <path class="ln" d="M852,308.3 C856.6,303.7 871.3,302.8 889.6,303.7 L976.6,309.2 C995,311 1003.3,314.7 995,318.3 L862,324.8 C852.9,322.9 849.2,314.7 852,308.3 Z"/>
+          <path class="ln-2" d="M830,305.5 C843,305.5 848,307 852,308.3 M995,318.3 C1009,314.7 1027,313.8 1046,313.8"/>
+          <!-- oil cooler -->
+          <path class="ln" d="M953.8,322.9 C956.5,332.1 987.6,332.1 990.4,322.9"/>
+          <!-- main wheel, hidden in its bay -->
+          <circle class="hid" cx="892" cy="318" r="9"/>
+          <!-- exhaust stubs -->
+          <path class="ln-2" d="M778,287.5 h15 M799,288 h15 M820,288.5 h15"/>
+          <!-- tailplane -->
+          <path class="ln" d="M1155.4,294.5 C1169.2,289.9 1201.3,289.9 1214.1,294.5 C1201.3,298.2 1169.2,298.2 1155.4,294.5 Z"/>
+          <!-- rudder hinge -->
+          <path class="ln-2" d="M1194,238 L1204,304"/>
+          <!-- tailwheel -->
+          <path class="ln" d="M1198.9,314.7 L1201.3,322.9"/>
+          <circle class="ln" cx="1201.3" cy="327.5" r="5"/>
+          <text class="lbl lbl-ink" x="720" y="200" style="font-size:24px">Side</text>
+          <!-- length dimension -->
+          <path class="dim" d="M720,330 V410 M1222.3,330 V410 M720,400 H1222.3"/>
+          <path class="dim" d="M720,400 l10 -3.5 v7 z M1222.3,400 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="971" y="393" text-anchor="middle" style="font-size:20px">Length 9.12 m</text>
+        </g>
+
+        <!-- scale note -->
+        <text class="lbl" x="720" y="560" style="font-size:18px">All three views share one scale.</text>
+        <text class="lbl" x="720" y="586" style="font-size:18px">Do not scale from the screen.</text>
+      </svg>
+      <figcaption><b>Plan, front and side.</b> The main wheels retract outward into the wing, so the front view shows them lowered and the side view shows the wheel hidden in its bay. The radiator sits under the starboard wing, the oil cooler under the port.</figcaption>
+    </figure>
+
+    <div class="specs">
+      <table>
+        <caption>Supermarine Type 300, Mk I</caption>
+        <tr><th>Crew</th><td>1</td></tr>
+        <tr><th>First flight</th><td>5 March 1936</td></tr>
+        <tr><th>Span</th><td>11.23 m</td></tr>
+        <tr><th>Length</th><td>9.12 m</td></tr>
+        <tr><th>Height</th><td>3.86 m</td></tr>
+        <tr><th>Wing area</th><td>22.48 m²</td></tr>
+        <tr><th>Engine</th><td>Rolls-Royce Merlin II, liquid-cooled V-12, 1,030 hp</td></tr>
+        <tr><th>Maximum speed</th><td>582 km/h at 5,700 m</td></tr>
+        <tr><th>Service ceiling</th><td>10,400 m</td></tr>
+        <tr><th>Armament</th><td>8 × 7.7 mm Browning machine guns</td></tr>
+        <tr><th>Mk I built</th><td>1,567</td></tr>
+      </table>
+    </div>
+
+    <div class="text">
+      <p>Reginald Mitchell's Spitfire flew from Eastleigh on 5 March 1936 and looked unlike anything the Royal Air Force had ordered before. It had a thin elliptical wing, a monocoque fuselage of flush-riveted stressed skin, and a Rolls-Royce Merlin under a cowling with barely a hand's width to spare. The Mk I spread eight Browning machine guns across the wing, far enough outboard that the wing could stay thin at the root.</p>
+      <p>The wing that made it famous also made it slow to build. Its compound curves and single-spar structure took roughly two and a half times the labour of the Hurricane's. The aircraft drawn here wears the pre-war finish of 19 Squadron at Duxford, the first unit to receive the type, in August 1938.</p>
+    </div>
+
+    <figure class="callout">
+      <svg class="draws" viewBox="0 0 520 330" role="img" aria-labelledby="spit-co-t">
+        <title id="spit-co-t">The elliptical wing planform compared with a rectangular wing of equal area, with the lift distribution beneath</title>
+        <!-- semi-span dimension -->
+        <path class="dim" d="M40,22 V44 M480,22 V44 M40,30 H480"/>
+        <path class="dim" d="M40,30 l10 -3.5 v7 z M480,30 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+        <text class="lbl num" x="260" y="25" text-anchor="middle">Semi-span 5.62 m</text>
+        <!-- rectangular wing of equal area -->
+        <path class="hid" d="M40,88 H480 V232 H40"/>
+        <text class="lbl" x="476" y="82" text-anchor="end">Rectangular wing, same area</text>
+        <!-- elliptical wing -->
+        <path class="red" d="M40,70 Q300,74 480,160 Q400,250 40,258"/>
+        <path class="ln-2" d="M40,70 V258"/>
+        <!-- spar and quarter-chord line -->
+        <path class="ctr" d="M40,117 Q300,120 480,160"/>
+        <text class="lbl" x="150" y="112">Main spar at quarter chord</text>
+        <!-- root chord -->
+        <path class="dim" d="M22,70 H36 M22,258 H36 M28,70 V258"/>
+        <path class="dim" d="M28,70 l-3.5 10 h7 z M28,258 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+        <text class="lbl num" x="24" y="168" text-anchor="end" transform="rotate(-90 24 168)">2.5 m</text>
+        <!-- lift distribution -->
+        <path class="ln-2" d="M40,306 H480"/>
+        <path class="red" d="M40,306 A440 42 0 0 1 480,306"/>
+        <path class="hid" d="M40,282 H480"/>
+        <text class="lbl lbl-red" x="260" y="258" text-anchor="middle">Lift per metre of span, elliptical</text>
+        <text class="lbl" x="476" y="298" text-anchor="end">rectangular</text>
+      </svg>
+      <figcaption><b>Why the ellipse.</b> An elliptical chord distribution carries lift that tapers smoothly to nothing at the tip, which gives the least induced drag any planform can achieve for a given span. It also kept the wing deep enough at the root to bury the guns and the retracted wheels.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="titleblock">
+    <dl style="display:contents">
+      <div class="wide"><dt>Drawing</dt><dd>Supermarine Spitfire Mk I, general arrangement</dd></div>
+      <div><dt>Sheet</dt><dd>4 of 5</dd></div>
+      <div><dt>Rev</dt><dd>A</dd></div>
+      <div><dt>Drawn</dt><dd>Claude Fable 5.1</dd></div>
+      <div><dt>Checked</dt><dd>—</dd></div>
+      <div><dt>Scale</dt><dd>As dimensioned</dd></div>
+      <div><dt>Date</dt><dd>2026-09-02</dd></div>
+    </dl>
+  </footer>
+</article>
+
+<!-- PLATE 5: LOCKHEED CONSTELLATION -->
+<article class="plate" id="constellation" aria-labelledby="connie-title">
+  <header class="plate-head">
+    <h2 id="connie-title">Lockheed L-049 Constellation</h2>
+    <p class="sub">Four-engined pressurised airliner. United States, first flown 9 January 1943.</p>
+  </header>
+
+  <figure class="hero">
+    <svg class="profile" viewBox="0 0 1200 480" role="img" aria-labelledby="connie-hero-t">
+      <title id="connie-hero-t">Port side profile of Lockheed Constellation NC86511 in polished aluminium with twin red cheatlines, gear retracted</title>
+      <defs>
+        <path id="con-fus" d="M60,286 C78,262 120,232 220,205 C400,190 600,192 760,205 C880,214 980,226 1080,236 L1112,238 C1122,240 1124,250 1120,262 C1050,268 950,290 860,308 C780,326 700,334 600,336 L400,336 C300,334 200,326 140,310 C110,306 76,300 60,286 Z"/>
+        <clipPath id="con-clip"><use href="#con-fus"/></clipPath>
+        <linearGradient id="con-metal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F1F3F5"/>
+          <stop offset=".4" stop-color="#C3C9CE"/>
+          <stop offset=".65" stop-color="#DCE0E3"/>
+          <stop offset="1" stop-color="#7A8289"/>
+        </linearGradient>
+        <linearGradient id="con-nac" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#E6EAEC"/>
+          <stop offset="1" stop-color="#697178"/>
+        </linearGradient>
+        <linearGradient id="con-wing" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#AEB5BB"/>
+          <stop offset="1" stop-color="#E4E8EA"/>
+        </linearGradient>
+      </defs>
+
+      <!-- outboard fin (far side of the tailplane, drawn first) -->
+      <path d="M1050,246 C1058,200 1080,168 1108,164 C1126,162 1136,178 1138,200 C1141,236 1138,262 1132,276 C1124,284 1104,284 1090,278 L1060,270 Z" fill="#CDD2D6" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1112,166 L1132,278" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
+      <text x="1104" y="222" font-family="Archivo, Arial, sans-serif" font-weight="600" font-size="15" fill="#1B2A44" text-anchor="middle" style="font-variation-settings:'wdth' 80">NC86511</text>
+
+      <!-- outer port nacelle, behind the inner one -->
+      <path d="M422,236 C450,232 520,234 580,242 C620,248 640,254 646,258 L646,282 C610,286 560,290 530,292 L470,292 L422,288 Z" fill="url(#con-nac)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M422,236 C410,236 404,248 404,262 C404,276 410,288 422,288 Z" fill="#2B2F33"/>
+      <path class="ln-3" d="M412,176 V348"/>
+      <path d="M409,250 L408,186 Q412,176 416,186 L415,250 Z M409,274 L408,338 Q412,348 416,338 L415,274 Z" fill="#2A2A2A"/>
+
+      <!-- fuselage -->
+      <use href="#con-fus" fill="url(#con-metal)"/>
+      <g clip-path="url(#con-clip)">
+        <g fill="none" stroke="#000" stroke-opacity=".2" stroke-width=".8">
+          <path d="M260,200 V330 M340,194 V336 M420,192 V336 M500,191 V336 M580,191 V336 M660,194 V334 M740,202 V328 M820,210 V314 M900,220 V300 M980,228 V284"/>
+          <path d="M150,262 L1110,262"/>
+        </g>
+        <!-- twin red cheatlines -->
+        <path d="M120,228 C400,222 800,224 1112,240 L1112,246 C800,230 400,228 120,234 Z" fill="#C8102E"/>
+        <path d="M110,262 C400,262 800,264 1120,258 L1120,262 C800,268 400,266 110,266 Z" fill="#C8102E"/>
+        <!-- doors -->
+        <path d="M950,236 H984 V296 H950 Z M290,222 H322 V326 H290 Z" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1"/>
+      </g>
+      <!-- windows -->
+      <g fill="#1E2A3A" stroke="#000" stroke-opacity=".4" stroke-width=".7">
+        <rect x="336" y="238" width="16" height="18" rx="4"/><rect x="372" y="238" width="16" height="18" rx="4"/><rect x="408" y="238" width="16" height="18" rx="4"/>
+        <rect x="444" y="238" width="16" height="18" rx="4"/><rect x="480" y="238" width="16" height="18" rx="4"/><rect x="516" y="238" width="16" height="18" rx="4"/>
+        <rect x="552" y="238" width="16" height="18" rx="4"/><rect x="588" y="238" width="16" height="18" rx="4"/><rect x="624" y="238" width="16" height="18" rx="4"/>
+        <rect x="660" y="238" width="16" height="18" rx="4"/><rect x="696" y="238" width="16" height="18" rx="4"/><rect x="732" y="238" width="16" height="18" rx="4"/>
+        <rect x="768" y="239" width="16" height="18" rx="4"/><rect x="804" y="240" width="16" height="18" rx="4"/><rect x="840" y="242" width="16" height="18" rx="4"/>
+        <rect x="876" y="244" width="16" height="18" rx="4"/><rect x="912" y="246" width="16" height="18" rx="4"/>
+        <!-- cockpit -->
+        <path d="M196,212 L232,206 L244,204 L246,214 L200,222 Z"/>
+        <path d="M172,222 L196,214 L198,224 L176,232 Z"/>
+      </g>
+      <path d="M198,212 L244,204" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.2"/>
+
+      <!-- tailplane, centre fin -->
+      <path d="M1000,236 C1040,230 1110,230 1134,240 C1110,248 1040,248 1000,236 Z" fill="#C8CDD1" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1035,236 C1046,192 1068,160 1096,156 C1114,154 1124,170 1126,192 C1129,222 1127,236 1125,240 Z" fill="#D8DCDF" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M1100,158 L1122,240" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
+      <path d="M1040,232 C1050,212 1058,196 1070,186" fill="none" stroke="#C8102E" stroke-width="3"/>
+
+      <!-- port wing rising toward the viewer -->
+      <path d="M449,300 L671,336 L700,274 C699,268 686,266 676,268 L640,268 Z" fill="url(#con-wing)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M420,304 C436,300 444,300 449,300 M671,336 C700,332 730,328 780,326" fill="none" stroke="#000" stroke-opacity=".35" stroke-width=".9"/>
+
+      <!-- inner port nacelle -->
+      <path d="M380,252 C410,246 490,248 560,258 C600,264 626,274 640,280 L640,308 C600,314 540,318 500,318 L440,316 L380,312 Z" fill="url(#con-nac)" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1"/>
+      <path d="M380,252 C366,252 358,266 358,282 C358,298 366,312 380,312 Z" fill="#2B2F33"/>
+      <path d="M380,260 C372,260 368,270 368,282 C368,294 372,304 380,304 Z" fill="#6A7076"/>
+      <path d="M380,252 V312 M420,249 V316" fill="none" stroke="#000" stroke-opacity=".35" stroke-width=".8"/>
+      <path class="ln-3" d="M372,196 V368"/>
+      <path d="M369,270 L368,206 Q372,196 376,206 L375,270 Z M369,294 L368,358 Q372,368 376,358 L375,294 Z" fill="#2A2A2A"/>
+      <path d="M368,206 Q372,196 376,206 L375.5,222 L368.5,222 Z M368,358 Q372,368 376,358 L375.5,342 L368.5,342 Z" fill="#E8C34A"/>
+      <circle cx="372" cy="282" r="11" fill="#3A3E42"/>
+
+      <!-- outline -->
+      <use href="#con-fus" fill="none" stroke="var(--ink)" stroke-opacity=".75" stroke-width="1.1"/>
+    </svg>
+  </figure>
+
+  <div class="plate-body">
+    <figure class="threeview">
+      <svg class="draws" viewBox="0 0 1260 880" role="img" aria-labelledby="connie-3v-t">
+        <title id="connie-3v-t">Three-view line drawing of the Lockheed Constellation: plan, front and side views to one scale</title>
+
+        <!-- ===== PLAN VIEW (nose up), centreline x=370 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,20 V570"/>
+          <path class="ln" d="M397,214 L474,214 L676,268 C682,270 684,280 680,290 C676,298 670,300 660,300 L397,313"/>
+          <path class="ln" d="M343,214 L266,214 L64,268 C58,270 56,280 60,290 C64,298 70,300 80,300 L343,313"/>
+          <path class="ln-2" d="M560,296 L660,290 M560,296 V304 M180,296 L80,290 M180,296 V304"/>
+          <path class="ln-2" d="M397,306 L540,300 M343,306 L200,300"/>
+          <!-- nacelles -->
+          <path class="ln" d="M448,214 V184 C448,172 474,172 474,184 V214 M448,214 V310 M474,214 V306"/>
+          <path class="ln" d="M292,214 V184 C292,172 266,172 266,184 V214 M292,214 V310 M266,214 V306"/>
+          <path class="ln" d="M522,232 V200 C522,188 548,188 548,200 V236 M522,232 V300 M548,236 V298"/>
+          <path class="ln" d="M218,232 V200 C218,188 192,188 192,200 V236 M218,232 V300 M192,236 V298"/>
+          <g class="prop"><ellipse class="ln" cx="461" cy="178" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="461" cy="178" rx="4" ry="38" transform="rotate(120 461 178) translate(0 -38)"/><ellipse class="ln" cx="461" cy="178" rx="4" ry="38" transform="rotate(240 461 178) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="279" cy="178" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="279" cy="178" rx="4" ry="38" transform="rotate(120 279 178) translate(0 -38)"/><ellipse class="ln" cx="279" cy="178" rx="4" ry="38" transform="rotate(240 279 178) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="535" cy="194" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="535" cy="194" rx="4" ry="38" transform="rotate(120 535 194) translate(0 -38)"/><ellipse class="ln" cx="535" cy="194" rx="4" ry="38" transform="rotate(240 535 194) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="205" cy="194" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="205" cy="194" rx="4" ry="38" transform="rotate(120 205 194) translate(0 -38)"/><ellipse class="ln" cx="205" cy="194" rx="4" ry="38" transform="rotate(240 205 194) translate(0 -38)"/></g>
+          <circle class="ctr" cx="461" cy="178" r="77"/><circle class="ctr" cx="279" cy="178" r="77"/>
+          <circle class="ctr" cx="535" cy="194" r="77"/><circle class="ctr" cx="205" cy="194" r="77"/>
+        </g>
+        <g class="part">
+          <path class="ln" d="M370,40 C384,40 396,60 397,110 L397,320 C397,400 388,470 380,520 L360,520 C352,470 343,400 343,320 L343,110 C344,60 356,40 370,40 Z"/>
+          <path class="ln-2" d="M348,74 L360,64 H380 L392,74 M343,140 H397 M343,320 H397"/>
+          <!-- tailplane and triple fins -->
+          <path class="ln" d="M370,453 L490,470 C500,472 507,480 507,490 L507,500 C507,506 502,508 496,507 L378,504 M370,453 L250,470 C240,472 233,480 233,490 L233,500 C233,506 238,508 244,507 L362,504"/>
+          <path class="ln-2" d="M496,498 L378,498 M244,498 L362,498"/>
+          <path class="ln" d="M364,458 V520 M376,458 V520 M230,466 V512 M236,466 V512 M504,466 V512 M510,466 V512"/>
+          <text class="lbl lbl-ink" x="700" y="60" style="font-size:24px">Plan</text>
+        </g>
+        <g class="part">
+          <path class="dim" d="M58,310 V585 M682,310 V585 M58,575 H682"/>
+          <path class="dim" d="M58,575 l10 -3.5 v7 z M682,575 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="370" y="568" text-anchor="middle" style="font-size:20px">Span 37.49 m</text>
+        </g>
+
+        <!-- ===== FRONT VIEW, ground line y=830 ===== -->
+        <g class="part">
+          <path class="ctr" d="M370,690 V850"/>
+          <path class="ln-2" d="M40,830 H700"/>
+          <!-- fins and tailplane -->
+          <path class="ln" d="M356,745 C356,724 362,711 370,711 C378,711 384,724 384,745"/>
+          <path class="ln" d="M226,762 C226,730 230,712 240,712 C250,712 254,730 254,762 C254,768 240,770 226,762 Z"/>
+          <path class="ln" d="M486,762 C486,730 490,712 500,712 C510,712 514,730 514,762 C514,768 500,770 486,762 Z"/>
+          <path class="ln-2" d="M254,748 L343,745 M486,748 L397,745"/>
+          <!-- fuselage -->
+          <path class="ln" d="M343,771 C343,752 354,743 370,743 C386,743 397,752 397,771 C397,790 386,799 370,799 C354,799 343,790 343,771 Z"/>
+          <path class="ln-2" d="M356,750 H384"/>
+          <!-- wing -->
+          <path class="ln" d="M397,791 L680,750 C684,750 684,756 680,758 L397,799 M343,791 L60,750 C56,750 56,756 60,758 L343,799"/>
+          <!-- nacelles -->
+          <path class="ln" d="M448,782 C448,770 474,770 474,782 L474,798 C474,810 448,810 448,798 Z M292,782 C292,770 266,770 266,782 L266,798 C266,810 292,810 292,798 Z"/>
+          <path class="ln" d="M522,772 C522,760 548,760 548,772 L548,788 C548,800 522,800 522,788 Z M218,772 C218,760 192,760 192,772 L192,788 C192,800 218,800 218,788 Z"/>
+          <g class="prop"><ellipse class="ln" cx="461" cy="790" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="461" cy="790" rx="4" ry="38" transform="rotate(120 461 790) translate(0 -38)"/><ellipse class="ln" cx="461" cy="790" rx="4" ry="38" transform="rotate(240 461 790) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="279" cy="790" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="279" cy="790" rx="4" ry="38" transform="rotate(120 279 790) translate(0 -38)"/><ellipse class="ln" cx="279" cy="790" rx="4" ry="38" transform="rotate(240 279 790) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="535" cy="780" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="535" cy="780" rx="4" ry="38" transform="rotate(120 535 780) translate(0 -38)"/><ellipse class="ln" cx="535" cy="780" rx="4" ry="38" transform="rotate(240 535 780) translate(0 -38)"/></g>
+          <g class="prop"><ellipse class="ln" cx="205" cy="780" rx="4" ry="38" transform="translate(0 -38)"/><ellipse class="ln" cx="205" cy="780" rx="4" ry="38" transform="rotate(120 205 780) translate(0 -38)"/><ellipse class="ln" cx="205" cy="780" rx="4" ry="38" transform="rotate(240 205 780) translate(0 -38)"/></g>
+          <circle class="ctr" cx="461" cy="790" r="77"/><circle class="ctr" cx="279" cy="790" r="77"/>
+          <circle class="ctr" cx="535" cy="780" r="77"/><circle class="ctr" cx="205" cy="780" r="77"/>
+          <!-- tricycle undercarriage -->
+          <path class="ln" d="M370,799 V817 M300,808 V817 M440,808 V817"/>
+          <circle class="ln" cx="370" cy="817" r="13"/><circle class="ln" cx="300" cy="817" r="13"/><circle class="ln" cx="440" cy="817" r="13"/>
+          <text class="lbl lbl-ink" x="700" y="700" style="font-size:24px">Front</text>
+          <path class="dim" d="M40,830 H30 M40,711 H30 M32,711 V830"/>
+          <path class="dim" d="M32,711 l-3.5 10 h7 z M32,830 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="26" y="774" text-anchor="end" style="font-size:20px">7.21 m</text>
+        </g>
+
+        <!-- ===== SIDE VIEW: the hero geometry, reduced to the shared scale ===== -->
+        <g class="part">
+          <path class="ctr" d="M720,300 H1240"/>
+          <g transform="translate(713.18 179.31) scale(0.447)" fill="none" stroke="var(--ink)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke">
+            <path vector-effect="non-scaling-stroke" d="M60,286 C78,262 120,232 220,205 C400,190 600,192 760,205 C880,214 980,226 1080,236 L1112,238 C1122,240 1124,250 1120,262 C1050,268 950,290 860,308 C780,326 700,334 600,336 L400,336 C300,334 200,326 140,310 C110,306 76,300 60,286 Z"/>
+            <path vector-effect="non-scaling-stroke" d="M1000,236 C1040,230 1110,230 1134,240 C1110,248 1040,248 1000,236 Z"/>
+            <path vector-effect="non-scaling-stroke" d="M1035,236 C1046,192 1068,160 1096,156 C1114,154 1124,170 1126,192 C1129,222 1127,236 1125,240 Z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M1050,246 C1058,200 1080,168 1108,164 C1126,162 1136,178 1138,200 C1141,236 1138,262 1132,276 C1124,284 1104,284 1090,278 L1060,270"/>
+            <path vector-effect="non-scaling-stroke" d="M449,300 L671,336 L700,274 C699,268 686,266 676,268 L640,268 Z"/>
+            <path vector-effect="non-scaling-stroke" d="M380,252 C410,246 490,248 560,258 C600,264 626,274 640,280 L640,308 C600,314 540,318 500,318 L440,316 L380,312 Z M380,252 C366,252 358,266 358,282 C358,298 366,312 380,312"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M422,236 C450,232 520,234 580,242 C620,248 640,254 646,258 L646,282 C610,286 560,290 530,292 L470,292 L422,288 M422,236 C410,236 404,248 404,262 C404,276 410,288 422,288"/>
+            <path vector-effect="non-scaling-stroke" d="M369,270 L368,206 Q372,196 376,206 L375,270 M369,294 L368,358 Q372,368 376,358 L375,294"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M196,212 L232,206 L244,204 L246,214 L200,222 Z M172,222 L196,214 L198,224 L176,232 Z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" d="M336,238 h16 v18 h-16 z M372,238 h16 v18 h-16 z M408,238 h16 v18 h-16 z M444,238 h16 v18 h-16 z M480,238 h16 v18 h-16 z M516,238 h16 v18 h-16 z M552,238 h16 v18 h-16 z M588,238 h16 v18 h-16 z M624,238 h16 v18 h-16 z M660,238 h16 v18 h-16 z M696,238 h16 v18 h-16 z M732,238 h16 v18 h-16 z M768,239 h16 v18 h-16 z M804,240 h16 v18 h-16 z M840,242 h16 v18 h-16 z M876,244 h16 v18 h-16 z M912,246 h16 v18 h-16 z"/>
+            <path vector-effect="non-scaling-stroke" stroke="var(--ink-2)" stroke-dasharray="12 9" d="M180,336 L180,372 M175,372 h10 M470,338 L470,372 M460,372 h20"/>
+          </g>
+          <text class="lbl lbl-ink" x="740" y="200" style="font-size:24px">Side</text>
+          <path class="dim" d="M740,380 V420 M1220,380 V420 M740,410 H1220"/>
+          <path class="dim" d="M740,410 l10 -3.5 v7 z M1220,410 l-10 -3.5 v7 z" fill="var(--ink-2)"/>
+          <text class="lbl num" x="980" y="403" text-anchor="middle" style="font-size:20px">Length 29.0 m</text>
+        </g>
+        <text class="lbl" x="720" y="560" style="font-size:18px">All three views share one scale.</text>
+        <text class="lbl" x="720" y="586" style="font-size:18px">Do not scale from the screen.</text>
+      </svg>
+      <figcaption><b>Plan, front and side.</b> The fuselage has no straight section anywhere. Its depth varies continuously from the drooped nose to the upswept tail, which is why the windows follow a shallow curve. The outer engines sit further aft than the inner pair because they hang from a swept leading edge.</figcaption>
+    </figure>
+
+    <div class="specs">
+      <table>
+        <caption>Lockheed L-049 Constellation</caption>
+        <tr><th>Crew</th><td>4, plus 44 to 81 passengers</td></tr>
+        <tr><th>First flight</th><td>9 January 1943, as the C-69</td></tr>
+        <tr><th>Span</th><td>37.49 m</td></tr>
+        <tr><th>Length</th><td>29.0 m</td></tr>
+        <tr><th>Height</th><td>7.21 m</td></tr>
+        <tr><th>Wing area</th><td>153.3 m²</td></tr>
+        <tr><th>Engines</th><td>4 × Wright R-3350 Duplex-Cyclone, 18-cylinder radials, 2,200 hp each</td></tr>
+        <tr><th>Maximum speed</th><td>531 km/h at 5,800 m</td></tr>
+        <tr><th>Service ceiling</th><td>7,710 m</td></tr>
+        <tr><th>Range</th><td>3,700 km</td></tr>
+        <tr><th>Built</th><td>88 L-049 and 22 C-69; 856 Constellations of all versions</td></tr>
+      </table>
+    </div>
+
+    <div class="text">
+      <p>Lockheed designed the Constellation for TWA and Howard Hughes, who wanted an airliner that could cross the United States without stopping, carrying forty passengers above the weather. The pressurised fuselage follows a continuous curve from nose to tail so that no frame is quite the same as its neighbour. The wing is the P-38 Lightning's, scaled up, and the four Wright Duplex-Cyclones were the most powerful engines on any airliner when it first flew.</p>
+      <p>The Army took the first aircraft as C-69 transports in 1943, and the airlines waited until 1946 for theirs. The triple tail was a concession to hangar doors, and it became the most recognisable silhouette of the piston age. This aircraft is NC86511 of TWA, delivered in 1946.</p>
+    </div>
+
+    <figure class="callout">
+      <svg class="draws" viewBox="0 0 520 330" role="img" aria-labelledby="connie-co-t">
+        <title id="connie-co-t">Rear view of the triple tail compared with a single fin of equal area, against the height of a 1940s hangar door</title>
+        <!-- hangar door height -->
+        <path class="hid" d="M20,60 H500"/>
+        <text class="lbl" x="24" y="54" style="font-size:12px">Typical hangar door, 7.6 m</text>
+        <!-- ground -->
+        <path class="ln-2" d="M20,300 H500"/>
+        <!-- single fin alternative, dashed -->
+        <path class="hid" d="M240,170 C244,110 252,40 260,18 C268,40 276,110 280,170"/>
+        <text class="lbl" x="288" y="34" style="font-size:12px">One fin of the same area: 9.4 m</text>
+        <path class="ln-2" d="M288,40 L272,44"/>
+        <!-- fuselage rear section and tailplane -->
+        <path class="ln" d="M232,206 C232,176 244,166 260,166 C276,166 288,176 288,206 C288,232 276,244 260,244 C244,244 232,232 232,206 Z"/>
+        <path class="ln" d="M288,190 L440,182 M232,190 L80,182 M288,196 L440,188 M232,196 L80,188"/>
+        <!-- three fins -->
+        <path class="red" d="M246,168 C246,140 250,102 260,100 C270,102 274,140 274,168"/>
+        <path class="red" d="M70,196 C70,150 74,104 84,100 C94,104 98,150 98,196 C98,204 84,206 70,196 Z"/>
+        <path class="red" d="M422,196 C422,150 426,104 436,100 C446,104 450,150 450,196 C450,204 436,206 422,196 Z"/>
+        <!-- height dimension -->
+        <path class="dim" d="M500,100 H510 M500,300 H510 M508,100 V300"/>
+        <path class="dim" d="M508,100 l-3.5 10 h7 z M508,300 l-3.5 -10 h7 z" fill="var(--ink-2)"/>
+        <text class="lbl num" x="504" y="200" text-anchor="end" transform="rotate(-90 504 200)">7.21 m to the fin tops</text>
+        <!-- undercarriage hint -->
+        <path class="ln-2" d="M260,244 V284 M200,262 V284 M320,262 V284"/>
+        <circle class="ln-2" cx="260" cy="292" r="8"/><circle class="ln-2" cx="200" cy="292" r="8"/><circle class="ln-2" cx="320" cy="292" r="8"/>
+        <text class="lbl" x="24" y="322" style="font-size:12px">Three small fins also keep the aircraft controllable with two engines out on one side.</text>
+      </svg>
+      <figcaption><b>Why three fins.</b> A single fin large enough for a 37 metre span would have stood over nine metres tall, too high for the hangars TWA already owned. Splitting the area three ways kept the tail under the door and put two of the rudders in clean air outboard of the fuselage.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="titleblock">
+    <dl style="display:contents">
+      <div class="wide"><dt>Drawing</dt><dd>Lockheed L-049 Constellation, general arrangement</dd></div>
+      <div><dt>Sheet</dt><dd>5 of 5</dd></div>
+      <div><dt>Rev</dt><dd>A</dd></div>
+      <div><dt>Drawn</dt><dd>Claude Fable 5.1</dd></div>
+      <div><dt>Checked</dt><dd>—</dd></div>
+      <div><dt>Scale</dt><dd>As dimensioned</dd></div>
+      <div><dt>Date</dt><dd>2026-09-02</dd></div>
+    </dl>
+  </footer>
+</article>
+
+</div>
+
+<!-- ======================================================================
+     COMPARED
+     ====================================================================== -->
+<section class="compare" id="compare">
+  <div class="wrap">
+    <h2>Compared</h2>
+    <div class="grid">
+      <figure class="overlay">
+        <svg viewBox="0 0 740 600" role="img" aria-labelledby="overlay-title">
+          <title id="overlay-title">Plan views of all five aircraft overlaid at one scale, noses aligned</title>
+          <path class="ctr" d="M370,20 V540"/>
+          <g fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <g stroke="var(--c5)" transform="translate(0 0)">
+              <path vector-effect="non-scaling-stroke" d="M397,214 L474,214 L676,268 C682,270 684,280 680,290 C676,298 670,300 660,300 L397,313 M343,214 L266,214 L64,268 C58,270 56,280 60,290 C64,298 70,300 80,300 L343,313"/>
+              <path vector-effect="non-scaling-stroke" d="M370,40 C384,40 396,60 397,110 L397,320 C397,400 388,470 380,520 L360,520 C352,470 343,400 343,320 L343,110 C344,60 356,40 370,40 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M370,453 L490,470 C500,472 507,480 507,490 L507,500 C507,506 502,508 496,507 L378,504 M370,453 L250,470 C240,472 233,480 233,490 L233,500 C233,506 238,508 244,507 L362,504"/>
+            </g>
+            <g stroke="var(--c3)" transform="translate(84 1.35) scale(0.773)">
+              <path vector-effect="non-scaling-stroke" d="M394,168 L480,168 L672,236 C680,240 682,250 678,258 C674,262 668,262 660,262 L394,262 M346,168 L260,168 L68,236 C60,240 58,250 62,258 C66,262 72,262 80,262 L346,262"/>
+              <path vector-effect="non-scaling-stroke" d="M370,50 C386,50 394,60 394,80 L394,300 C394,360 384,420 376,471 L364,471 C356,420 346,360 346,300 L346,80 C346,60 354,50 370,50 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M370,418 L450,418 C460,418 464,426 464,436 L464,458 C464,466 458,469 450,469 L376,469 M370,418 L290,418 C280,418 276,426 276,436 L276,458 C276,466 282,469 290,469 L364,469"/>
+            </g>
+            <g stroke="var(--c4)" transform="translate(258.7 25) scale(0.3007)">
+              <path vector-effect="non-scaling-stroke" d="M396,187 C520,190 640,212 676,240 C682,246 680,254 674,258 C630,285 560,308 480,320 L396,325 M344,187 C220,190 100,212 64,240 C58,246 60,254 66,258 C110,285 180,308 260,320 L344,325"/>
+              <path vector-effect="non-scaling-stroke" d="M370,50 C385,50 395,60 396,80 L397,120 C400,160 400,200 397,300 C395,360 386,440 379,540 L376,552 L364,552 C354,440 345,360 343,300 C340,200 340,160 343,120 L344,80 C345,60 355,50 370,50 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M376,484 C420,486 450,494 457,512 C458,528 440,538 400,543 L376,544 M364,484 C320,486 290,494 283,512 C282,528 300,538 340,543 L364,544"/>
+            </g>
+            <g stroke="var(--c2)" transform="translate(285 26.7) scale(0.2297)">
+              <path vector-effect="non-scaling-stroke" d="M64,168 L64,236 C64,244 70,249 78,249 L350,249 C358,242 358,232 350,225 L390,225 C382,232 382,242 390,249 L662,249 C670,249 676,244 676,236 L676,168 C676,158 668,150 656,150 L84,150 C72,150 64,158 64,168 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M370,58 C390,58 399,72 399,90 L399,180 C399,240 392,330 384,420 L376,472 L364,472 L356,420 C348,330 341,240 341,180 L341,90 C341,72 350,58 370,58 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M370,395 L455,395 C468,395 475,404 475,418 L475,440 C475,450 468,455 458,455 L376,455 M370,395 L285,395 C272,395 265,404 265,418 L265,440 C265,450 272,455 282,455 L364,455"/>
+            </g>
+            <g stroke="var(--c1)" transform="translate(248.6 18.3) scale(0.3282)">
+              <path vector-effect="non-scaling-stroke" d="M60,176 H680 V276 H60 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M254,80 H486 V116 H254 Z"/>
+              <path vector-effect="non-scaling-stroke" d="M352,66 C346,80 344,120 344,180 V300 M388,66 C394,80 396,120 396,180 V300"/>
+              <path vector-effect="non-scaling-stroke" d="M354,330 H360 V384 H354 Z M380,330 H386 V384 H380 Z"/>
+            </g>
+          </g>
+          <!-- key -->
+          <g class="lbl" style="font-size:13px">
+            <path d="M20,556 h22" stroke="var(--c1)" stroke-width="2"/><text x="50" y="560">Wright Flyer, 12.3 m span</text>
+            <path d="M20,578 h22" stroke="var(--c2)" stroke-width="2"/><text x="50" y="582">Sopwith Camel, 8.5 m</text>
+            <path d="M260,556 h22" stroke="var(--c3)" stroke-width="2"/><text x="290" y="560">Douglas DC-3, 29.0 m</text>
+            <path d="M260,578 h22" stroke="var(--c4)" stroke-width="2"/><text x="290" y="582">Spitfire Mk I, 11.2 m</text>
+            <path d="M500,556 h22" stroke="var(--c5)" stroke-width="2"/><text x="530" y="560">Constellation, 37.5 m</text>
+          </g>
+        </svg>
+        <figcaption><b>Five plan views, one scale.</b> Noses aligned. The Camel and the Flyer would both fit inside the Constellation's tailplane, and the DC-3, huge in 1935, is barely half the Constellation's span eight years later.</figcaption>
+      </figure>
+      <figure class="chart">
+        <svg class="speedchart" viewBox="0 0 520 600" role="img" aria-labelledby="chart-title chart-desc">
+          <title id="chart-title">Maximum speed against year of first flight</title>
+          <desc id="chart-desc">Wright Flyer 1903, 48 km/h. Sopwith Camel 1916, 185 km/h. Douglas DC-3 1935, 370 km/h. Spitfire 1936, 582 km/h. Constellation 1943, 531 km/h.</desc>
+          <!-- plot area x 70..490, y 40..500; x 1900..1950, y 0..600 km/h -->
+          <g class="ln-3">
+            <path d="M70,500 H490 M70,423.3 H490 M70,346.7 H490 M70,270 H490 M70,193.3 H490 M70,116.7 H490 M70,40 H490"/>
+          </g>
+          <path class="ln-2" d="M70,500 H490"/>
+          <g class="lbl num" style="font-size:12px" text-anchor="end">
+            <text x="62" y="504">0</text><text x="62" y="427">100</text><text x="62" y="350">200</text><text x="62" y="273">300</text><text x="62" y="196">400</text><text x="62" y="120">500</text><text x="62" y="44">600 km/h</text>
+          </g>
+          <g class="lbl num" style="font-size:12px" text-anchor="middle">
+            <text x="70" y="522">1900</text><text x="154" y="522">1910</text><text x="238" y="522">1920</text><text x="322" y="522">1930</text><text x="406" y="522">1940</text><text x="490" y="522">1950</text>
+          </g>
+          <path class="ln-2" d="M70,500 v5 M154,500 v5 M238,500 v5 M322,500 v5 M406,500 v5 M490,500 v5"/>
+          <!-- the trend, drawn once -->
+          <path class="ln-2" d="M95.2,463.2 L204.4,358.2 L364,216.3 L372.4,53.8 L431.2,92.9" stroke-dasharray="3 4"/>
+          <!-- markers, one per aircraft, in the aircraft's colour -->
+          <g class="pt" style="--c:var(--c1)"><circle cx="95.2" cy="463.2" r="6"/><title>Wright Flyer, 1903: 48 km/h</title></g>
+          <g class="pt" style="--c:var(--c2)"><circle cx="204.4" cy="358.2" r="6"/><title>Sopwith Camel, 1916: 185 km/h</title></g>
+          <g class="pt" style="--c:var(--c3)"><circle cx="364" cy="216.3" r="6"/><title>Douglas DC-3, 1935: 370 km/h</title></g>
+          <g class="pt" style="--c:var(--c4)"><circle cx="372.4" cy="53.8" r="6"/><title>Supermarine Spitfire Mk I, 1936: 582 km/h</title></g>
+          <g class="pt" style="--c:var(--c5)"><circle cx="431.2" cy="92.9" r="6"/><title>Lockheed Constellation, 1943: 531 km/h</title></g>
+          <!-- direct labels -->
+          <g class="lbl lbl-ink" style="font-size:12.5px">
+            <text x="108" y="458">Wright Flyer, 48</text>
+            <text x="217" y="353">Sopwith Camel, 185</text>
+            <text x="240" y="221" text-anchor="end">Douglas DC-3, 370</text>
+            <text x="386" y="50">Spitfire Mk I, 582</text>
+            <text x="418" y="98" text-anchor="end">Constellation, 531</text>
+          </g>
+          <text class="lbl" x="70" y="560" style="font-size:12px">Maximum level speed in km/h, at the altitude where each was fastest.</text>
+          <text class="lbl" x="70" y="578" style="font-size:12px">Forty years, a twelvefold gain. The airliner gave a little back for eighty seats.</text>
+        </svg>
+        <figcaption><b>Speed against first flight.</b> The fighters set the pace and the airliners followed a decade behind. The Spitfire of 1936 outran the Constellation of 1943, but the Constellation did it carrying eighty people across a continent.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================================
+     COLOPHON
+     ====================================================================== -->
+<footer class="colophon">
+  <div class="wrap">
+    <p>Every drawing on this page was written by hand as SVG path data by Claude Fable 5.1, working from published dimensions and the drawing conventions of the period. No photographs were traced, no image model was called, and no drawing library was loaded. The page is a single HTML file, one stylesheet, and one script.</p>
+    <div class="stats">
+      <div><b data-count="drawings">0</b><span>drawings</span></div>
+      <div><b data-count="shapes">0</b><span>SVG shapes</span></div>
+    </div>
+    <p>Specifications are quoted for the variant named on each plate. Dimensions in metres, speeds at best altitude.</p>
+  </div>
+</footer>
+
+</main>
+<script src="js/main.js"></script>
+</body>
+</html>
